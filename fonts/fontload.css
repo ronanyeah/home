@@ -1,0 +1,20 @@
+@font-face {
+  font-family: 'Shift';
+  font-style: normal;
+  font-weight: normal;
+  src: url('shiftw.woff');
+}
+
+@font-face {
+  font-family: 'Shift';
+  font-style: normal;
+  font-weight: bold;
+  src: url('shiftw-bold.woff');
+}
+
+@font-face {
+  font-family: 'Cube';
+  font-style: normal;
+  font-weight: bold;
+  src: url('cube-bold.woff');
+}

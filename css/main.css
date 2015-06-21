@@ -1,0 +1,258 @@
+* {
+    font-family: "Courier New", Courier, monospace;
+}
+
+.nav {
+    padding-top: 25px;
+}
+
+.nav a {
+    color: #5a5a5a;
+    font-size: 11px;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 14px 10px;
+    text-transform: uppercase;
+}
+
+.nav li {
+    display: inline;
+}
+
+#name {
+    position: relative;
+    right: 70px;
+    font-weight: bold;
+    font-family: "Courier New", Courier, monospace; /*Tahoma, Geneva, sans-serif;*/
+    font-size: 20px;
+    text-transform: uppercase;
+}
+
+.jumbotron {
+    background-image: url('img/monticello.jpg');
+    background-position: 50% 50%;
+    height: 500px;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.jumbotron .container {
+    position: relative;
+    bottom: 0px;
+    right: 25px;
+}
+
+.jumbotron h1 {
+    color: #fff;
+    font-size: 40px;
+    font-family: "Courier New", Courier, monospace; /*'Shift', sans-serif;*/
+    font-weight: bold;
+}
+
+.jumbotron a {
+    color: white;
+}
+
+.jumbotron p {
+    font-size: 20px;
+    color: #fff;
+}
+
+.wrap {
+    padding: 5px 10px 15px 10px;
+}
+
+.hatch {
+    padding: 20px 160px 20px 160px;
+    background-color: lightblue;
+    border: 10px solid #CCCCCC; /*#efefef*/
+    border-bottom-left-radius: 8px;
+	border-bottom-right-radius: 8px;
+    text-align: center;
+    margin-top: 30px;
+    margin-left: 50px;
+    margin-right: 50px;
+    word-wrap: break-word;
+    cursor: pointer;
+}
+
+.hatch h1 {
+    font-family: "Courier New", Courier, monospace;
+    border: 2px solid black;
+    border-radius: 8px;
+    font-weight: bold;
+    background-color: lightblue;
+}
+
+.hatch p {
+    border-radius: 8px;
+    background-color: lightblue;
+    border: 2px solid black;
+    font-size: 15px;
+    padding: 10px;
+    margin: 10px 30px 10px 30px;
+}
+
+.hatch a {
+    border-radius: 8px;
+    background-color: lightblue;
+    border: 2px solid black;
+    padding: 4px;
+}
+
+#sixfourHatch {
+    background-image: url('img/base64.jpg');
+    background-position: 100% 100%;
+    margin-top: 0px;
+}
+
+#fibHatch {
+    background-image: url('img/fibo.jpg');
+    background-position: 50% 70%;
+}
+
+#vigHatch {
+    background-image: url('img/vig.jpg');
+}
+
+#havHatch {
+    background-image: url('img/haver.jpg');
+    background-position: 50% 50%;
+}
+
+#resultBase {
+    border-radius: 8px;
+    margin-top: 10px;
+    margin-left: 50px;
+    margin-right: 50px;
+    padding: 30px 0px 0px 0px;
+    text-align: center;
+    word-wrap: break-word;
+}
+
+.drop {
+    border: 10px solid #CCCCCC;
+    border-top: 0px;
+}
+
+#sixfour {
+    text-align: center;
+    background-color: #efefef;
+    border-bottom-left-radius: 8px;
+	border-bottom-right-radius: 8px;
+    margin-left: 50px;
+    margin-right: 50px;
+    padding-bottom: 10px;
+}
+
+#fibo {
+    text-align: center;
+    background-color: #efefef;
+    border-bottom-left-radius: 8px;
+	border-bottom-right-radius: 8px;
+    margin-left: 50px;
+    margin-right: 50px;
+    padding-bottom: 10px;
+}
+
+#resultFib {
+    padding: 110px 40px 0px 40px;
+}
+
+#vig {
+    text-align: center;
+    background-color: #efefef;
+    border-bottom-left-radius: 8px;
+	border-bottom-right-radius: 8px;
+    margin-left: 50px;
+    margin-right: 50px;
+    padding-bottom: 10px;
+}
+
+#hav {
+    text-align: center;
+    background-color: #efefef;
+    border-bottom-left-radius: 8px;
+	border-bottom-right-radius: 8px;
+    margin-left: 50px;
+    margin-right: 50px;
+    padding-bottom: 10px;
+}
+
+#havX form {
+    text-align: right;
+    padding-right: 50px;
+}
+
+#vig form {
+    text-align: right;
+    padding-right: 170px;
+}
+
+#fiboInput {
+    width: 50px;
+}
+
+.inputHav {
+    width: 50px;
+}
+
+#outBase {
+    padding-top: 25px;
+}
+
+#resultHav {
+    padding-top: 25px;
+}
+
+#resultVig {
+    padding-top: 175px;
+}
+
+.bottom {
+    padding-top: 25px;
+    margin-top: 35px;
+    height: 100px;
+    text-align: center;
+    background-color: #CCCCCC;/*efefef;*/
+}
+
+.button {
+    display: inline-block;
+    height: 20px;
+	width: 70px;
+	background-color: #CCCCCC;
+	/*font-family: arial;*/
+	border-radius: 5px;
+	text-align: center;
+	margin-top: 2px;
+    margin-bottom: 2px;
+    cursor: pointer;
+}
+
+.plink {
+    background-color: #efefef;
+    border: 10px solid lightblue;
+}
+
+.cent {
+    text-align: center;
+}
+
+#buttonHav {
+    text-align: center;
+    margin-top: 30px;
+    width: 140px;
+}
+
+.menu {
+    background-color: black;
+    color: white;
+    cursor: pointer;
+}
+
+#temp {
+    border-radius: 0px;
+    border: 0px;
+    padding: 0px;
+}

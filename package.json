@@ -1,0 +1,25 @@
+{
+  "name": "home",
+  "version": "1.0.0",
+  "description": "ronan mccabe",
+  "main": "server.js",
+  "scripts": {
+    "test": "test",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wallcrawler/home.git"
+  },
+  "keywords": [
+    "ronan",
+    "mccabe",
+    "ireland"
+  ],
+  "author": "ronan mccabe",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wallcrawler/home/issues"
+  },
+  "homepage": "https://github.com/wallcrawler/home#readme"
+}
