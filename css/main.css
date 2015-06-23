@@ -29,7 +29,7 @@
 }
 
 .jumbotron {
-    background-image: url('img/monticello.jpg');
+    background-image: url('/static/img/monticello.jpg');
     background-position: 50% 50%;
     height: 500px;
     background-repeat: no-repeat;
@@ -101,22 +101,22 @@
 }
 
 #sixfourHatch {
-    background-image: url('img/base64.jpg');
+    background-image: url('/static/img/base64.jpg');
     background-position: 100% 100%;
     margin-top: 0px;
 }
 
 #fibHatch {
-    background-image: url('img/fibo.jpg');
+    background-image: url('/static/img/fibo.jpg');
     background-position: 50% 70%;
 }
 
 #vigHatch {
-    background-image: url('img/vig.jpg');
+    background-image: url('/static/img/vig.jpg');
 }
 
 #havHatch {
-    background-image: url('img/haver.jpg');
+    background-image: url('/static/img/haver.jpg');
     background-position: 50% 50%;
 }
 

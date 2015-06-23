@@ -1,6 +1,21 @@
-var routing = require('./js/routing.js');
-var http = require("http");
+var hapi = require('hapi'),
+    path = require('path'),
+    server = new hapi.Server();
 
-http.createServer(routing.router);
+server.connection({ port: process.env.PORT});
 
-http.listen(process.env.PORT || 8000);
+server.views({
+  engines: {
+    html: require('handlebars')
+  },
+  path: path.join(__dirname, "views")
+});
+
+server.route(require('./js/routes.js'));
+
+server.start(function () {
+    server.log('Server running at: ' + server.info.uri);
+});
+
+
+module.exports = server;
