@@ -1,59 +1,87 @@
 * {
-  font-family: "Courier"; /*Tahoma, Geneva, sans-serif;*/
+  /*border: dotted 1px;*/
+  font-family: "Courier New", Courier, monospace; /*Tahoma, Geneva, sans-serif;*/
+  margin: 0px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
+  text-decoration: none;
 }
 
-.nav {
-  padding-top: 25px;
-}
-
-.nav a {
-  color: #5a5a5a;
-  font-size: 11px;
-  font-weight: bold;
-  font-family: Arial, Helvetica, sans-serif;
-  padding: 14px 10px;
-  text-transform: uppercase;
-}
-
-.nav li {
-  display: inline;
-}
-
-#name {
-  position: relative;
-  right: 70px;
-  font-weight: bold;
-  font-size: 20px;
-  text-transform: uppercase;
-}
-
-.jumbotron {
-  background-image: url('/static/img/monticello.jpg');
-  background-position: 50% 50%;
-  height: 500px;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-.jumbotron .container {
-  position: relative;
-  bottom: 0px;
-  right: 25px;
-}
-
-.jumbotron h1 {
-  color: #fff;
-  font-size: 40px;
-  font-weight: bold;
-}
-
-.jumbotron a {
+a {
   color: white;
 }
 
-.jumbotron p {
+a:hover {
+  text-decoration: underline;
+}
+
+/*NAV BAR*/
+
+#nav {
+  height: 50px;
+  /*position: relative;*/
+}
+
+#navLeft {
+  float: left;
+  padding-left: 25px;
+  padding-top: 14px;
+  /*line-height: 100px;*/
+  width: 45%;
+}
+
+#name {
   font-size: 20px;
-  color: #fff;
+  text-transform: uppercase;
+}
+
+#navRight {
+  float: right;
+  padding-right: 25px;
+  padding-top: 14px;
+  width: 45%;
+}
+
+#navRight ul {
+  float: right;
+}
+
+#navRight a {
+  color: #5a5a5a;
+  font-size: 12px;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+#navRight a:hover {
+  text-decoration: underline;
+}
+
+
+#navRight li {
+  display: inline;
+}
+
+/*JUMBOTRON*/
+
+#jumbotron {
+  background-image: url('/static/img/monticello.jpg');
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 500px;
+  width: 100%;
+}
+
+#linkHeader {
+  color: white;
+  font-size: 40px;
+  font-weight: bold;
+  left: 100px;
+  position: relative;
+  top: 70px;
+  width: 80%;
 }
 
 .wrap {
@@ -100,7 +128,7 @@
 #sixfourHatch {
   background-image: url('/static/img/base64.jpg');
   background-position: 100% 100%;
-  margin-top: 0px;
+  margin-top: 10px;
 }
 
 #fibHatch {
@@ -176,11 +204,6 @@
   padding-bottom: 10px;
 }
 
-#havX form {
-  text-align: right;
-  padding-right: 50px;
-}
-
 #vig form {
   text-align: right;
   padding-right: 170px;
@@ -217,11 +240,11 @@
 .button {
   display: inline-block;
   height: 20px;
-	width: 70px;
-	background-color: #CCCCCC;
-	border-radius: 5px;
-	text-align: center;
-	margin-top: 2px;
+  width: 70px;
+  background-color: #CCCCCC;
+  border-radius: 5px;
+  text-align: center;
+  margin-top: 2px;
   margin-bottom: 2px;
   cursor: pointer;
 }

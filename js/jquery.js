@@ -38,12 +38,10 @@ $(document).ready(function () {
   $('.hatch').hover(function() {
     $(this).addClass('plink');
     $(this).stop().animate({paddingBottom: '+=10px'}, 'fast');
-  },
-    function() {
-      $(this).removeClass('plink');
-      $(this).stop().animate({paddingBottom: '-=10px'}, 'fast');
-    }
-  );
+  }, function() {
+    $(this).removeClass('plink');
+    $(this).stop().animate({paddingBottom: '-=10px'}, 'fast');
+  });
   
   //input divs
   $('#sixfourHatch').click(function() {
