@@ -1,13 +1,12 @@
-// var handlers = require('./handlers.js')();
+var handlers = require('./handlers.js')();
 
 module.exports = [
   {
     method: 'GET',
     path: '/',
-    handler: function(request, reply) {
-      reply.view("index.html");
-    }
+    handler: handlers.home
   },
+  
   { //route for all css, images and js files
     method: 'GET',
     path: '/static/{path*}',
