@@ -5,169 +5,176 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ronanmccabe.me</title>
-    <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="/static/css/main.css">
   </head>
 
   <body>
 
-    <div class="nav">
-      <div class="container">
-        <ul class="pull-left">
+    <div id="nav">
+
+        <div id="navLeft">
           <p id="name">Ronan McCabe</p>
-        </ul>
-        <ul class="pull-right">
-          <li><a href="http://www.codewars.com/users/wallcrawler" target="_blank">Codewars</a></li>
-          <li><a href="http://www.codecademy.com/wallcrawler_ie" target="_blank">Codecademy</a></li>
-          <li><a href="https://github.com/wallcrawler" target="_blank">Github</a></li>
-        </ul>
-      </div>
+        </div>
+
+        <div id="navRight">
+          <ul>
+            <li>
+              <a href="http://www.codewars.com/users/wallcrawler" target="_blank">Codewars</a>
+            </li>
+            <li>
+              <a href="http://www.codecademy.com/walllcrawler_ie" target="_blank">Codecademy</a>
+            </li>
+            <li>
+              <a href="https://github.com/wallcrawler" target="_blank">Github</a>
+            </li>
+          </ul>
+        </div>
+
     </div>
 
-    <div class="jumbotron">
-      <div class="container">
-        <h1><a href="#sixfourHatch">Base64</a> / <a href="#fibHatch">Fibonacci</a> /
-            <a href="#vigHatch">Vigen&egrave;re</a> / <a href="#havHatch">Haversine</a></h1>
-      </div>
+    <div id="jumbotron">
+      <p id="linkHeader">
+        <a href="#sixfourHatch">Base64</a> / <a href="#fibHatch">Fibonacci</a> /
+        <a href="#vigHatch">Vigen&egrave;re</a> / <a href="#havHatch">Haversine</a>
+      </p>
     </div>
 
-    <div class="container-fluid">
+    <div id="appSection">
 
-      <div class="row">
-        <div id="sixfourHatch" class="hatch">
-          <div class="wrap">
-            <h1>Base64 Encoder/Decoder</h1>
-            <p>Here you can convert humble ASCII strings to the mysterious and exotic Base64.
-             And even back to ASCII again! What a world we live in.</p>
-            <a href="http://en.wikipedia.org/wiki/Base64" target="_blank">Learn more...</a>
-          </div>
+      <div id="base64Wrapper">
+
+        <div id="sixfourHatch" class="hatch wrap">
+          <h1>Base64 Encoder/Decoder</h1>
+          <p>
+            Here you can convert humble ASCII strings to the mysterious and exotic Base64.
+            And even back to ASCII again! What a world we live in.
+          </p>
+          <a href="http://en.wikipedia.org/wiki/Base64" target="_blank">Learn more...</a>
         </div>
+
+        <div id="sixfour" class="row drop">
+
+          <div>
+            <h1>Encode to Base64:</h1>
+            <input type="text" id="userInputEnc"/>
+            <div id="button1" class="button">Enter</div>
+          </div>
+
+          <div>
+            <h1>Decode from Base64:</h1>
+            <input type="text" id="userInputDec"/>
+            <div id="button2" class="button">Enter</div>
+          </div>
+
+          <div>
+            <div id="resultBase">
+              <p id='outBase'></p>
+            </div>
+          </div>
+
+        </div>
+
       </div>
 
+      <div class="fibonacciWrapper">
 
-      <div id="sixfour" class="row drop">
-        <div class="col-md-6">
-          <h1>Encode to Base64:</h1>
-          <input type="text" id="userInputEnc"/>
-          <div id="button1" class="button">Enter</div>
+        <div id="fibHatch" class="wrap hatch">
+          <h1>Fibonacci Generator</h1>
+          <p>Here you can see the wondrous and allegedly useful Fibonacci sequence in all it's glory.</p>
+          <a href="http://en.wikipedia.org/wiki/Fibonacci_number" target="_blank">Learn more...</a>
         </div>
 
-        <div class="col-md-6">
-          <h1>Decode from Base64:</h1>
-          <input type="text" id="userInputDec"/>
-          <div id="button2" class="button">Enter</div>
-        </div>
+        <div id="fibo" class="row drop">
+          <div class="col-md-12">
+            <h1>Enter your desired sequence length:</h1>
+            <input type="number" id="fiboInput"/>
+            <div id="buttonFib" class="button">Enter</div>
+          </div>
 
-        <div class="row">
-          <div id="resultBase" class="container-fluid">
-            <p id='outBase'></p>
+          <div class="row">
+            <div id="resultFib">
+              <p id='outFib'></p>
+            </div>
           </div>
         </div>
+
       </div>
 
-      <div class="row">
-        <div id="fibHatch" class="hatch">
-          <div class="wrap">
-            <h1>Fibonacci Generator</h1>
-            <p>Here you can see the wondrous and allegedly useful Fibonacci sequence in all it's glory.</p>
-            <a href="http://en.wikipedia.org/wiki/Fibonacci_number" target="_blank">Learn more...</a>
+      <div class="vigenereWrapper">
+
+        <div id="vigHatch" class="hatch wrap">
+          <h1>Vigen&egrave;re Encoder/Decoder</h1>
+          <p>
+            Here you can harness the power of the Vigen&egrave;re cipher.
+            <br/>Provide the message you wish to encode, as well as the keyword you wish to protect the message with.
+            The message can then be decoded in future as long as the keyword has been remembered and my site hasn't been shut down for image theft.
+            <br/>The app currently accepts a basic lowercase [a-z] alphabet but custom alphabet support is coming shortly.
+          </p>
+          <a href="https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher" target="_blank">Learn more...</a>\
+        </div>
+
+        <div id="vig" class="row drop">
+
+          <div class="col-md-6">
+            <h1>Encode your message here:</h1>
+            <form>
+              Message
+              <input type="text" id="vigMesEnc"/>
+              <br>
+              Keyword
+              <input type="text" id="vigPasEnc"/>
+            </form>
+            <br/>
+            <div id="buttonVigEnc" class="button">Enter</div>
           </div>
-        </div>
-      </div>
 
-      <div id="fibo" class="row drop">
-        <div class="col-md-12">
-          <h1>Enter your desired sequence length:</h1>
-          <input type="number" id="fiboInput"/>
-          <div id="buttonFib" class="button">Enter</div>
-        </div>
-
-        <div class="row">
-          <div id="resultFib" class="container-fluid">
-            <p id='outFib'></p>
+          <div class="col-md-6">
+            <h1>Decode your message here:</h1>
+            <form>
+              Encoded Message
+              <input type="text" id="vigMesDec"/>
+              <br>
+              Keyword
+              <input type="text" id="vigPasDec"/>
+            </form>
+            <br/>
+            <div id="buttonVigDec" class="button">Enter</div>
           </div>
-        </div>
-      </div>
 
-      <div class="row">
-        <div id="vigHatch" class="hatch">
-          <div class="wrap">
-            <h1>Vigen&egrave;re Encoder/Decoder</h1>
-            <p>
-              Here you can harness the power of the Vigen&egrave;re cipher.
-              <br/>Provide the message you wish to encode, as well as the keyword you wish to protect the message with.
-              The message can then be decoded in future as long as the keyword has been remembered and my site hasn't been shut down for image theft.
-              <br/>The app currently accepts a basic lowercase [a-z] alphabet but custom alphabet support is coming shortly.
-            </p>
-            <a href="https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher" target="_blank">Learn more...</a>
+          <div class="row">
+            <div id="resultVig">
+              <p id='outVig1'></p>
+              <p id='outVig2'></p>
+            </div>
           </div>
+
         </div>
+
       </div>
 
-      <div id="vig" class="row drop">
-        <div class="col-md-6">
-          <h1>Encode your message here:</h1>
-          <form>
-            Message
-            <input type="text" id="vigMesEnc"/>
-            <br>
-            Keyword
-            <input type="text" id="vigPasEnc"/>
-          </form>
-          <br/>
-          <div id="buttonVigEnc" class="button">Enter</div>
+      <div id="haversineWrapper">
+
+        <div id="havHatch" class="hatch wrap">
+          <h1>Haversine Distance Calculator</h1>
+          <p>
+            With this app you can calculate the distance between any two points on the globe using the Haversine Formula.
+            This should be incredibly useful if you are a Disovery Age explorer with Internet access.
+            <br/>Input is taken in degrees, minutes and seconds which are then converted to decimal degrees. Support for direct input of decimal degrees is coming soon.
+            <br/><a href="http://www.infoplease.com/ipa/A0001769.html" id="temp" target="_blank">Here</a> is a list of city co-ordinates to play around with.
+            <br/><br/>The degrees, minutes and seconds should be positive integers within the specified ranges. Any invalid or missing inputs will be set to 0.
+          </p>
+          <a href="http://en.wikipedia.org/wiki/Haversine_formula" target="_blank">Learn more...</a>
         </div>
 
-        <div class="col-md-6">
-          <h1>Decode your message here:</h1>
-          <form>
-            Encoded Message
-            <input type="text" id="vigMesDec"/>
-            <br>
-            Keyword
-            <input type="text" id="vigPasDec"/>
-          </form>
-          <br/>
-          <div id="buttonVigDec" class="button">Enter</div>
-        </div>
+        <div id="hav" class="drop">
 
-        <div class="row">
-          <div id="resultVig" class="container-fluid">
-            <p id='outVig1'></p>
-            <p id='outVig2'></p>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div id="havHatch" class="hatch">
-          <div class="wrap">
-            <h1>Haversine Distance Calculator</h1>
-            <p>
-              With this app you can calculate the distance between any two points on the globe using the Haversine Formula.
-              This should be incredibly useful if you are a Disovery Age explorer with Internet access.
-              <br/>Input is taken in degrees, minutes and seconds which are then converted to decimal degrees. Support for direct input of decimal degrees is coming soon.
-              <br/><a href="http://www.infoplease.com/ipa/A0001769.html" id="temp" target="_blank">Here</a> is a list of city co-ordinates to play around with.
-              <br/><br/>The degrees, minutes and seconds should be positive integers within the specified ranges. Any invalid or missing inputs will be set to 0.
-            </p>
-            <a href="http://en.wikipedia.org/wiki/Haversine_formula" target="_blank">Learn more...</a>
-          </div>
-        </div>
-      </div>
-
-      <div id="hav" class="drop">
-        <div class='row'>
-          <div class='col-md-6'>
+          <div>
             <h1 class="cent">Co-ordinate 1:</h1>
-          </div>
-          <div class='col-md-6'>
             <h1 class="cent">Co-ordinate 2:</h1>
           </div>
-        </div>
 
-        <div id="havX" class="row">
-          <div class="col-md-3" class="havIn">
+          <div>
             <h2 class="cent">Longitude</h2>
             <form>
               Degrees&deg; (0-180)
@@ -185,7 +192,7 @@
             </form>
           </div>
 
-          <div class="col-md-3" class="havIn">
+          <div>
             <h2 class="cent">Latitude</h2>
             <form>
               Degrees&deg; (0-180)
@@ -202,7 +209,7 @@
             </form>
           </div>
 
-          <div class="col-md-3" class="havIn">
+          <div>
             <h2 class="cent">Longitude</h2>
             <form>
               Degrees&deg; (0-180)
@@ -219,7 +226,7 @@
             </form>
           </div>
 
-          <div class="col-md-3" class="havIn">
+          <div>
             <h2 class="cent">Latitude</h2>
             <form>
               Degrees&deg; (0-180)
@@ -236,28 +243,24 @@
             </form>
           </div>
 
-        </div>
+          <div class="cent">
+            <div id="buttonHav" class="button">Calculate</div>
+          </div>
 
-        <div class="cent">
-          <div id="buttonHav" class="button">Calculate</div>
-        </div>
-
-        <div class="row">
-          <div id="resultHav" class="container-fluid">
+          <div id="resultHav">
             <p id='outHav1'></p>
             <p id='outHav2'></p>
           </div>
+
         </div>
 
       </div>
 
     </div>
 
-    <div class="nav bottom">
-      <div class="container-fluid">
-        <p><strong>Copyright &copy; 2015 Ronan McCabe. All rights reserved.</strong></p>
-        <p>(If you own any of the above images, please do not sue me.)</p>
-      </div>
+    <div class="bottom">
+      <p><strong>Copyright &copy; 2015 Ronan McCabe. All rights reserved.</strong></p>
+      <p>(If you own any of the above images, please do not sue me.)</p>
     </div>
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -265,4 +268,5 @@
     <script type="text/javascript" src="/static/js/jquery.js"></script>
 
   </body>
+
 </html>
