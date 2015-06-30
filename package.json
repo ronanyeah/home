@@ -4,7 +4,7 @@
   "description": "ronan mccabe",
   "main": "server.js",
   "scripts": {
-    "test": "test",
+    "test": "tests/tests.js",
     "start": "nodemon server.js"
   },
   "repository": {
@@ -25,5 +25,8 @@
   "dependencies": {
     "handlebars": "^3.0.3",
     "hapi": "^8.6.1"
+  },
+  "devDependencies": {
+    "jshint": "^2.8.0"
   }
 }
