@@ -1,3 +1,3 @@
 var assert = require('assert');
 
-return true;
+assert.equal(1, 2, "perfect");

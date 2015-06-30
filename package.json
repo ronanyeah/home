@@ -4,7 +4,7 @@
   "description": "ronan mccabe",
   "main": "server.js",
   "scripts": {
-    "test": "./tests/tests.js",
+    "test": "./node_modules/jshint/bin/jshint ./tests/tests.js",
     "start": "nodemon server.js"
   },
   "repository": {
