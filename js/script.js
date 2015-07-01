@@ -1,12 +1,7 @@
 var funcs = {
 
-  haversine: function () {
+  haversine: function (values, cart) {
     var earth = 6371;
-    
-    var values = [document.getElementById("hav1.1").value, document.getElementById("hav1.2").value, document.getElementById("hav1.3").value,
-                  document.getElementById("hav2.1").value, document.getElementById("hav2.2").value, document.getElementById("hav2.3").value,
-                  document.getElementById("hav3.1").value, document.getElementById("hav3.2").value, document.getElementById("hav3.3").value,
-                  document.getElementById("hav4.1").value, document.getElementById("hav4.2").value, document.getElementById("hav4.3").value];
     
     for(var j = 0; j < 12; j++) { //change inputs to numbers or zero
       values[j] = parseInt(values[j], 10);
@@ -29,9 +24,6 @@ var funcs = {
         values[i+2] = 0;
       }
     }
-    
-    var cart = [document.getElementById("havC1").value, document.getElementById("havC2").value,
-                document.getElementById("havC3").value, document.getElementById("havC4").value];
     
     var out = [];
     //change to decimal degrees
@@ -217,3 +209,5 @@ var funcs = {
   }
   
 };
+
+module.exports = funcs;

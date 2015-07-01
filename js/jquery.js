@@ -88,7 +88,15 @@ $(document).ready(function () {
   $('#buttonHav').click(function() {
     $('#resultHav').fadeIn('slow');
     $('#outHav1').html('Your points are apart by:');
-    $('#outHav2').hide().html('<strong>' + funcs.haversine() + '</strong>').fadeIn('slow');
+    $('#outHav2').hide().html('<strong>' + 
+      funcs.haversine([
+        document.getElementById("hav1.1").value, document.getElementById("hav1.2").value, document.getElementById("hav1.3").value,
+        document.getElementById("hav2.1").value, document.getElementById("hav2.2").value, document.getElementById("hav2.3").value,
+        document.getElementById("hav3.1").value, document.getElementById("hav3.2").value, document.getElementById("hav3.3").value,
+        document.getElementById("hav4.1").value, document.getElementById("hav4.2").value, document.getElementById("hav4.3").value
+      ],
+      [document.getElementById("havC1").value, document.getElementById("havC2").value,
+      document.getElementById("havC3").value, document.getElementById("havC4").value]) + '</strong>').fadeIn('slow');
   });
   
 });

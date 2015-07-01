@@ -4,7 +4,7 @@
   "description": "ronan mccabe",
   "main": "server.js",
   "scripts": {
-    "test": "./node_modules/jshint/bin/jshint ./tests/tests.js",
+    "test": "lab -t 100",
     "start": "nodemon server.js"
   },
   "repository": {
@@ -24,9 +24,15 @@
   "homepage": "https://github.com/wallcrawler/home#readme",
   "dependencies": {
     "handlebars": "^3.0.3",
-    "hapi": "^8.6.1"
+    "hapi": "^8.6.1",
+    "jsdoc": "^3.3.2"
   },
   "devDependencies": {
-    "jshint": "^2.8.0"
+    "jshint": "^2.8.0",
+    "code": "^1.4.1",
+    "foreman": "^1.4.1",
+    "istanbul": "^0.3.17",
+    "lab": "^5.11.1",
+    "pre-commit": "^1.0.10"
   }
 }
