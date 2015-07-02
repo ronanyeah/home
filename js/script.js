@@ -38,8 +38,7 @@ var scripts = {
     if(bytePosition === 0) {
       result.push(charset.charAt((prev & 3) << 4));
       result.push("==");
-    }
-    else if(bytePosition === 1) {
+    } else if (bytePosition === 1) {
       result.push(charset.charAt((prev & 0x0f) << 2));
       result.push("=");
     }
