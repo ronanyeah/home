@@ -14,8 +14,7 @@ server.views({
 server.route(require('./js/routes.js'));
 
 server.start(function () {
-    server.log('Server running at: ' + server.info.uri);
+  server.log('Server running at: ' + server.info.uri);
 });
-
 
 module.exports = server;

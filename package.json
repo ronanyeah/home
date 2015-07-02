@@ -4,9 +4,13 @@
   "description": "ronan mccabe",
   "main": "server.js",
   "scripts": {
-    "test": "lab -t 100",
-    "start": "nodemon server.js"
+    "test": "lab -t 100 -r lcov > coverage/lcov.info",
+    "start": "nodemon server.js",
+    "jshint": "jshint -c .jshintrc --exclude-path .jshintignore ."
   },
+  "pre-commit": [
+    "jshint"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wallcrawler/home.git"
@@ -28,10 +32,10 @@
     "jsdoc": "^3.3.2"
   },
   "devDependencies": {
+    "codeclimate-test-reporter": "^0.1.0",
     "jshint": "^2.8.0",
     "code": "^1.4.1",
     "foreman": "^1.4.1",
-    "istanbul": "^0.3.17",
     "lab": "^5.11.1",
     "pre-commit": "^1.0.10"
   }

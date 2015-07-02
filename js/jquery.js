@@ -11,27 +11,39 @@ $(document).ready(function () {
   
   //enter key support
   $('#userInputEnc').keypress(function(e){
-    if(e.keyCode === 13) $('#button1').click();
+    if(e.keyCode === 13) {
+      $('#button1').click();
+    }
   });
   
   $('#userInputDec').keypress(function(e){
-    if(e.keyCode === 13) $('#button2').click();
+    if(e.keyCode === 13) {
+      $('#button2').click();
+    }
   });
   
   $('#fiboInput').keypress(function(e){
-    if(e.keyCode === 13) $('#buttonFib').click();
+    if(e.keyCode === 13) {
+      $('#buttonFib').click();
+    }
   });
   
   $('#vigMesEnc, #vigPasEnc').keypress(function(e){
-    if(e.keyCode === 13) $('#buttonVigEnc').click();
+    if(e.keyCode === 13) {
+      $('#buttonVigEnc').click();
+    }
   });
   
   $('#vigMesDec, #vigPasDec').keypress(function(e){
-    if(e.keyCode === 13) $('#buttonVigDec').click();
+    if(e.keyCode === 13) {
+      $('#buttonVigDec').click();
+    }
   });
   
   $('.inputHav').keypress(function(e){
-    if(e.keyCode === 13) $('#buttonHav').click();
+    if(e.keyCode === 13) {
+      $('#buttonHav').click();
+    }
   });
   
   //hatch color change
@@ -60,43 +72,57 @@ $(document).ready(function () {
   //result divs
   $('#button1').click(function() {
     $('#resultBase').fadeIn('slow');
-    $('#outBase').hide().html('<strong>' + funcs.base64Encode() + '</strong>').fadeIn('slow');
+    $('#outBase').hide().html('<strong>' + scripts.base64Encode(document.getElementById("userInputEnc").value) + '</strong>').fadeIn('slow');
   });
   
   $('#button2').click(function() {
     $('#resultBase').fadeIn('slow');
-    $('#outBase').hide().html('<strong>' + funcs.base64Decode() + '</strong>').fadeIn('slow');
+    $('#outBase').hide().html('<strong>' + scripts.base64Decode(document.getElementById("userInputDec").value) + '</strong>').fadeIn('slow');
   });
   
   $('#buttonFib').click(function() {
     $('#resultFib').fadeIn('slow');
-    $('#outFib').hide().html('<strong>' + funcs.fibonacci() + '</strong>').fadeIn('slow');
+    $('#outFib').hide().html('<strong>' + scripts.fibonacci(document.getElementById("fiboInput").value) + '</strong>').fadeIn('slow');
   });
   
   $('#buttonVigEnc').click(function() {
     $('#resultVig').fadeIn('slow');
     $('#outVig1').html('Your encoded super-secret string is:');
-    $('#outVig2').hide().html('<strong>' + funcs.vigEncode() + '</strong>').fadeIn('slow');
+    $('#outVig2').hide().html('<strong>' +
+      scripts.vigEncode(
+        document.getElementById("vigMesEnc").value,
+        document.getElementById("vigPasEnc").value
+      ) + '</strong>').fadeIn('slow');
   });
   
   $('#buttonVigDec').click(function() {
     $('#resultVig').fadeIn('slow');
     $('#outVig1').html('Your decoded message is:');
-    $('#outVig2').hide().html('<strong>' + funcs.vigDecode() + '</strong>').fadeIn('slow');
+    $('#outVig2').hide().html('<strong>' +
+      scripts.vigDecode(
+        document.getElementById("vigMesDec").value,
+        document.getElementById("vigPasDec").value
+      ) + '</strong>').fadeIn('slow');
   });
   
   $('#buttonHav').click(function() {
     $('#resultHav').fadeIn('slow');
     $('#outHav1').html('Your points are apart by:');
     $('#outHav2').hide().html('<strong>' + 
-      funcs.haversine([
-        document.getElementById("hav1.1").value, document.getElementById("hav1.2").value, document.getElementById("hav1.3").value,
-        document.getElementById("hav2.1").value, document.getElementById("hav2.2").value, document.getElementById("hav2.3").value,
-        document.getElementById("hav3.1").value, document.getElementById("hav3.2").value, document.getElementById("hav3.3").value,
-        document.getElementById("hav4.1").value, document.getElementById("hav4.2").value, document.getElementById("hav4.3").value
-      ],
-      [document.getElementById("havC1").value, document.getElementById("havC2").value,
-      document.getElementById("havC3").value, document.getElementById("havC4").value]) + '</strong>').fadeIn('slow');
+      scripts.haversine(
+        [
+          document.getElementById("hav1.1").value, document.getElementById("hav1.2").value,
+          document.getElementById("hav1.3").value, document.getElementById("hav2.1").value,
+          document.getElementById("hav2.2").value, document.getElementById("hav2.3").value,
+          document.getElementById("hav3.1").value, document.getElementById("hav3.2").value,
+          document.getElementById("hav3.3").value, document.getElementById("hav4.1").value,
+          document.getElementById("hav4.2").value, document.getElementById("hav4.3").value
+        ],
+        [
+          document.getElementById("havC1").value, document.getElementById("havC2").value,
+          document.getElementById("havC3").value, document.getElementById("havC4").value
+        ]
+      ) + '</strong>').fadeIn('slow');
   });
   
 });
