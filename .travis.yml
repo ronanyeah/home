@@ -2,7 +2,6 @@ language: node_js
 
 node_js:
   - "0.12"
-  - "0.10"
 
 script:
   - npm test
@@ -11,12 +10,12 @@ script:
 # after_success:
 #   - npm run codeclimate
 
-# addons:
-#   code_climate:
-#     repo_token: 03ec9a93ba205a0eb5c27aedea5ca5f262411b24336566fba622ae012b4d3886
+addons:
+  code_climate:
+    repo_token: 03ec9a93ba205a0eb5c27aedea5ca5f262411b24336566fba622ae012b4d3886
 
 after_script:
-  - npm run codec
+  - npm run codeclimate
 
 # after_success:
 #   - npm run codeclimate
@@ -27,3 +26,4 @@ after_script:
 
 # after_script:
 #   - npm run codeclimate
+
