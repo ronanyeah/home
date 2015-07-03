@@ -10,10 +10,12 @@ node_js:
 
 # after_script:
 #   - codeclimate-test-reporter < coverage/lcov.info
+# after_success:
+#   - npm run codeclimate
 
 script:
   - npm test
   - npm run coverage
 
-after_success:
+after_script:
   - npm run codeclimate
