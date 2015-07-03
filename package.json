@@ -9,7 +9,8 @@
     "cov": "lab -t 100",
     "start": "nodemon server.js",
     "jshint": "jshint -c .jshintrc --exclude-path .jshintignore .",
-    "codeclimate": "CODECLIMATE_REPO_TOKEN=03ec9a93ba205a0eb5c27aedea5ca5f262411b24336566fba622ae012b4d3886 codeclimate-test-reporter < coverage/lcov.info"  },
+    "codeclimate": "CODECLIMATE_REPO_TOKEN=03ec9a93ba205a0eb5c27aedea5ca5f262411b24336566fba622ae012b4d3886 codeclimate-test-reporter < ./coverage/lcov.info"
+  },
   "pre-commit": [
     "jshint",
     "coverage"
