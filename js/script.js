@@ -1,3 +1,14 @@
+//$lab:coverage:off$
+// if (!module) {
+//  var module = {};
+// }
+//$lab:coverage:on$
+
+/*
+different script file for each kata?
+modularise entire file
+*/
+
 var scripts = {
 
   base64Encode: function (str) {
@@ -34,16 +45,20 @@ var scripts = {
 
       prev = curr;
     }
+
     //padding
-    if(bytePosition === 0) {
+    if (bytePosition === 0) {
       result.push(charset.charAt((prev & 3) << 4));
       result.push("==");
+      return result.join('');
     } else if (bytePosition === 1) {
       result.push(charset.charAt((prev & 0x0f) << 2));
       result.push("=");
+      return result.join('');
+    } else {
+      return result.join('');
     }
 
-    return result.join('');
   },
 
   base64Decode: function (str) {
@@ -57,9 +72,7 @@ var scripts = {
 
     if (0 === str.length) {
       return 'ENTER SOME TEXT!';
-    }
-
-    if (!/^[a-z0-9\+\/\s]+\={0,2}$/i.test(str) || str.length % 4 > 0) {
+    } else if (!/^[a-z0-9\+\/\s]+\={0,2}$/i.test(str) || str.length % 4 > 0) {
       return 'ENTER A VALID STRING!';
     }
 
@@ -90,8 +103,8 @@ var scripts = {
     var out = [],
         control = [0, 1];
 
-    if (1 > num) {
-      return "Empty";
+    if (1 > num || Number(num) !== num) {
+      return "Invalid input!";
     }
 
     for (var i = 0; out.length < num; i++) {
@@ -110,17 +123,18 @@ var scripts = {
         x,
         y;
 
-      for (var i = 0; i < message.length; i++) {
-        if (-1 !== abc.indexOf(message[i])) {
-          ciph = codeword[i % codeword.length];
-          x = abc.indexOf(ciph);
-          y = abc.indexOf(message[i]);
-          out += abc[(x + y) % abc.length];
-        } else {
-          out += message[i];
-        }
+    for (var i = 0; i < message.length; i++) {
+      if (abc.indexOf(message[i]) === -1) {
+        out += message[i];
+      } else {
+        ciph = codeword[i % codeword.length];
+        x = abc.indexOf(ciph);
+        y = abc.indexOf(message[i]);
+        out += abc[(x + y) % abc.length];
       }
-      return out;
+    }
+
+    return out;
   },
 
   vigDecode: function (message, codeword) {
@@ -131,13 +145,13 @@ var scripts = {
         y;
 
     for (var i = 0; i < message.length; i++) {
-      if (-1 !== abc.indexOf(message[i])) {
+      if (abc.indexOf(message[i]) === -1) {
+        out += message[i];
+      } else {
         ciph = codeword[i % codeword.length];
         x = abc.indexOf(ciph);
         y = abc.indexOf(message[i]);
         out += abc[(y - x + abc.length) % abc.length];
-      } else {
-        out += message[i];
       }
     }
 
@@ -149,26 +163,32 @@ var scripts = {
         toRads = function (x) { //convert to Radians
           return x * Math.PI / 180;
         };
+
+    function checkValidity (value) {
+      if(isNaN(value) || value < 0) { //if invalid or less than zero
+        return 0;
+      } else {
+        return value;
+      }
+    }
     
     for(var j = 0; j < 12; j++) { //change inputs to numbers or zero
-      values[j] = parseInt(values[j], 10);
-      if(isNaN(values[j]) || values[j] < 0) { //if invalid or less than zero
-        values[j] = 0;
-      }
+      values[j] = checkValidity(parseInt(values[j], 10));
     }
     
     for(var i = 0; i < 11; i += 3) { //fix out of range values
       if(values[i] === 180) {
-        values[i+1] = 0; values[i+2] = 0;
+        values[i + 1] = 0;
+        values[i + 2] = 0;
       }
       if(values[i] > 180) {
         values[i] = 0;
       }
-      if(values[i+1] > 60) {
-        values[i+1] = 0;
+      if(values[i + 1] > 60) {
+        values[i + 1] = 0;
       }
-      if(values[i+2] > 60) {
-        values[i+2] = 0;
+      if(values[i + 2] > 60) {
+        values[i + 2] = 0;
       }
     }
     
@@ -204,7 +224,7 @@ var scripts = {
         a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(rLat1) * Math.cos(rLat2) * Math.sin(dLon / 2) * Math.sin(dLon / 2),
         c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-    return isNaN(c) ? "ERROR" : Math.floor(earth * c) + "km";
+    return Math.floor(earth * c) + "km";
   }
   
 };
