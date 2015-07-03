@@ -4,10 +4,12 @@
   "description": "ronan mccabe",
   "main": "server.js",
   "scripts": {
-    "test": "lab -t 100 -r lcov > coverage/lcov.info",
-    "coverage": "lab -t 100",
+    "test": "lab -t 95 -r lcov > coverage/lcov.info",
+    "coverage": "lab -t 95 -r lcov > coverage/lcov.info",
+    "cov": "lab -t 100",
     "start": "nodemon server.js",
-    "jshint": "jshint -c .jshintrc --exclude-path .jshintignore ."
+    "jshint": "jshint -c .jshintrc --exclude-path .jshintignore .",
+    "codeclimate": "CODECLIMATE_REPO_TOKEN=03ec9a93ba205a0eb5c27aedea5ca5f262411b24336566fba622ae012b4d3886 ./node_modules/codeclimate-test-reporter/bin/codeclimate.js < ./coverage/lcov.info",
   },
   "pre-commit": [
     "jshint",
