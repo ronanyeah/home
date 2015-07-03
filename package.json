@@ -10,7 +10,8 @@
     "jshint": "jshint -c .jshintrc --exclude-path .jshintignore ."
   },
   "pre-commit": [
-    "jshint"
+    "jshint",
+    "coverage"
   ],
   "repository": {
     "type": "git",
