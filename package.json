@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "lab -t 100 -r lcov > coverage/lcov.info",
+    "coverage": "lab -t 95",
     "start": "nodemon server.js",
     "jshint": "jshint -c .jshintrc --exclude-path .jshintignore ."
   },
