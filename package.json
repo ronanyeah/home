@@ -4,7 +4,7 @@
   "description": "ronan mccabe",
   "main": "server.js",
   "scripts": {
-    "test": "lab -t 95 -r lcov > coverage/lcov.info",
+    "test": "lab -t 95",
     "coverage": "lab -t 95 -r lcov > coverage/lcov.info",
     "cov": "lab -t 100",
     "start": "nodemon server.js",
