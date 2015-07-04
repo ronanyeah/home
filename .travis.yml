@@ -5,25 +5,10 @@ node_js:
 
 script:
   - npm test
-  - npm run coverage
-
-# after_success:
-#   - npm run codeclimate
 
 addons:
   code_climate:
     repo_token: 03ec9a93ba205a0eb5c27aedea5ca5f262411b24336566fba622ae012b4d3886
 
-after_script:
+after_success:
   - npm run codeclimate
-
-# after_success:
-#   - npm run codeclimate
-
-# script:
-#   - npm test
-#   - npm run coverage
-
-# after_script:
-#   - npm run codeclimate
-
