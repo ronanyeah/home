@@ -37,10 +37,11 @@
     "jsdoc": "^3.3.2"
   },
   "devDependencies": {
+    "code": "^1.4.1",
     "codeclimate-test-reporter": "^0.1.0",
     "jshint": "^2.8.0",
-    "code": "^1.4.1",
     "lab": "^5.11.1",
-    "pre-commit": "^1.0.10"
+    "pre-commit": "^1.0.10",
+    "shot": "^1.5.3"
   }
 }

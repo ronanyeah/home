@@ -100,7 +100,6 @@ var scripts = {
   },
 
   fibonacci: function (num) {
-    console.log(typeof num);
     var out = [],
         control = [0, 1];
 
