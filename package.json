@@ -4,7 +4,7 @@
   "description": "ronan mccabe",
   "main": "server.js",
   "scripts": {
-    "server": "foreman run nodemon server.js",
+    "go": "foreman run nodemon server.js",
     "test": "lab -t 95 -r lcov > lcov.info",
     "coverage": "lab -t 95",
     "cov-lcov": "lab -t 100 -r lcov > coverage/lcov.info",
@@ -40,7 +40,6 @@
     "codeclimate-test-reporter": "^0.1.0",
     "jshint": "^2.8.0",
     "code": "^1.4.1",
-    "foreman": "^1.4.1",
     "lab": "^5.11.1",
     "pre-commit": "^1.0.10"
   }
