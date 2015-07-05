@@ -100,10 +100,13 @@ var scripts = {
   },
 
   fibonacci: function (num) {
+    console.log(typeof num);
     var out = [],
         control = [0, 1];
 
-    if (1 > num || Number(num) !== num) {
+    num = Number(num);
+
+    if (1 > num || isNaN(num)) {
       return "Invalid input!";
     }
 
