@@ -1,12 +1,7 @@
-function handlers() {
-  "use strict";
-  return {
+module.exports = {
 
-    home: function(request, reply) {
-      reply.view("index.html");
-    }
+  home: function(request, reply) {
+    reply.view("index.html");
+  }
 
-  };
-}
-
-module.exports = handlers;
+};

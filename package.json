@@ -4,11 +4,11 @@
   "description": "ronan mccabe",
   "main": "server.js",
   "scripts": {
+    "go": "foreman run nodemon server.js",
     "test": "lab -t 95 -r lcov > lcov.info",
     "coverage": "lab -t 95",
     "cov-lcov": "lab -t 100 -r lcov > coverage/lcov.info",
     "cov-html": "lab -t 100 -r html > coverage/tests.html",
-    "start": "nodemon server.js",
     "jshint": "jshint -c .jshintrc --exclude-path .jshintignore .",
     "codeclimate": "CODECLIMATE_REPO_TOKEN=03ec9a93ba205a0eb5c27aedea5ca5f262411b24336566fba622ae012b4d3886 codeclimate-test-reporter < lcov.info"
   },
@@ -40,7 +40,6 @@
     "codeclimate-test-reporter": "^0.1.0",
     "jshint": "^2.8.0",
     "code": "^1.4.1",
-    "foreman": "^1.4.1",
     "lab": "^5.11.1",
     "pre-commit": "^1.0.10"
   }
