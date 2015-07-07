@@ -3,3 +3,4 @@ npm-debug.log
 .env
 coverage
 lcov.info
+tests.html
