@@ -1,5 +1,5 @@
 * {
-  /*border: dotted 1px;*/
+  /*border: dotted 1px black;*/
   font-family: "Courier New", Courier, monospace; /*Tahoma, Geneva, sans-serif;*/
   margin: 0px 0px 0px 0px;
   padding: 0px 0px 0px 0px;
@@ -126,7 +126,7 @@ a:hover {
   margin: 10px 30px 10px 30px;
 }
 
-.hatch a {
+.learnMore {
   border-radius: 8px;
   background-color: lightblue;
   border: 2px solid black;
@@ -229,10 +229,6 @@ a:hover {
   border: 10px solid lightblue;
 }
 
-.cent {
-  text-align: center;
-}
-
 #buttonHav {
   text-align: center;
   margin-top: 30px;
@@ -243,12 +239,6 @@ a:hover {
   background-color: black;
   color: white;
   cursor: pointer;
-}
-
-#temp {
-  border-radius: 0px;
-  border: 0px;
-  padding: 0px;
 }
 
 #bottom {
