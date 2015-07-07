@@ -33,18 +33,17 @@
   },
   "homepage": "https://github.com/wallcrawler/home#readme",
   "dependencies": {
-    "handlebars": "^3.0.3",
     "hapi": "^8.6.1",
     "jquery": "^2.1.4",
-    "redis": "^0.12.1"
-  },
-  "devDependencies": {
-    "code": "^1.4.1",
-    "codeclimate-test-reporter": "^0.1.0",
+    "redis": "^0.12.1",
     "good": "^6.2.0",
     "good-console": "^5.0.2",
     "good-file": "^5.0.1",
     "good-http": "^5.0.0",
+  },
+  "devDependencies": {
+    "code": "^1.4.1",
+    "codeclimate-test-reporter": "^0.1.0",
     "jshint": "^2.8.0",
     "lab": "^5.11.1",
     "pre-commit": "^1.0.10"

@@ -18,10 +18,10 @@ server.route(require("./js/routes.js"));
 var analyticsOptions = {
   opsInterval: 1000,
   reporters: [
-    // {
-    //   reporter: require('good-console'),
-    //   events: { log: '*', response: '*' }
-    // },
+    {
+      reporter: require('good-console'),
+      events: { log: '*', response: '*' }
+    },
 
     // {
     //   register: Good,
