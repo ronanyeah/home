@@ -33,6 +33,7 @@
   },
   "homepage": "https://github.com/wallcrawler/home#readme",
   "dependencies": {
+    "handlebars": "^3.0.3",
     "hapi": "^8.6.1",
     "jquery": "^2.1.4",
     "redis": "^0.12.1",
