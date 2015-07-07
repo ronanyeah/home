@@ -39,7 +39,7 @@
     "good": "^6.2.0",
     "good-console": "^5.0.2",
     "good-file": "^5.0.1",
-    "good-http": "^5.0.0",
+    "good-http": "^5.0.0"
   },
   "devDependencies": {
     "code": "^1.4.1",
