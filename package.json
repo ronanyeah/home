@@ -36,7 +36,7 @@
     "handlebars": "^3.0.3",
     "hapi": "^8.6.1",
     "jquery": "^2.1.4",
-    "jsdoc": "^3.3.2"
+    "redis": "^0.12.1"
   },
   "devDependencies": {
     "code": "^1.4.1",
@@ -47,8 +47,6 @@
     "good-http": "^5.0.0",
     "jshint": "^2.8.0",
     "lab": "^5.11.1",
-    "pre-commit": "^1.0.10",
-    "redis": "^0.12.1",
-    "shot": "^1.5.3"
+    "pre-commit": "^1.0.10"
   }
 }
