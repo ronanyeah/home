@@ -1,7 +1,8 @@
+.DS_Store
+.env
+bundle.js
 node_modules
 npm-debug.log
-.env
-coverage
 lcov.info
-tests.html
 temp
+tests.html

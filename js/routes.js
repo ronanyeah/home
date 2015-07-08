@@ -9,6 +9,12 @@ module.exports = [
 
   {
     method: 'POST',
+    path: '/newUser',
+    handler: handlers.newUser
+  },
+
+  {
+    method: 'POST',
     path: '/analytics',
     handler: handlers.analytics
   },
