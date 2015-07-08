@@ -7,10 +7,11 @@
     "test": "lab -t 90 -r lcov > lcov.info",
     "go": "foreman run nodemon server.js",
     "check": "npm run jshint && npm run coverage",
-    "bro": "browserify ./js/main.js -o ./bundle/bundle.js",
+    "bro": "browserify ./js/main.js -o ./bundle.js",
     "coverage": "lab -t 90 -r console",
     "coverage-html": "lab -t 100 -r html > tests.html",
     "jshint": "jshint -c .jshintrc --exclude-path .jshintignore .",
+    "postinstall": "npm run bro",
     "codeclimate": "CODECLIMATE_REPO_TOKEN=03ec9a93ba205a0eb5c27aedea5ca5f262411b24336566fba622ae012b4d3886 codeclimate-test-reporter < lcov.info"
   },
   "pre-commit": [
@@ -23,6 +24,7 @@
   "keywords": [
     "ronan",
     "mccabe",
+    "london",     
     "ireland"
   ],
   "author": "ronan mccabe",
@@ -32,14 +34,13 @@
   },
   "homepage": "https://github.com/wallcrawler/home#readme",
   "dependencies": {
+    "browserify": "^10.2.4",
+    "good": "^6.2.0",
+    "good-http": "^5.0.0",
     "handlebars": "^3.0.3",
     "hapi": "^8.6.1",
     "jquery": "^2.1.4",
-    "redis": "^0.12.1",
-    "good": "^6.2.0",
-    "good-console": "^5.0.2",
-    "good-file": "^5.0.1",
-    "good-http": "^5.0.0"
+    "redis": "^0.12.1"
   },
   "devDependencies": {
     "code": "^1.4.1",

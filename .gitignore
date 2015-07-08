@@ -5,3 +5,4 @@ coverage
 lcov.info
 tests.html
 temp
+bundle.js
