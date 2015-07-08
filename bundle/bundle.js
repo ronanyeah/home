@@ -233,11 +233,51 @@ module.exports = {
 
 };
 },{}],5:[function(require,module,exports){
+module.exports = {
+
+  userCookie: function () {
+    var userId = "";
+    var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for(var i = 0; i < 10; i++) {
+      userId += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+
+    return "userId=" + userId;
+  },
+
+  expireCookie: function () {
+    var userId = "";
+    var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for(var i = 0; i < 10; i++) {
+      userId += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+
+    var expires = new Date().setFullYear(new Date().getFullYear() + 1);
+
+    return "expires=" + new Date(expires).toGMTString();
+  },
+
+  cookieCheck: function () {
+
+    if(!document.cookie) {
+      document.cookie = this.userCookie() + ';' + this.expireCookie() + ';';
+      console.log(document.cookie);
+    } else {
+      console.log(document.cookie);
+    }
+
+  }
+
+};
+},{}],6:[function(require,module,exports){
 var $ = require('jquery'),
     base64 = require('./appScriptFiles/base64.js'),
     fibonacci = require('./appScriptFiles/fibonacci.js'),
     vigenere = require('./appScriptFiles/vigenere.js'),
-    haversine = require('./appScriptFiles/haversine.js');
+    haversine = require('./appScriptFiles/haversine.js'),
+    cookieScripts = require('./cookieScripts.js');
 
 function hideDropdownDivs() {
   $('#sixfour').hide();
@@ -253,6 +293,7 @@ function hideDropdownDivs() {
 $(document).ready(function () {
 
   hideDropdownDivs();
+  cookieScripts.cookieCheck();
   
 });
 
@@ -371,7 +412,7 @@ $('#buttonHav').click(function() {
       ]
     ) + '</strong>').fadeIn('slow');
 });
-},{"./appScriptFiles/base64.js":1,"./appScriptFiles/fibonacci.js":2,"./appScriptFiles/haversine.js":3,"./appScriptFiles/vigenere.js":4,"jquery":6}],6:[function(require,module,exports){
+},{"./appScriptFiles/base64.js":1,"./appScriptFiles/fibonacci.js":2,"./appScriptFiles/haversine.js":3,"./appScriptFiles/vigenere.js":4,"./cookieScripts.js":5,"jquery":7}],7:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.4
  * http://jquery.com/
@@ -9583,4 +9624,4 @@ return jQuery;
 
 }));
 
-},{}]},{},[5]);
+},{}]},{},[6]);

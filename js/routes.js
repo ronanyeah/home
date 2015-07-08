@@ -6,6 +6,12 @@ module.exports = [
     path: '/',
     handler: handlers.home
   },
+
+  {
+    method: 'POST',
+    path: '/analytics',
+    handler: handlers.analytics
+  },
   
   { //route for all css, images and js files
     method: 'GET',

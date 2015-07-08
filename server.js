@@ -14,45 +14,19 @@ server.views({
 });
 
 server.route(require("./js/routes.js"));
- 
+
 var analyticsOptions = {
   opsInterval: 1000,
-  reporters: [
+  reporters:
+  [
     {
-      reporter: require('good-console'),
-      events: { log: '*', response: '*' }
-    },
-
-    // {
-    //   register: Good,
-    //   options: {
-    //     reporters: [{
-    //       reporter: require('good-http'),
-    //       events: { request: '*' },
-    //       config: {
-    //         endpoint : 'http://localhost:8000/analytics',
-    //         threshold: 0
-    //       }
-    //     }]
-    //   }
-    // }
-
-    // {
-    //   reporter: require('good-file'),
-    //   events: { ops: '*' },
-    //   config: './awesome_log'
-    // },
-
-    // {
-    //   reporter: 'good-http',
-    //   events: { error: '*' },
-    //   config: {
-    //     endpoint: 'http://prod.logs:3000',
-    //     wreck: {
-    //       headers: { 'x-api-key' : 12345 }
-    //     }
-    //   }
-    // }
+      reporter: require('good-http'),
+      events: { request: '*' },
+      config: {
+        endpoint : 'http://localhost:8000/analytics',
+        threshold: 0
+      }
+    }
   ]
 };
  
