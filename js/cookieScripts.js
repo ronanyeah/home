@@ -12,13 +12,6 @@ module.exports = {
   },
 
   expireCookie: function () {
-    var userId = '';
-    var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-    for(var i = 0; i < 10; i++) {
-      userId += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-
     var expires = new Date().setFullYear(new Date().getFullYear() + 1);
 
     return new Date(expires).toGMTString();
