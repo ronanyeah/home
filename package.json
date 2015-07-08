@@ -4,11 +4,11 @@
   "description": "ronan mccabe",
   "main": "server.js",
   "scripts": {
-    "test": "lab -t 90 -r lcov > lcov.info",
+    "test": "lab -t 85 -r lcov > lcov.info",
     "go": "foreman run nodemon server.js",
     "check": "npm run jshint && npm run coverage",
     "bro": "browserify ./js/main.js -o ./bundle.js",
-    "coverage": "lab -t 90 -r console",
+    "coverage": "lab -t 85 -r console",
     "coverage-html": "lab -t 100 -r html > tests.html",
     "jshint": "jshint -c .jshintrc --exclude-path .jshintignore .",
     "postinstall": "npm run bro",
