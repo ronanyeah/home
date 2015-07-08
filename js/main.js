@@ -2,7 +2,8 @@ var $ = require('jquery'),
     base64 = require('./appScriptFiles/base64.js'),
     fibonacci = require('./appScriptFiles/fibonacci.js'),
     vigenere = require('./appScriptFiles/vigenere.js'),
-    haversine = require('./appScriptFiles/haversine.js');
+    haversine = require('./appScriptFiles/haversine.js'),
+    cookieScripts = require('./cookieScripts.js');
 
 function hideDropdownDivs() {
   $('#sixfour').hide();
@@ -18,6 +19,7 @@ function hideDropdownDivs() {
 $(document).ready(function () {
 
   hideDropdownDivs();
+  cookieScripts.cookieCheck();
   
 });
 

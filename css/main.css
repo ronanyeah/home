@@ -1,3 +1,7 @@
+/**/
+/*ELEMENTS - listed alphabetically*/
+/**/
+
 * {
   /*border: dotted 1px black;*/
   font-family: "Courier New", Courier, monospace; /*Tahoma, Geneva, sans-serif;*/
@@ -13,6 +17,10 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
+/**/
+/*IDs - listed in order of page position*/
+/**/
 
 /*NAV BAR*/
 
@@ -84,16 +92,127 @@ a:hover {
   width: 80%;
 }
 
-.wrap {
-  padding: 5px 10px 15px 10px;
-}
-
 #header {
   background-color: #CCCCCC;
   margin-top: 10px;
   margin-bottom: 10px;
   padding: 20px 100px 20px 100px;
   text-align: center;
+}
+
+/*BASE64*/
+
+#sixfourHatch {
+  background-image: url('/static/img/base64.jpg');
+  background-position: 100% 100%;
+  margin-top: 10px;
+}
+
+#sixfour {
+  text-align: center;
+  background-color: #efefef;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  margin-left: 50px;
+  margin-right: 50px;
+  padding-bottom: 10px;
+}
+
+#resultBase {
+  text-align: center;
+  word-wrap: break-word;
+}
+
+/*FIBONACCI*/
+
+#fibHatch {
+  background-image: url('/static/img/fibo.jpg');
+  background-position: 50% 70%;
+}
+
+#fibo {
+  text-align: center;
+  background-color: #efefef;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  margin-left: 50px;
+  margin-right: 50px;
+  padding-bottom: 10px;
+}
+
+#fiboInput {
+  width: 50px;
+}
+
+/*VIGENERE*/
+
+#vigHatch {
+  background-image: url('/static/img/vig.jpg');
+}
+
+#vig {
+  text-align: center;
+  background-color: #efefef;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  margin-left: 50px;
+  margin-right: 50px;
+  padding-bottom: 10px;
+}
+
+/*HAVERSINE*/
+
+#havHatch {
+  background-image: url('/static/img/haver.jpg');
+  background-position: 50% 50%;
+}
+
+#hav {
+  text-align: center;
+  background-color: #efefef;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  margin-left: 50px;
+  margin-right: 50px;
+  padding-bottom: 10px;
+}
+
+#buttonHav {
+  text-align: center;
+  margin-top: 30px;
+  width: 140px;
+}
+
+/*FOOTER*/
+
+#bottom {
+  padding-top: 25px;
+  margin-top: 35px;
+  height: 50px;
+  text-align: center;
+  background-color: #CCCCCC;/*efefef;*/
+}
+
+/**/
+/*CLASSES - listed alphabetically*/
+/**/
+
+.button {
+  display: inline-block;
+  height: 20px;
+  width: 70px;
+  background-color: #CCCCCC;
+  border-radius: 5px;
+  text-align: center;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  cursor: pointer;
+}
+
+.drop {
+  text-align: center;
+  border: 10px solid #CCCCCC;
+  border-top: 0px;
 }
 
 .hatch {
@@ -126,113 +245,15 @@ a:hover {
   margin: 10px 30px 10px 30px;
 }
 
+.inputHav {
+  width: 50px;
+}
+
 .learnMore {
   border-radius: 8px;
   background-color: lightblue;
   border: 2px solid black;
   padding: 4px;
-}
-
-#sixfourHatch {
-  background-image: url('/static/img/base64.jpg');
-  background-position: 100% 100%;
-  margin-top: 10px;
-}
-
-#fibHatch {
-  background-image: url('/static/img/fibo.jpg');
-  background-position: 50% 70%;
-}
-
-#vigHatch {
-  background-image: url('/static/img/vig.jpg');
-}
-
-#havHatch {
-  background-image: url('/static/img/haver.jpg');
-  background-position: 50% 50%;
-}
-
-#resultBase {
-  text-align: center;
-  word-wrap: break-word;
-}
-
-.drop {
-  text-align: center;
-  border: 10px solid #CCCCCC;
-  border-top: 0px;
-}
-
-#sixfour {
-  text-align: center;
-  background-color: #efefef;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-  margin-left: 50px;
-  margin-right: 50px;
-  padding-bottom: 10px;
-}
-
-#fibo {
-  text-align: center;
-  background-color: #efefef;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-  margin-left: 50px;
-  margin-right: 50px;
-  padding-bottom: 10px;
-}
-
-#vig {
-  text-align: center;
-  background-color: #efefef;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-  margin-left: 50px;
-  margin-right: 50px;
-  padding-bottom: 10px;
-}
-
-#hav {
-  text-align: center;
-  background-color: #efefef;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-  margin-left: 50px;
-  margin-right: 50px;
-  padding-bottom: 10px;
-}
-
-#fiboInput {
-  width: 50px;
-}
-
-.inputHav {
-  width: 50px;
-}
-
-.button {
-  display: inline-block;
-  height: 20px;
-  width: 70px;
-  background-color: #CCCCCC;
-  border-radius: 5px;
-  text-align: center;
-  margin-top: 2px;
-  margin-bottom: 2px;
-  cursor: pointer;
-}
-
-.plink {
-  background-color: #efefef;
-  border: 10px solid lightblue;
-}
-
-#buttonHav {
-  text-align: center;
-  margin-top: 30px;
-  width: 140px;
 }
 
 .menu {
@@ -241,10 +262,11 @@ a:hover {
   cursor: pointer;
 }
 
-#bottom {
-  padding-top: 25px;
-  margin-top: 35px;
-  height: 50px;
-  text-align: center;
-  background-color: #CCCCCC;/*efefef;*/
+.plink {
+  background-color: #efefef;
+  border: 10px solid lightblue;
+}
+
+.wrap {
+  padding: 5px 10px 15px 10px;
 }
