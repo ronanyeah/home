@@ -1,6 +1,6 @@
 var client;
 
-redis = {
+var redis = {
 
   startRedisClient: function (analytics, callback) {
     var redisModule = require('redis');
