@@ -14,9 +14,8 @@
     <div id="nav">
 
         <div id="navLeft">
-          <p id="name">Ronan McCabe</p>
+          <h1 id="name">Ronan McCabe</h1>
         </div>
-
         <div id="navRight">
           <ul>
             <!-- <li>
@@ -55,7 +54,7 @@
 
         <div id="base64Hatch" class="hatch">
 
-          <h1>Base64 Encoder/Decoder</h1>
+          <h4>Base64 Encoder/Decoder</h4>
           
           <p>
             Here you can convert humble ASCII strings to the mysterious and exotic Base64. And even decode them!
@@ -70,21 +69,19 @@
         <div id="base64Drop" class="drop">
 
           <div>
-            <h1>Encode to Base64:</h1>
+            <h4>Encode to Base64:</h4>
             <input type="text" id="userInputEnc"/>
             <div id="button1" class="button">Enter</div>
           </div>
 
           <div>
-            <h1>Decode from Base64:</h1>
+            <h4>Decode from Base64:</h4>
             <input type="text" id="userInputDec"/>
             <div id="button2" class="button">Enter</div>
           </div>
 
-          <div>
-            <div id="base64Result">
-              <p id='outBase'></p>
-            </div>
+          <div id="base64Result">
+            <p id='outBase'></p>
           </div>
 
         </div>
@@ -95,7 +92,7 @@
 
         <div id="fibonacciHatch" class="hatch">
 
-          <h1>Fibonacci Generator</h1>
+          <h4>Fibonacci Generator</h4>
 
           <p>Here you can see the wondrous and allegedly useful Fibonacci sequence in all its glory.</p>
 
@@ -106,17 +103,17 @@
         </div>
 
         <div id="fibonacciDrop" class="drop">
+
           <div>
-            <h1>Enter your desired sequence length:</h1>
+            <h4>Enter your desired sequence length:</h4>
             <input type="number" min=1 id="fiboInput"/>
             <div id="buttonFib" class="button">Enter</div>
           </div>
 
-          <div>
-            <div id="fibonacciResult">
-              <p id='outFib'></p>
-            </div>
+          <div id="fibonacciResult">
+            <p id='outFib'></p>
           </div>
+
         </div>
 
       </div>
@@ -125,7 +122,7 @@
 
         <div id="vigenereHatch" class="hatch">
 
-          <h1>Vigen&egrave;re Encoder/Decoder</h1>
+          <h4>Vigen&egrave;re Encoder/Decoder</h4>
 
           <p>
             Here you can harness the power of the Vigen&egrave;re cipher.
@@ -137,43 +134,43 @@
           <div class="learnMore">
             <a href="https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher" target="_blank">Learn more...</a>\
           </div>
-          
+
         </div>
 
         <div id="vigenereDrop" class="drop">
 
           <div>
-            <h1>Encode your message here:</h1>
+            <h4>Encode your message here:</h4>
+
             <form>
-              Message
+              Message:
               <input type="text" id="vigMesEnc"/>
               <br>
-              Keyword
+              Keyword:
               <input type="text" id="vigPasEnc"/>
             </form>
-            <br/>
+
             <div id="buttonVigEnc" class="button">Enter</div>
           </div>
 
           <div>
-            <h1>Decode your message here:</h1>
+            <h4>Decode your message here:</h4>
+
             <form>
-              Encoded Message
+              Encoded Message:
               <input type="text" id="vigMesDec"/>
               <br>
-              Keyword
+              Keyword:
               <input type="text" id="vigPasDec"/>
             </form>
-            <br/>
+
             <div id="buttonVigDec" class="button">Enter</div>
           </div>
-
-          <div>
-            <div id="resultVig">
-              <p id='outVig1'></p>
-              <p id='outVig2'></p>
-            </div>
-          </div>
+          
+          <div id="vigenereResult">
+            <p id='outVig1'></p>
+            <p id='outVig2'></p>
+          </div>  
 
         </div>
 
@@ -182,7 +179,7 @@
       <div class="app">
 
         <div id="haversineHatch" class="hatch">
-          <h1>Haversine Distance Calculator</h1>
+          <h4>Haversine Distance Calculator</h4>
           <p>
             With this app you can calculate the distance between any two points on the globe using the Haversine Formula.
             This should be incredibly useful if you are a Discovery Age explorer with Internet access.
@@ -198,11 +195,9 @@
         <div id="haversineDrop" class="drop">
 
           <div>
-            <h1>Co-ordinate 1:</h1>
-          </div>
+            <h4>Co-ordinate 1:</h4>
 
-          <div>
-            <h2>Longitude</h2>
+            <h4>Longitude</h4>
             <form>
               Degrees&deg; (0-180)
               <input type="number" id="hav1.1" class="inputHav"/><br/>
@@ -217,10 +212,8 @@
               </select>
               <br/>
             </form>
-          </div>
 
-          <div>
-            <h2>Latitude</h2>
+            <h4>Latitude</h4>
             <form>
               Degrees&deg; (0-180)
               <input type="number" id="hav2.1" class="inputHav"/><br/>
@@ -237,11 +230,9 @@
           </div>
 
           <div>
-            <h1>Co-ordinate 2:</h1>
-          </div>
+            <h4>Co-ordinate 2:</h4>
 
-          <div>
-            <h2>Longitude</h2>
+            <h4>Longitude</h4>
             <form>
               Degrees&deg; (0-180)
               <input type="number" id="hav3.1" class="inputHav"/><br/>
@@ -255,10 +246,8 @@
                 <option value="S">S</option>
               </select>
             </form>
-          </div>
 
-          <div>
-            <h2>Latitude</h2>
+            <h4>Latitude</h4>
             <form>
               Degrees&deg; (0-180)
               <input type="number" id="hav4.1" class="inputHav"/><br/>
@@ -275,10 +264,10 @@
           </div>
 
           <div>
-            <div id="buttonHav" class="button">Calculate</div>
+            <div id="buttonHav">Calculate</div>
           </div>
 
-          <div id="resultHav">
+          <div id="haversineResult">
             <p id='outHav1'></p>
             <p id='outHav2'></p>
           </div>

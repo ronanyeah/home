@@ -7,13 +7,13 @@ var $ = require('jquery'),
 
 function hideDropdownDivs() {
   $('#base64Drop').hide();
-  $('#resultBase').hide();
+  $('#base64Result').hide();
   $('#fibonacciDrop').hide();
-  $('#resultFib').hide();
+  $('#fibonacciResult').hide();
   $('#vigenereDrop').hide();
-  $('#resultVig').hide();
+  $('#vigenereResult').hide();
   $('#haversineDrop').hide();
-  $('#resultHav').hide();
+  $('#haversineResult').hide();
 }
 
 $(document).ready(function () {
@@ -85,22 +85,22 @@ $('#haversineHatch').click(function() {
 
 //result divs
 $('#button1').click(function() {
-  $('#resultBase').fadeIn('slow');
+  $('#base64Result').fadeIn('slow');
   $('#outBase').hide().html('<strong>' + base64.encode(document.getElementById('userInputEnc').value) + '</strong>').fadeIn('slow');
 });
 
 $('#button2').click(function() {
-  $('#resultBase').fadeIn('slow');
+  $('#base64Result').fadeIn('slow');
   $('#outBase').hide().html('<strong>' + base64.decode(document.getElementById('userInputDec').value) + '</strong>').fadeIn('slow');
 });
 
 $('#buttonFib').click(function() {
-  $('#resultFib').fadeIn('slow');
+  $('#fibonacciResult').fadeIn('slow');
   $('#outFib').hide().html('<strong>' + fibonacci.fibonacci(document.getElementById('fiboInput').value) + '</strong>').fadeIn('slow');
 });
 
 $('#buttonVigEnc').click(function() {
-  $('#resultVig').fadeIn('slow');
+  $('#vigenereResult').fadeIn('slow');
   $('#outVig1').html('Your encoded super-secret string is:');
   $('#outVig2').hide().html('<strong>' +
     vigenere.encode(
@@ -110,7 +110,7 @@ $('#buttonVigEnc').click(function() {
 });
 
 $('#buttonVigDec').click(function() {
-  $('#resultVig').fadeIn('slow');
+  $('#vigenereResult').fadeIn('slow');
   $('#outVig1').html('Your decoded message is:');
   $('#outVig2').hide().html('<strong>' +
     vigenere.decode(
@@ -120,7 +120,7 @@ $('#buttonVigDec').click(function() {
 });
 
 $('#buttonHav').click(function() {
-  $('#resultHav').fadeIn('slow');
+  $('#haversineResult').fadeIn('slow');
   $('#outHav1').html('Your points are apart by:');
   $('#outHav2').hide().html('<strong>' + 
     haversine.haversine(
