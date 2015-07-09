@@ -13,12 +13,7 @@ module.exports = {
 
   home: function(request, reply) {
     // request.log(); // triggers the good-http log on the server to the /analytics endpoint
-    console.log(request.id);
-    console.log(request.info.remoteAddress);
-    console.log(request.info.host);
-    console.log(request.info.hostname);
-    console.log(request.connection.info);
-    console.log(request.state.userId);
+    console.log(request);
     if(request.headers.cookie) {
       addNewUser(request.headers.cookie.split('=')[1]);
     }
