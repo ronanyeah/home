@@ -41,7 +41,7 @@ var redis = {
         if (err) {
           console.log(err);
         } else {
-          client.hmset(analytics.id, "visits", Number(data) + 1, "ip", analytics.ip, "lastVisted", analytics.lastVisted, function(err, data) {
+          client.hmset(analytics.id, "visits", Number(data) + 1, "ip", analytics.ip, "lastVisited", analytics.lastVisited, function(err, data) {
             if (err) {
               console.log(err);
             } else {
