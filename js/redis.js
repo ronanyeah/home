@@ -1,5 +1,9 @@
 var client;
 
+function sanitiseText (text) {
+  //replace non AZaz01 characters with #
+}
+
 var redis = {
 
   startRedisClient: function (analytics, callback) {
@@ -37,7 +41,7 @@ var redis = {
         if (err) {
           console.log(err);
         } else {
-          client.hset(analytics.id, "visits", Number(data) + 1, function(err, data) {
+          client.hmset(analytics.id, "visits", Number(data) + 1, "ip", analytics.ip, "lastVisted", analytics.lastVisted, function(err, data) {
             if (err) {
               console.log(err);
             } else {
@@ -45,7 +49,7 @@ var redis = {
                 if (err) {
                   console.log(err);
                 } else {
-                  console.log('client quit:', data);
+                  // console.log('client quit:', data);
                 }
               });
             }
@@ -65,7 +69,7 @@ var redis = {
             if (err) {
               console.log(err);
             } else {
-              console.log('client quit:', data);
+              // console.log('client quit:', data);
             }
           });
         }
