@@ -96,6 +96,8 @@ a:hover {
   width: 80%;
 }
 
+/*HEADER*/
+
 #header {
   background-color: #CCCCCC;
   margin-top: 10px;
@@ -115,11 +117,28 @@ a:hover {
   background-position: 100% 100%;
 }
 
-#base64Drop {
-
+#base64Drop > div {
+  padding: 10px;
 }
 
+#base64Drop div:first-child {
+  width: 45%;
+  display: inline-block;
+}
+
+#base64Drop div:nth-child(2) {
+  width: 45%;
+  display: inline-block;
+}
+
+/*#base64Drop div:nth-child(3) {
+  width: 100%;
+  clear: both;
+}*/
+
 #base64Result {
+  width: 100%;
+  clear: both;
   text-align: center;
   word-wrap: break-word;
 }
@@ -131,12 +150,17 @@ a:hover {
   background-position: 50% 70%;
 }
 
-#fibonacciDrop {
-
+#fibonacciDrop div:first-child {
+  margin: 0 auto;
+  width: 90%;
 }
 
 #fiboInput {
   width: 50px;
+}
+
+#fibonacciResult {
+  padding: 10px;
 }
 
 /*VIGENERE*/
@@ -145,9 +169,23 @@ a:hover {
   background-image: url('/static/img/vig.jpg');
 }
 
-#vigenereDrop {
-
+#vigenereDrop > div {
+  padding: 10px;
 }
+
+#vigenereDrop div:first-child {
+  width: 45%;
+  display: inline-block;
+}
+
+#vigenereDrop div:nth-child(2) {
+  width: 45%;
+  display: inline-block;
+}
+
+/*#vigenereResult {
+  padding: 10px;
+}*/
 
 /*HAVERSINE*/
 
@@ -156,14 +194,32 @@ a:hover {
   background-position: 50% 50%;
 }
 
-#haversineDrop {
+#haversineHatch > p > a {
+  color: white;
+}
 
+#haversineDrop > div {
+  padding: 10px;
+}
+
+#haversineDrop div:first-child {
+  width: 45%;
+  display: inline-block;
+}
+
+#haversineDrop div:nth-child(2) {
+  width: 45%;
+  display: inline-block;
 }
 
 #buttonHav {
-  text-align: center;
-  margin-top: 30px;
-  width: 140px;
+  background-color: #CCCCCC;
+  border-radius: 5px;
+  cursor: pointer;
+  display: inline-block;
+  height: 20px;  text-align: center;
+  margin-top: 2px;
+  margin-bottom: 2px;
 }
 
 /*FOOTER*/
@@ -222,7 +278,7 @@ a:hover {
   margin: 10px 10px 10px 10px;
 }
 
-.hatch > h1 {
+.hatch > h4 {
   background-color: lightblue;
   border: 2px solid black;
   border-radius: 8px;
