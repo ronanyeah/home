@@ -13,18 +13,23 @@ function addNewUser (id, request) {
 module.exports = {
 
   home: function(request, reply) {
-    // request.log(); // triggers the good-http log on the server to the /analytics endpoint
+    // request.log(); // triggers the good-http log on server.js to the /addAnalytics endpoint
     if(request.headers.cookie) {
       addNewUser(request.headers.cookie.split('=')[1], request);
     }
     reply.view('index.html');
   },
 
+  analytics: function(request, reply) {
+    reply.view('analytics.html');
+  },
+
+
   newUser: function(request, reply) {
     addNewUser(request.query.userId, request);
   },
 
-  analytics: function(request, reply) {
+  addAnalytics: function(request, reply) {
     // redis.startClient(redis.addData, analytics);
   }
 

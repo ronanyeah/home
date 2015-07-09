@@ -11,7 +11,7 @@
 }
 
 a {
-  color: white;
+  color: black;
 }
 
 a:hover {
@@ -82,6 +82,10 @@ a:hover {
   width: 100%;
 }
 
+#jumbotron a {
+  color: white;
+}
+
 #linkHeader {
   color: white;
   font-size: 40px;
@@ -100,44 +104,35 @@ a:hover {
   text-align: center;
 }
 
+#header a {
+  color: white;
+}
+
 /*BASE64*/
 
-#sixfourHatch {
+#base64Hatch {
   background-image: url('/static/img/base64.jpg');
   background-position: 100% 100%;
-  margin-top: 10px;
 }
 
-#sixfour {
-  text-align: center;
-  background-color: #efefef;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-  margin-left: 50px;
-  margin-right: 50px;
-  padding-bottom: 10px;
+#base64Drop {
+
 }
 
-#resultBase {
+#base64Result {
   text-align: center;
   word-wrap: break-word;
 }
 
 /*FIBONACCI*/
 
-#fibHatch {
+#fibonacciHatch {
   background-image: url('/static/img/fibo.jpg');
   background-position: 50% 70%;
 }
 
-#fibo {
-  text-align: center;
-  background-color: #efefef;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-  margin-left: 50px;
-  margin-right: 50px;
-  padding-bottom: 10px;
+#fibonacciDrop {
+
 }
 
 #fiboInput {
@@ -146,35 +141,23 @@ a:hover {
 
 /*VIGENERE*/
 
-#vigHatch {
+#vigenereHatch {
   background-image: url('/static/img/vig.jpg');
 }
 
-#vig {
-  text-align: center;
-  background-color: #efefef;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-  margin-left: 50px;
-  margin-right: 50px;
-  padding-bottom: 10px;
+#vigenereDrop {
+
 }
 
 /*HAVERSINE*/
 
-#havHatch {
+#haversineHatch {
   background-image: url('/static/img/haver.jpg');
   background-position: 50% 50%;
 }
 
-#hav {
-  text-align: center;
-  background-color: #efefef;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-  margin-left: 50px;
-  margin-right: 50px;
-  padding-bottom: 10px;
+#haversineDrop {
+
 }
 
 #buttonHav {
@@ -185,7 +168,7 @@ a:hover {
 
 /*FOOTER*/
 
-#bottom {
+#footer {
   padding-top: 25px;
   margin-top: 35px;
   height: 50px;
@@ -196,6 +179,10 @@ a:hover {
 /**/
 /*CLASSES - listed alphabetically*/
 /**/
+
+.app {
+  /*padding: 10px 15px 15px 10px;*/
+}
 
 .button {
   display: inline-block;
@@ -210,39 +197,45 @@ a:hover {
 }
 
 .drop {
-  text-align: center;
+  background-color: #efefef;
   border: 10px solid #CCCCCC;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
   border-top: 0px;
+  margin: 0 auto;
+  text-align: center;
+  width: 80%;
 }
 
 .hatch {
-  padding: 20px 160px 20px 160px;
   background-color: lightblue;
   border: 10px solid #CCCCCC; /*#efefef*/
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-  text-align: center;
-  margin-top: 30px;
-  margin-left: 50px;
-  margin-right: 50px;
-  word-wrap: break-word;
   cursor: pointer;
+  margin: 20px 50px 0px 50px;
+  text-align: center;
+  word-wrap: break-word;
 }
 
-.hatch h1 {
+.hatch > * {
+  margin: 10px 10px 10px 10px;
+}
+
+.hatch > h1 {
+  background-color: lightblue;
   border: 2px solid black;
   border-radius: 8px;
   font-weight: bold;
-  background-color: lightblue;
+  padding: 10px 10px 10px 10px;
 }
 
-.hatch p {
+.hatch > p {
   border-radius: 8px;
   background-color: lightblue;
   border: 2px solid black;
   font-size: 15px;
-  padding: 10px;
-  margin: 10px 30px 10px 30px;
+  padding: 10px 10px 10px 10px;
 }
 
 .inputHav {
@@ -250,6 +243,11 @@ a:hover {
 }
 
 .learnMore {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.learnMore > a {
   border-radius: 8px;
   background-color: lightblue;
   border: 2px solid black;
@@ -265,8 +263,4 @@ a:hover {
 .plink {
   background-color: #efefef;
   border: 10px solid lightblue;
-}
-
-.wrap {
-  padding: 5px 10px 15px 10px;
 }

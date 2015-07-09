@@ -1,7 +1,7 @@
 var client;
 
 function sanitiseText (text) {
-  //replace non AZaz01 characters with #
+  //replace non AZaz09 characters with #
 }
 
 var redis = {

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>analytics</title>
+    <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="/static/css/analytics.css">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.js"></script>
+    <script type="text/javascript">
+      var app = angular.module("myapp", []);
+    </script>
+  </head>
+
+  <body ng-app="myapp">
+    <label>Name:</label>
+    <input ng-model="yourName" type="text" placeholder="Enter a name here">
+    <hr>
+    <h1>Hello {{yourName}}!</h1>
+
+  </body>
+</html>

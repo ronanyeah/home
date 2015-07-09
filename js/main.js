@@ -6,13 +6,13 @@ var $ = require('jquery'),
     cookieScripts = require('./cookieScripts.js');
 
 function hideDropdownDivs() {
-  $('#sixfour').hide();
+  $('#base64Drop').hide();
   $('#resultBase').hide();
-  $('#fibo').hide();
+  $('#fibonacciDrop').hide();
   $('#resultFib').hide();
-  $('#vig').hide();
+  $('#vigenereDrop').hide();
   $('#resultVig').hide();
-  $('#hav').hide();
+  $('#haversineDrop').hide();
   $('#resultHav').hide();
 }
 
@@ -70,17 +70,17 @@ $('.hatch').hover(function() {
 });
 
 //input divs
-$('#sixfourHatch').click(function() {
-  $('#sixfour').fadeToggle('slow');
+$('#base64Hatch').click(function() {
+  $('#base64Drop').fadeToggle('slow');
 });
-$('#fibHatch').click(function() {
-  $('#fibo').fadeToggle('slow');
+$('#fibonacciHatch').click(function() {
+  $('#fibonacciDrop').fadeToggle('slow');
 });
-$('#vigHatch').click(function() {
-  $('#vig').fadeToggle('slow');
+$('#vigenereHatch').click(function() {
+  $('#vigenereDrop').fadeToggle('slow');
 });
-$('#havHatch').click(function() {
-  $('#hav').fadeToggle('slow');
+$('#haversineHatch').click(function() {
+  $('#haversineDrop').fadeToggle('slow');
 });
 
 //result divs
