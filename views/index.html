@@ -19,6 +19,9 @@
 
         <div id="navRight">
           <ul>
+            <!-- <li>
+              <a href="/analytics">Analytics</a>
+            </li> -->
             <li>
               <a href="http://www.codewars.com/users/wallcrawler" target="_blank">Codewars</a>
             </li>
@@ -35,8 +38,8 @@
 
     <div id="jumbotron">
       <p id="linkHeader">
-        <a href="#sixfourHatch">Base64</a> / <a href="#fibHatch">Fibonacci</a> /
-        <a href="#vigHatch">Vigen&egrave;re</a> / <a href="#havHatch">Haversine</a>
+        <a href="#base64Hatch">Base64</a> / <a href="#fibonacciHatch">Fibonacci</a> /
+        <a href="#vigenereHatch">Vigen&egrave;re</a> / <a href="#haversineHatch">Haversine</a>
       </p>
     </div>
 
@@ -48,17 +51,23 @@
 
     <div id="appSection">
 
-      <div id="base64Wrapper" class="wrapper">
+      <div class="app">
 
-        <div id="sixfourHatch" class="hatch wrap">
+        <div id="base64Hatch" class="hatch">
+
           <h1>Base64 Encoder/Decoder</h1>
+          
           <p>
             Here you can convert humble ASCII strings to the mysterious and exotic Base64. And even decode them!
           </p>
-          <a class="learnMore" href="http://en.wikipedia.org/wiki/Base64" target="_blank">Learn more...</a>
+
+          <div class="learnMore">
+            <a href="http://en.wikipedia.org/wiki/Base64" target="_blank">Learn more...</a>
+          </div>
+
         </div>
 
-        <div id="sixfour" class="drop">
+        <div id="base64Drop" class="drop">
 
           <div>
             <h1>Encode to Base64:</h1>
@@ -73,7 +82,7 @@
           </div>
 
           <div>
-            <div id="resultBase">
+            <div id="base64Result">
               <p id='outBase'></p>
             </div>
           </div>
@@ -82,15 +91,21 @@
 
       </div>
 
-      <div id="fibonacciWrapper" class="wrapper">
+      <div class="app">
 
-        <div id="fibHatch" class="wrap hatch">
+        <div id="fibonacciHatch" class="hatch">
+
           <h1>Fibonacci Generator</h1>
+
           <p>Here you can see the wondrous and allegedly useful Fibonacci sequence in all its glory.</p>
-          <a class="learnMore" href="http://en.wikipedia.org/wiki/Fibonacci_number" target="_blank">Learn more...</a>
+
+          <div class="learnMore">  
+            <a href="http://en.wikipedia.org/wiki/Fibonacci_number" target="_blank">Learn more...</a>
+          </div>
+
         </div>
 
-        <div id="fibo" class="drop">
+        <div id="fibonacciDrop" class="drop">
           <div>
             <h1>Enter your desired sequence length:</h1>
             <input type="number" min=1 id="fiboInput"/>
@@ -98,7 +113,7 @@
           </div>
 
           <div>
-            <div id="resultFib">
+            <div id="fibonacciResult">
               <p id='outFib'></p>
             </div>
           </div>
@@ -106,20 +121,26 @@
 
       </div>
 
-      <div id="vigenereWrapper" class="wrapper">
+      <div class="app">
 
-        <div id="vigHatch" class="hatch wrap">
+        <div id="vigenereHatch" class="hatch">
+
           <h1>Vigen&egrave;re Encoder/Decoder</h1>
+
           <p>
             Here you can harness the power of the Vigen&egrave;re cipher.
             <br/>Provide the message you wish to encode, as well as the keyword you wish to protect the message with.
             The message can then be decoded in future as long as the keyword has been remembered.
             <br/>The app currently accepts a basic lowercase [a-z] alphabet but custom alphabet support is coming shortly.
           </p>
-          <a class="learnMore" href="https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher" target="_blank">Learn more...</a>\
+
+          <div class="learnMore">
+            <a href="https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher" target="_blank">Learn more...</a>\
+          </div>
+          
         </div>
 
-        <div id="vig" class="drop">
+        <div id="vigenereDrop" class="drop">
 
           <div>
             <h1>Encode your message here:</h1>
@@ -158,9 +179,9 @@
 
       </div>
 
-      <div id="haversineWrapper" class="wrapper">
+      <div class="app">
 
-        <div id="havHatch" class="hatch wrap">
+        <div id="haversineHatch" class="hatch">
           <h1>Haversine Distance Calculator</h1>
           <p>
             With this app you can calculate the distance between any two points on the globe using the Haversine Formula.
@@ -169,10 +190,12 @@
             <br/><a href="http://www.infoplease.com/ipa/A0001769.html" target="_blank">Here</a> is a list of city co-ordinates to play around with.
             <br/><br/>The degrees, minutes and seconds should be positive integers within the specified ranges. Any invalid or missing inputs will be set to 0.
           </p>
-          <a class="learnMore" href="http://en.wikipedia.org/wiki/Haversine_formula" target="_blank">Learn more...</a>
+          <div class="learnMore">
+            <a href="http://en.wikipedia.org/wiki/Haversine_formula" target="_blank">Learn more...</a>
+          </div>
         </div>
 
-        <div id="hav" class="drop">
+        <div id="haversineDrop" class="drop">
 
           <div>
             <h1>Co-ordinate 1:</h1>
@@ -266,7 +289,7 @@
 
     </div>
 
-    <div id="bottom">
+    <div id="footer">
       <p><strong>Copyright &copy; 2015 Ronan McCabe. All rights reserved.</strong></p>
     </div>
     

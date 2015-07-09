@@ -23,7 +23,7 @@ var analyticsOptions = {
       reporter: require('good-http'),
       events: { request: '*' },
       config: {
-        endpoint : 'http://localhost:8000/analytics',
+        endpoint : 'http://localhost:8000/addAnalytics',
         threshold: 0
       }
     }
