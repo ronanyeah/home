@@ -7,11 +7,17 @@ module.exports = [
     handler: handlers.home
   },
 
-  // {
-  //   method: 'GET',
-  //   path: '/analytics',
-  //   handler: handlers.analytics
-  // },
+  {
+    method: 'GET',
+    path: '/analytics',
+    handler: handlers.analytics
+  },
+
+  {
+    method: 'GET',
+    path: '/pullAnalytics',
+    handler: handlers.pullAnalytics
+  },
 
   {
     method: 'POST',

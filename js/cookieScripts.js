@@ -1,3 +1,5 @@
+var $ = require('jquery');
+
 module.exports = {
 
   userCookie: function () {
@@ -20,11 +22,15 @@ module.exports = {
   cookieCheck: function () {
 
     if(!document.cookie) {
-      var cookie = 'userId=' + this.userCookie();
-      document.cookie = cookie + ';expires=' + this.expireCookie();
-      var xhr = new XMLHttpRequest();
-      xhr.open('POST', '/newUser?' + cookie);
-      xhr.send();
+      var cookie = this.userCookie();
+      document.cookie = 'userId=' + cookie + ';expires=' + this.expireCookie();
+
+      $.ajax({
+        type: "POST",
+        url: '/newUser',
+        data: {cookie: cookie},
+      });
+
     } else {
       console.log('welcome back');
     }

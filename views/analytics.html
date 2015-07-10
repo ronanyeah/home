@@ -1,22 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html ng-app>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>analytics</title>
     <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" type="text/css" href="/static/css/analytics.css">
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script type="text/javascript">
-      var app = angular.module("myapp", []);
+      window.onload = function() {
+        $.ajax({
+          type: "get",
+          url: '/pullAnalytics',
+          success: function(data) {
+            console.log("load");
+            $("#redis").html(data); //JSON.parse(data)[0].id
+          }
+        });
+      };
+    </script>
+    <script>
+        function ExampleCtrl($scope) {
+            $scope.value = "Lorem ipsum";
+        }
     </script>
   </head>
-
-  <body ng-app="myapp">
-    <label>Name:</label>
-    <input ng-model="yourName" type="text" placeholder="Enter a name here">
-    <hr>
-    <h1>Hello {{yourName}}!</h1>
-
+  <body>
+    <div ng-controller="ExampleCtrl">
+        <input ng-model="value"><br>
+        {{value}}
+    </div>
+    <div ng-controller="ExampleCtrl">
+        <input ng-model="value"><br>
+        {{value}}
+    </div>
+    <div id="redis">
+    </div>
   </body>
 </html>
