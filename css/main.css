@@ -150,6 +150,10 @@ a:hover {
   background-position: 50% 70%;
 }
 
+#fibonacciDrop > div {
+  padding: 10px;
+}
+
 #fibonacciDrop div:first-child {
   margin: 0 auto;
   width: 90%;
@@ -157,10 +161,6 @@ a:hover {
 
 #fiboInput {
   width: 50px;
-}
-
-#fibonacciResult {
-  padding: 10px;
 }
 
 /*VIGENERE*/

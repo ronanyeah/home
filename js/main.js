@@ -16,12 +16,12 @@ function hideDropdownDivs() {
   $('#haversineResult').hide();
 }
 
-$(document).ready(function () {
+window.onload = function () {
 
   hideDropdownDivs();
   cookieScripts.cookieCheck();
   
-});
+};
 
 //enter key support
 $('#userInputEnc').keypress(function(e){

@@ -1,13 +1,13 @@
 var redis = require('./redis.js');
 
-function addNewUser (id, request) {
+function registerVisit(id, request) {
   var analytics = {
     id: id,
     ip: request.headers['x-forwarded-for']  || request.info.remoteAddress,
     visits: 1,
     lastVisited: new Date().getTime()
   };
-  redis.startRedisClient(analytics);
+  redis().checkDatabaseForUser(analytics);
 }
 
 module.exports = {
@@ -15,7 +15,7 @@ module.exports = {
   home: function(request, reply) {
     // request.log(); // triggers the good-http log on server.js to the /addAnalytics endpoint
     if(request.headers.cookie) {
-      addNewUser(request.headers.cookie.split('=')[1], request);
+      registerVisit(request.headers.cookie.split('=')[1], request);
     }
     reply.view('index.html');
   },
@@ -24,9 +24,15 @@ module.exports = {
     reply.view('analytics.html');
   },
 
+  pullAnalytics: function(request, reply) {
+    redis().pullAnalytics(0, function(data) {
+      reply(JSON.stringify(data));
+    });
+  },
 
   newUser: function(request, reply) {
-    addNewUser(request.query.userId, request);
+    registerVisit(request.payload.cookie, request);
+    reply(true);
   },
 
   addAnalytics: function(request, reply) {

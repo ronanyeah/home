@@ -1,6 +1,5 @@
 .DS_Store
 .env
-angTest
 bundle.js
 lcov.info
 node_modules
