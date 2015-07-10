@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app>
+<html>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,33 +8,49 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script type="text/javascript">
+      window.app = angular.module('myApp', []);
+      app.controller('AppCtrl', function ($scope) {
+          $scope.message = "Angular Rocks!";
+      });
+    </script>
+
+    <script type="text/javascript">
       window.onload = function() {
         $.ajax({
           type: "get",
           url: '/pullAnalytics',
           success: function(data) {
-            console.log("load");
-            $("#redis").html(data); //JSON.parse(data)[0].id
+            console.log(data);
+            data = JSON.parse(data);
+            for(var i = 0; i < data.length; i++) {
+              $("#redis").append('<p>' + JSON.stringify(data[i]) + '</p>');
+            }
           }
         });
       };
     </script>
-    <script>
-        function ExampleCtrl($scope) {
-            $scope.value = "Lorem ipsum";
-        }
-    </script>
+
   </head>
-  <body>
-    <div ng-controller="ExampleCtrl">
-        <input ng-model="value"><br>
-        {{value}}
+
+  <body ng-app="myApp">
+
+    <header class="content_header">
+      <h1>Cool App</h1>
+    </header>
+
+    <div>
+      <label>Name:</label>
+      <input type="text" ng-model="yourName" placeholder="Enter a name here">
+      <hr>
+      <h1>Hello {{yourName}}!</h1>
     </div>
-    <div ng-controller="ExampleCtrl">
-        <input ng-model="value"><br>
-        {{value}}
+
+    <div ng-controller="AppCtrl">
+       <h1>Message: {{message}}</h1>
     </div>
+
     <div id="redis">
     </div>
+
   </body>
 </html>

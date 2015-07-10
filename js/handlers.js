@@ -1,4 +1,4 @@
-var redis = require('./redis.js')();
+var redis = require('./redis.js');
 
 function registerVisit(id, request) {
   var analytics = {
@@ -7,7 +7,7 @@ function registerVisit(id, request) {
     visits: 1,
     lastVisited: new Date().getTime()
   };
-  redis.checkDatabaseForUser(analytics);
+  redis().checkDatabaseForUser(analytics);
 }
 
 module.exports = {
@@ -25,7 +25,7 @@ module.exports = {
   },
 
   pullAnalytics: function(request, reply) {
-    redis.pullAnalytics(0, function(data) {
+    redis().pullAnalytics(0, function(data) {
       reply(JSON.stringify(data));
     });
   },
