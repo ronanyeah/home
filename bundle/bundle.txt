@@ -1,0 +1,1 @@
+This folder is for storing JS bundles created by Browserify.

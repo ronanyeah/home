@@ -82,6 +82,19 @@ a:hover {
   width: 100%;
 }
 
+#jumbotron div:first-child {
+  background-color: white;
+  border: solid;
+  border-radius: 15px;
+  cursor: pointer;
+  float: right;
+  margin: 15px;
+}
+
+#jumbotron div:first-child > p {
+  padding: 10px;
+}
+
 #jumbotron a {
   color: white;
 }
