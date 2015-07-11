@@ -27,19 +27,21 @@ a:hover {
 #nav {
   height: 50px;
   /*position: relative;*/
+  background-color: white;
+  position: fixed;
+  top: 0px;
+  width: 100%;
 }
 
 #navLeft {
   float: left;
   padding-left: 25px;
   padding-top: 14px;
-  /*line-height: 100px;*/
   width: 45%;
 }
 
 #name {
   font-size: 20px;
-  text-transform: uppercase;
 }
 
 #navRight {
@@ -74,11 +76,13 @@ a:hover {
 /*JUMBOTRON*/
 
 #jumbotron {
+  background-attachment: fixed;
   background-image: url('/static/img/monticello.jpg');
   background-position: 50% 50%;
   background-repeat: no-repeat;
   background-size: cover;
   height: 500px;
+  padding-top: 50px;
   width: 100%;
 }
 
@@ -104,7 +108,8 @@ a:hover {
   font-size: 40px;
   font-weight: bold;
   left: 100px;
-  position: relative;
+  margin-left: 8%;
+  margin-top: 7%;
   top: 70px;
   width: 80%;
 }
@@ -282,8 +287,9 @@ a:hover {
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
   cursor: pointer;
-  margin: 20px 50px 0px 50px;
+  margin: 20px auto 0px auto;
   text-align: center;
+  width: 90%;
   word-wrap: break-word;
 }
 
@@ -296,6 +302,8 @@ a:hover {
   border: 2px solid black;
   border-radius: 8px;
   font-weight: bold;
+  margin-left: 15%;
+  margin-right: 15%;
   padding: 10px 10px 10px 10px;
 }
 
@@ -304,6 +312,8 @@ a:hover {
   background-color: lightblue;
   border: 2px solid black;
   font-size: 15px;
+  margin-left: 23%;
+  margin-right: 23%;
   padding: 10px 10px 10px 10px;
 }
 
