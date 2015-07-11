@@ -1,6 +1,6 @@
 .DS_Store
 .env
-bundle
+bundle/*js
 lcov.info
 node_modules
 npm-debug.log
