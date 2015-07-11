@@ -1,4 +1,4 @@
-// $ = require('jquery');
+$ = require('jquery');
 
 window.app = angular.module('myApp', []);
 
