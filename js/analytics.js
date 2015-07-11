@@ -23,8 +23,8 @@ app.controller('dbCtrl', function ($scope, $http) {
     var arr = [];
     data = data.sort(sortClaps);
     data.forEach(function (x) {
-      x.lastVisited = new Date(Number(x.lastVisited)).toGMTString();
-      if((document.cookie).indexOf(x.id) > -1) {
+      x.lastVisited = new Date(Number(x.lastVisited)).toLocaleString();
+      if(document.cookie.split("=")[1] === x.id) {
         $scope.you = x;
       } else {
         arr.push(x);
