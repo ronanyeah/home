@@ -17,11 +17,11 @@ module.exports = {
     if(request.headers.cookie) {
       registerVisit(request.headers.cookie.split('=')[1], request);
     }
-    reply.view('index.html');
+    reply.file('./views/index.html');
   },
 
   analytics: function(request, reply) {
-    reply.view('analytics.html');
+    reply.file('./views/analytics.html');
   },
 
   pullAnalytics: function(request, reply) {
