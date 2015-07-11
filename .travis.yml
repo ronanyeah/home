@@ -12,3 +12,6 @@ addons:
 
 after_success:
   - npm run codeclimate
+
+notifications:
+  email: false

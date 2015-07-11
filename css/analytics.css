@@ -1,0 +1,58 @@
+/*body {
+  background-color: #f0f0f2;
+  margin: 0;
+  padding: 0;
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+div {
+  margin: 0 auto;
+  border-radius: 15px;
+  background-color: #fff;
+}*/
+
+* {
+  /*border: 1px dotted;*/
+  margin: 0 auto;
+}
+
+body {
+  background-color: #f0f0f2;
+}
+
+body > div {
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+#dbTable {
+  margin: 100px;
+  margin-top: 0px;
+  padding: 50px;
+  background-color: #fff;
+  border-radius: 1em;
+}
+
+#homeButton {
+  background-color: white;
+  border: solid;
+  border-radius: 15px;
+  cursor: pointer;
+  margin: 10px auto 10px auto;
+  width: 100px;
+}
+
+ #homeButton > p {
+  width: 100px;
+  text-align: center;
+}
+
+table tr:first-child {
+  background-color: lightblue;
+}
+
+table tr:nth-child(2) {
+  background-color: lightgreen;
+}

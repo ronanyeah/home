@@ -5,52 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>analytics</title>
     <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script type="text/javascript">
-      window.app = angular.module('myApp', []);
-      app.controller('AppCtrl', function ($scope) {
-          $scope.message = "Angular Rocks!";
-      });
-    </script>
-
-    <script type="text/javascript">
-      window.onload = function() {
-        $.ajax({
-          type: "get",
-          url: '/pullAnalytics',
-          success: function(data) {
-            console.log(data);
-            data = JSON.parse(data);
-            for(var i = 0; i < data.length; i++) {
-              $("#redis").append('<p>' + JSON.stringify(data[i]) + '</p>');
-            }
-          }
-        });
-      };
-    </script>
-
+    <link rel="stylesheet" type="text/css" href="/static/css/analytics.css">
   </head>
 
   <body ng-app="myApp">
-
-    <header class="content_header">
-      <h1>Cool App</h1>
-    </header>
-
     <div>
-      <label>Name:</label>
-      <input type="text" ng-model="yourName" placeholder="Enter a name here">
-      <hr>
-      <h1>Hello {{yourName}}!</h1>
+      <div id="homeButton">
+        <p>HOME</p>
+      </div>
+
+      <div id="dbTable" ng-controller="dbCtrl">
+
+        <table border="1">
+          <tr>
+            <td>Cookie ID</td>
+            <td>Visits</td>
+            <td>Last Visited</td>
+            <td>IP Address</td>
+          </tr>
+          <tr>
+            <td>{{you.id}}</td>
+            <td>{{you.visits}}</td>
+            <td>{{you.lastVisited}}</td>
+            <td>{{you.ip}}</td>
+          </tr>
+          <TR ng-repeat="user in users"> 
+            <td>{{user.id}}</td>
+            <td>{{user.visits}}</td>
+            <td>{{user.lastVisited}}</td>
+            <td>{{user.ip}}</td>
+          </tr>
+        </table>
+
+      </div>
     </div>
 
-    <div ng-controller="AppCtrl">
-       <h1>Message: {{message}}</h1>
-    </div>
-
-    <div id="redis">
-    </div>
-
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/analytics.js"></script>
   </body>
 </html>

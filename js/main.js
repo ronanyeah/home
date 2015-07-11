@@ -23,6 +23,10 @@ window.onload = function () {
   
 };
 
+$('#jumbotron div:first-child').click(function(){
+  window.location = "/analytics";
+});
+
 //enter key support
 $('#userInputEnc').keypress(function(e){
   if(e.keyCode === 13) {
