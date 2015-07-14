@@ -86,11 +86,11 @@ var redis = function() {
         } else {
           fileLoad.push(data);
           if(fileLoad.length === dbKeys.length) {
-            callback(fileLoad);
             client.quit(function(err, data) {
               if (err) {
                 console.log(err);
               } else {
+                callback(fileLoad);
                 // console.log('client quit:', data);
               }
             });
