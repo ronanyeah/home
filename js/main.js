@@ -3,7 +3,9 @@ var $ = require('jquery'),
     fibonacci = require('./appScriptFiles/fibonacci.js'),
     vigenere = require('./appScriptFiles/vigenere.js'),
     haversine = require('./appScriptFiles/haversine.js'),
-    cookieScripts = require('./cookieScripts.js');
+    cookieScripts = require('./cookieScripts.js'),
+    leaflet = require('leaflet'),
+    map;
 
 function hideDropdownDivs() {
   $('#base64Drop').hide();
@@ -16,11 +18,47 @@ function hideDropdownDivs() {
   $('#haversineResult').hide();
 }
 
+function makeMap() {
+  map = leaflet.map('leaflet').setView([51.505, -0.09], 13);
+  var popup = leaflet.popup();
+
+  leaflet.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+    maxZoom: 18,
+    id: "wallcrawler.90e45220",
+    accessToken: "pk.eyJ1Ijoid2FsbGNyYXdsZXIiLCJhIjoiZjU1OTRlMjJjNDQ3ZTU4MzdlM2U3NTQwMmJkYjM0MjkifQ.PZGNCUHmnpf8_d8GQOuYdA"
+  }).addTo(map);
+
+  var arr = [{}, {
+      lat: 0,
+      lon: 0
+    }];
+
+  map.on('click', onMapClick);
+
+  function updateCoordinates(x) {
+    arr[0] = arr[1];
+    arr[1] = {
+      lat: Number(x.lat),
+      lon: Number(x.lng)
+    };
+  }
+
+  function onMapClick(e) {
+    popup
+      .setLatLng(e.latlng)
+      .setContent(e.latlng.toString())
+      .openOn(map);
+    updateCoordinates(e.latlng);
+    console.log(haversine.leafletHav(arr));
+  }
+}
+
 window.onload = function () {
 
   hideDropdownDivs();
   cookieScripts.cookieCheck();
-  
+
 };
 
 $('#jumbotron div:first-child').click(function(){
@@ -84,7 +122,12 @@ $('#vigenereHatch').click(function() {
   $('#vigenereDrop').fadeToggle('slow');
 });
 $('#haversineHatch').click(function() {
-  $('#haversineDrop').fadeToggle('slow');
+  if(map) {
+    map.remove();
+  }
+  $('#haversineDrop').fadeToggle('slow', function() {
+    makeMap();
+  });
 });
 
 //result divs

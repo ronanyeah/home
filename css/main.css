@@ -220,15 +220,21 @@ a:hover {
   padding: 10px;
 }
 
-#haversineDrop div:first-child {
-  width: 45%;
-  display: inline-block;
+#leaflet {
+  height: 200px;
+  margin: 0 auto;
+  width: 90%;
 }
 
-#haversineDrop div:nth-child(2) {
+/*#haversineDrop div:first-child {
   width: 45%;
   display: inline-block;
-}
+}*/
+
+/*#haversineDrop div:nth-child(2) {
+  width: 45%;
+  display: inline-block;
+}*/
 
 #buttonHav {
   background-color: #CCCCCC;

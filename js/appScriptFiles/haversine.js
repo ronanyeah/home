@@ -1,10 +1,11 @@
 module.exports = {
   
   haversine: function (values, cartesian) {
-    var earth = 6371,
-        toRads = function (x) { //convert to Radians
-          return x * Math.PI / 180;
-        };
+    var earth = 6371;
+
+    function toRads (cooordinate) { //convert to Radians
+      return cooordinate * Math.PI / 180;
+    }
 
     function checkValidity (value) {
       if(isNaN(value) || value < 0) { //if invalid or less than zero
@@ -58,6 +59,28 @@ module.exports = {
         latitude1 = out[1],
         longitude2 = out[2],
         latitude2 = out[3];
+        
+    var rlatitude1 = toRads(longitude1),
+        rlatitude2 = toRads(longitude2),
+        dlatitude = toRads(longitude2 - longitude1),
+        dlongitude = toRads(latitude2 - latitude1),
+        a = ( Math.sin(dlatitude / 2) * Math.sin(dlatitude / 2) ) +
+          ( Math.cos(rlatitude1) * Math.cos(rlatitude2) * Math.sin(dlongitude / 2) * Math.sin(dlongitude / 2) );
+
+    return Math.floor(earth * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)))) + "km";
+  },
+
+  leafletHav: function (cooordinateArray) {
+    var earth = 6371;
+
+    function toRads (cooordinate) { //convert to Radians
+      return cooordinate * Math.PI / 180;
+    }
+    
+    var longitude1 = cooordinateArray[0].lon,
+        latitude1 = cooordinateArray[0].lat,
+        longitude2 = cooordinateArray[1].lon,
+        latitude2 = cooordinateArray[1].lat;
         
     var rlatitude1 = toRads(longitude1),
         rlatitude2 = toRads(longitude2),
