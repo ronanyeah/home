@@ -4,8 +4,7 @@ var Code = require('code'),
 
 var base64 = require('../js/appScriptFiles/base64.js'),
     fibonacci = require('../js/appScriptFiles/fibonacci.js'),
-    vigenere = require('../js/appScriptFiles/vigenere.js'),
-    haversine = require('../js/appScriptFiles/haversine.js');
+    vigenere = require('../js/appScriptFiles/vigenere.js');
 
 lab.test('base64 encode tests', function (done) {
   Code.expect(base64.encode('')).to.equal('ENTER SOME TEXT!');
@@ -56,13 +55,5 @@ lab.test('vigenere decode tests', function (done) {
   Code.expect(vigenere.decode("mikmbry", "test")).to.equal("testing");
 
   Code.expect(vigenere.decode("mi$mbry", "test")).to.equal("te$ting");
-  done();
-});
-
-lab.test('haversine tests', function (done) {
-  Code.expect(haversine.haversine(["x",-1,0,0,0,0,1,1,1,1,1,1], ['N', 'E', 'N', 'E'])).to.equal("159km");
-
-  Code.expect(haversine.haversine([180,1,1,181,61,61,1,1,1,1,1,1], ['S', 'W', 'S', 'W'])).to.equal("19855km");
-
   done();
 });
