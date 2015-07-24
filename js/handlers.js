@@ -15,7 +15,9 @@ module.exports = {
   home: function(request, reply) {
     // request.log(); // triggers the good-http log on server.js to the /addAnalytics endpoint
     if(request.headers.cookie) {
-      registerVisit(request.headers.cookie.split('userId=')[1].substr(0, 10), request);
+      if(request.headers.cookie.indexOf('userId=') > -1) {
+        registerVisit(request.headers.cookie.split('userId=')[1].substr(0, 10), request);
+      }
     }
     reply.file('./views/index.html');
   },

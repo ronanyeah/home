@@ -14,11 +14,11 @@
 
     <div id='nav'>
 
-        <div id='navLeft'>
-          <h1 id='name'>RONAN MCCABE</h1>
+        <div>
+          <h1>RONAN MCCABE</h1>
         </div>
 
-        <div id='navRight'>
+        <div>
           <ul>
             <li>
               <a href='https://github.com/wallcrawler/cv' target='_blank'>CV</a>
@@ -38,23 +38,58 @@
     </div>
 
     <div id='jumbotron'>
+
       <div>
         <p>Site Analytics</p>
       </div>
 
-      <p id='linkHeader'>
-        <a href='#base64Hatch'>Base64</a> / <a href='#fibonacciHatch'>Fibonacci</a> /
-        <a href='#vigenereHatch'>Vigen&egrave;re</a> / <a href='#haversineHatch'>Haversine</a>
+      <p>
+        <a href='#haversineHatch'>Haversine</a> / <a href='#base64Hatch'>Base64</a> /
+        <a href='#vigenereHatch'>Vigen&egrave;re</a> / <a href='#fibonacciHatch'>Fibonacci</a>
       </p>
+
     </div>
 
     <div id='header'>
+
       <p>
-        here is a selection of webapps based on challenges from <a href='https://www.codewars.com/' target='_blank'>Codewars</a>
+        here is a selection of webapps based on challenges from <a href='https://www.codewars.com/' target='_blank'>codewars</a>
       </p>
+      <br/>
+      <p>
+        site code can be found <a href='https://github.com/wallcrawler/home/' target='_blank'>here</a>
+      </p>
+
     </div>
 
     <div id='appSection'>
+
+      <div class='app'>
+ 
+        <div id='haversineHatch' class='hatch'>
+
+          <h4>Haversine Distance Calculator</h4>
+
+          <p>
+            With this app you can calculate the distance between any two points on the globe using the <a href='http://en.wikipedia.org/wiki/Haversine_formula' target='_blank'>Haversine Formula</a>.
+          </p>
+
+        </div>
+
+        <div id='haversineDrop' class='drop'>
+
+          <div id='leaflet'>
+            
+          </div>
+
+          <div id='haversineResult'>
+            <p id='outHav1'></p>
+            <p id='outHav2'></p>
+          </div>
+
+        </div>
+
+      </div>
 
       <div class='app'>
 
@@ -63,12 +98,9 @@
           <h4>Base64 Encoder/Decoder</h4>
           
           <p>
-            Here you can convert humble ASCII strings to the mysterious and exotic Base64. And even decode them!
+            Here you can convert ASCII strings to 
+              <a href='http://en.wikipedia.org/wiki/Base64' target='_blank'>Base64</a>. And even decode them!
           </p>
-
-          <div class='learnMore'>
-            <a href='http://en.wikipedia.org/wiki/Base64' target='_blank'>Learn more...</a>
-          </div>
 
         </div>
 
@@ -77,47 +109,21 @@
           <div>
             <h4>Encode to Base64:</h4>
             <input type='text' id='userInputEnc'/>
-            <div id='button1' class='button'>Enter</div>
+            <div id='button1' class='button'>
+              Enter
+            </div>
           </div>
 
           <div>
             <h4>Decode from Base64:</h4>
             <input type='text' id='userInputDec'/>
-            <div id='button2' class='button'>Enter</div>
+            <div id='button2' class='button'>
+              Enter
+            </div>
           </div>
 
           <div id='base64Result'>
             <p id='outBase'></p>
-          </div>
-
-        </div>
-
-      </div>
-
-      <div class='app'>
-
-        <div id='fibonacciHatch' class='hatch'>
-
-          <h4>Fibonacci Generator</h4>
-
-          <p>Here you can see the wondrous and allegedly useful Fibonacci sequence in all its glory.</p>
-
-          <div class='learnMore'>  
-            <a href='http://en.wikipedia.org/wiki/Fibonacci_number' target='_blank'>Learn more...</a>
-          </div>
-
-        </div>
-
-        <div id='fibonacciDrop' class='drop'>
-
-          <div>
-            <h4>Enter your desired sequence length:</h4>
-            <input type='number' min=1 id='fiboInput'/>
-            <div id='buttonFib' class='button'>Enter</div>
-          </div>
-
-          <div id='fibonacciResult'>
-            <p id='outFib'></p>
           </div>
 
         </div>
@@ -131,15 +137,10 @@
           <h4>Vigen&egrave;re Encoder/Decoder</h4>
 
           <p>
-            Here you can harness the power of the Vigen&egrave;re cipher.
+            Here you can harness the power of the <a href='https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher' target='_blank'>Vigen&egrave;re cipher</a>.
             <br/>Provide the message you wish to encode, as well as the keyword you wish to protect the message with.
             The message can then be decoded in future as long as the keyword has been remembered.
-            <br/>The app currently accepts a basic lowercase [a-z] alphabet but custom alphabet support is coming shortly.
           </p>
-
-          <div class='learnMore'>
-            <a href='https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher' target='_blank'>Learn more...</a>\
-          </div>
 
         </div>
 
@@ -170,7 +171,10 @@
               <input type='text' id='vigPasDec'/>
             </form>
 
-            <div id='buttonVigDec' class='button'>Enter</div>
+            <div id='buttonVigDec' class='button'>
+              Enter
+            </div>
+
           </div>
           
           <div id='vigenereResult'>
@@ -184,102 +188,24 @@
 
       <div class='app'>
 
-        <div id='haversineHatch' class='hatch'>
-          <h4>Haversine Distance Calculator</h4>
-          <p>
-            With this app you can calculate the distance between any two points on the globe using the Haversine Formula.
-            This should be incredibly useful if you are a Discovery Age explorer with Internet access.
-            <br/>Input is taken in degrees, minutes and seconds which are then converted to decimal degrees. Support for direct input of decimal degrees is coming soon.
-            <br/><a href='http://www.infoplease.com/ipa/A0001769.html' target='_blank'>Here</a> is a list of city co-ordinates to play around with.
-            <br/><br/>The degrees, minutes and seconds should be positive integers within the specified ranges. Any invalid or missing inputs will be set to 0.
-          </p>
-          <div class='learnMore'>
-            <a href='http://en.wikipedia.org/wiki/Haversine_formula' target='_blank'>Learn more...</a>
-          </div>
+        <div id='fibonacciHatch' class='hatch'>
+
+          <h4>Fibonacci Generator</h4>
+
+          <p>Here you can display the famous <a href='http://en.wikipedia.org/wiki/Fibonacci_number' target='_blank'>Fibonacci sequence</a> in all its glory.</p>
+
         </div>
 
-        <div id='haversineDrop' class='drop'>
-
-          <div id='leaflet'>
-            
-          </div>
-
-          <!-- <div>
-            <h4>Co-ordinate 1:</h4>
-
-            <h4>Longitude</h4>
-            <form>
-              Degrees&deg; (0-180)
-              <input type='number' id='hav1.1' class='inputHav'/><br/>
-              Minutes&#39; (0-60)
-              <input type='number' id='hav1.2' class='inputHav'/><br/>
-              Seconds&#34; (0-60)
-              <input type='number' id='hav1.3' class='inputHav'/><br/>
-              North or South?
-              <select id='havC1'>
-                <option value='N'>N</option>
-                <option value='S'>S</option>
-              </select>
-              <br/>
-            </form>
-
-            <h4>Latitude</h4>
-            <form>
-              Degrees&deg; (0-180)
-              <input type='number' id='hav2.1' class='inputHav'/><br/>
-              Minutes&#39; (0-60)
-              <input type='number' id='hav2.2' class='inputHav'/><br/>
-              Seconds&#34; (0-60)
-              <input type='number' id='hav2.3' class='inputHav'/><br/>
-              East or West?
-              <select id='havC2'>
-                <option value='E'>E</option>
-                <option value='W'>W</option>
-              </select>
-            </form>
-          </div>
+        <div id='fibonacciDrop' class='drop'>
 
           <div>
-            <h4>Co-ordinate 2:</h4>
-
-            <h4>Longitude</h4>
-            <form>
-              Degrees&deg; (0-180)
-              <input type='number' id='hav3.1' class='inputHav'/><br/>
-              Minutes&#39; (0-60)
-              <input type='number' id='hav3.2' class='inputHav'/><br/>
-              Seconds&#34; (0-60)
-              <input type='number' id='hav3.3' class='inputHav'/><br/>
-              North or South?
-              <select id='havC3'>
-                <option value='N'>N</option>
-                <option value='S'>S</option>
-              </select>
-            </form>
-
-            <h4>Latitude</h4>
-            <form>
-              Degrees&deg; (0-180)
-              <input type='number' id='hav4.1' class='inputHav'/><br/>
-              Minutes&#39; (0-60)
-              <input type='number' id='hav4.2' class='inputHav'/><br/>
-              Seconds&#34; (0-60)
-              <input type='number' id='hav4.3' class='inputHav'/><br/>
-              East or West?
-              <select id='havC4'>
-                <option value='E'>E</option>
-                <option value='W'>W</option>
-              </select>
-            </form>
-          </div> -->
-
-          <div>
-            <div id='buttonHav'>Calculate</div>
+            <h4>Enter your desired sequence length:</h4>
+            <input type='number' min=1 id='fiboInput'/>
+            <div id='buttonFib' class='button'>Enter</div>
           </div>
 
-          <div id='haversineResult'>
-            <p id='outHav1'></p>
-            <p id='outHav2'></p>
+          <div id='fibonacciResult'>
+            <p id='outFib'></p>
           </div>
 
         </div>

@@ -16,6 +16,8 @@ var redis = function() {
 
   client.auth(redisURL.auth.split(":")[1]);
 
+  console.log(client.address);
+
   return {
 
     checkDatabaseForUser: function (analytics) {

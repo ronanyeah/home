@@ -33,29 +33,29 @@ a:hover {
   width: 100%;
 }
 
-#navLeft {
+#nav div:first-child {
   float: left;
   padding-left: 25px;
   padding-top: 14px;
   width: 45%;
 }
 
-#name {
+#nav div:first-child > h1 {
   font-size: 20px;
 }
 
-#navRight {
+#nav div:last-child {
   float: right;
   padding-right: 25px;
   padding-top: 14px;
   width: 45%;
 }
 
-#navRight ul {
+#nav div:last-child ul {
   float: right;
 }
 
-#navRight a {
+#nav div:last-child a {
   color: #5a5a5a;
   font-size: 12px;
   font-weight: bold;
@@ -64,12 +64,12 @@ a:hover {
   text-transform: uppercase;
 }
 
-#navRight a:hover {
+#nav div:last-child a:hover {
   text-decoration: underline;
 }
 
 
-#navRight li {
+#nav div:last-child li {
   display: inline;
 }
 
@@ -103,7 +103,7 @@ a:hover {
   color: white;
 }
 
-#linkHeader {
+#jumbotron > p {
   color: white;
   font-size: 40px;
   font-weight: bold;
@@ -117,8 +117,8 @@ a:hover {
 /*HEADER*/
 
 #header {
-  background-color: #CCCCCC;
-  margin-top: 10px;
+  background-color: #b7b7b7;
+  margin-top: 20px;
   margin-bottom: 10px;
   padding: 20px 100px 20px 100px;
   text-align: center;
@@ -126,6 +126,33 @@ a:hover {
 
 #header a {
   color: white;
+}
+
+/*HAVERSINE*/
+
+#haversineHatch {
+  background-image: url('/static/img/haver.jpg');
+  background-position: 50% 50%;
+}
+
+#haversineDrop > div {
+  padding: 10px;
+}
+
+#leaflet {
+  height: 200px;
+  margin: 0 auto;
+  width: 90%;
+}
+
+#buttonHav {
+  background-color: #CCCCCC;
+  border-radius: 5px;
+  cursor: pointer;
+  display: inline-block;
+  height: 20px;  text-align: center;
+  margin-top: 2px;
+  margin-bottom: 2px;
 }
 
 /*BASE64*/
@@ -161,26 +188,6 @@ a:hover {
   word-wrap: break-word;
 }
 
-/*FIBONACCI*/
-
-#fibonacciHatch {
-  background-image: url('/static/img/fibo.jpg');
-  background-position: 50% 70%;
-}
-
-#fibonacciDrop > div {
-  padding: 10px;
-}
-
-#fibonacciDrop div:first-child {
-  margin: 0 auto;
-  width: 90%;
-}
-
-#fiboInput {
-  width: 50px;
-}
-
 /*VIGENERE*/
 
 #vigenereHatch {
@@ -201,49 +208,24 @@ a:hover {
   display: inline-block;
 }
 
-/*#vigenereResult {
-  padding: 10px;
-}*/
+/*FIBONACCI*/
 
-/*HAVERSINE*/
-
-#haversineHatch {
-  background-image: url('/static/img/haver.jpg');
-  background-position: 50% 50%;
+#fibonacciHatch {
+  background-image: url('/static/img/fibo.jpg');
+  background-position: 50% 70%;
 }
 
-#haversineHatch > p > a {
-  color: white;
-}
-
-#haversineDrop > div {
+#fibonacciDrop > div {
   padding: 10px;
 }
 
-#leaflet {
-  height: 200px;
+#fibonacciDrop div:first-child {
   margin: 0 auto;
   width: 90%;
 }
 
-/*#haversineDrop div:first-child {
-  width: 45%;
-  display: inline-block;
-}*/
-
-/*#haversineDrop div:nth-child(2) {
-  width: 45%;
-  display: inline-block;
-}*/
-
-#buttonHav {
-  background-color: #CCCCCC;
-  border-radius: 5px;
-  cursor: pointer;
-  display: inline-block;
-  height: 20px;  text-align: center;
-  margin-top: 2px;
-  margin-bottom: 2px;
+#fiboInput {
+  width: 50px;
 }
 
 /*FOOTER*/
@@ -323,20 +305,17 @@ a:hover {
   padding: 10px 10px 10px 10px;
 }
 
+.hatch > p > a {
+  text-decoration: underline;
+}
+
+.hatch > p > a:hover {
+  color: white;
+  text-decoration: none;
+}
+
 .inputHav {
   width: 50px;
-}
-
-.learnMore {
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-
-.learnMore > a {
-  border-radius: 8px;
-  background-color: lightblue;
-  border: 2px solid black;
-  padding: 4px;
 }
 
 .menu {
