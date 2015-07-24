@@ -75,7 +75,7 @@ var redis = function() {
 
     pullAnalytics: function (db, callback) {
       var fileLoad = [],
-          dbKeys =[];
+          dbKeys = [];
 
       client.select(db, function() {
         scan(0);
