@@ -1,22 +1,17 @@
 var redis = function() {
   "use strict";
 
-  function sanitiseText (text) {
+  var redisModule = require('redis'),
+      url = require('url'),
+      redisURL = url.parse(process.env.REDIS_URL),
+      client;
+
+  function sanitiseText(text) {
     //replace non AZaz09 characters with #
   }
 
-  var client;
-
-  var redisModule = require('redis');
-  var url = require('url');
-
-  var redisURL = url.parse(process.env.REDIS_URL);
-
   client = redisModule.createClient(redisURL.port, redisURL.hostname);
-
   client.auth(redisURL.auth.split(":")[1]);
-
-  console.log(client.address);
 
   return {
 
@@ -79,10 +74,14 @@ var redis = function() {
     },
 
     pullAnalytics: function (db, callback) {
-      var fileLoad = [];
-      var dbKeys =[];
+      var fileLoad = [],
+          dbKeys =[];
 
-      var redisCallback = function(err, data) {
+      client.select(db, function() {
+        scan(0);
+      });
+
+      function redisCallback(err, data) {
         if(err) {
           console.log(err);
         } else {
@@ -98,10 +97,10 @@ var redis = function() {
             });
           }
         }
-      };
+      }
 
-      var scan = function(x) {
-        client.scan(x, function(err, data) {
+      function scan(databaseNumber) {
+        client.scan(databaseNumber, function(err, data) {
           if(err) {
             console.log(err);
           } else {
@@ -115,11 +114,8 @@ var redis = function() {
             }
           }
         });
-      };
+      }
 
-      client.select(db, function() {
-        scan(0);
-      });
     }
 
   };
