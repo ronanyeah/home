@@ -40,7 +40,7 @@ module.exports = {
       $.ajax({
         type: "POST",
         url: '/newUser',
-        data: {cookie: cookie},
+        data: {cookie: cookie}
       });
 
     } else {

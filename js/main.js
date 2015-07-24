@@ -1,9 +1,16 @@
-var $ = require('jquery'),
-    base64 = require('./appScriptFiles/base64.js'),
+var base64 = require('./appScriptFiles/base64.js'),
     fibonacci = require('./appScriptFiles/fibonacci.js'),
     vigenere = require('./appScriptFiles/vigenere.js'),
     haversine = require('./appScriptFiles/haversine.js'),
-    cookieScripts = require('./cookieScripts.js');
+    cookieScripts = require('./cookieScripts.js'),
+    $ = require('jquery');
+
+window.onload = function() {
+
+  hideDropdownDivs();
+  cookieScripts.cookieCheck();
+
+};
 
 function hideDropdownDivs() {
   $('#base64Drop').hide();
@@ -16,50 +23,43 @@ function hideDropdownDivs() {
   $('#haversineResult').hide();
 }
 
-window.onload = function () {
-
-  hideDropdownDivs();
-  cookieScripts.cookieCheck();
-  
-};
-
-$('#jumbotron div:first-child').click(function(){
+$('#jumbotron div:first-child').click(function() {
   window.location = "/analytics";
 });
 
 //enter key support
-$('#userInputEnc').keypress(function(e){
-  if(e.keyCode === 13) {
+$('#userInputEnc').keypress(function(e) {
+  if (e.keyCode === 13) {
     $('#button1').click();
   }
 });
 
-$('#userInputDec').keypress(function(e){
-  if(e.keyCode === 13) {
+$('#userInputDec').keypress(function(e) {
+  if (e.keyCode === 13) {
     $('#button2').click();
   }
 });
 
-$('#fiboInput').keypress(function(e){
-  if(e.keyCode === 13) {
+$('#fiboInput').keypress(function(e) {
+  if (e.keyCode === 13) {
     $('#buttonFib').click();
   }
 });
 
-$('#vigMesEnc, #vigPasEnc').keypress(function(e){
-  if(e.keyCode === 13) {
+$('#vigMesEnc, #vigPasEnc').keypress(function(e) {
+  if (e.keyCode === 13) {
     $('#buttonVigEnc').click();
   }
 });
 
-$('#vigMesDec, #vigPasDec').keypress(function(e){
-  if(e.keyCode === 13) {
+$('#vigMesDec, #vigPasDec').keypress(function(e) {
+  if (e.keyCode === 13) {
     $('#buttonVigDec').click();
   }
 });
 
-$('.inputHav').keypress(function(e){
-  if(e.keyCode === 13) {
+$('.inputHav').keypress(function(e) {
+  if (e.keyCode === 13) {
     $('#buttonHav').click();
   }
 });
@@ -84,7 +84,9 @@ $('#vigenereHatch').click(function() {
   $('#vigenereDrop').fadeToggle('slow');
 });
 $('#haversineHatch').click(function() {
-  $('#haversineDrop').fadeToggle('slow');
+  $('#haversineDrop').fadeToggle('slow', function() {
+    haversine.makeMap();
+  });
 });
 
 //result divs
@@ -120,25 +122,5 @@ $('#buttonVigDec').click(function() {
     vigenere.decode(
       document.getElementById('vigMesDec').value,
       document.getElementById('vigPasDec').value
-    ) + '</strong>').fadeIn('slow');
-});
-
-$('#buttonHav').click(function() {
-  $('#haversineResult').fadeIn('slow');
-  $('#outHav1').html('Your points are apart by:');
-  $('#outHav2').hide().html('<strong>' + 
-    haversine.haversine(
-      [
-        document.getElementById('hav1.1').value, document.getElementById('hav1.2').value,
-        document.getElementById('hav1.3').value, document.getElementById('hav2.1').value,
-        document.getElementById('hav2.2').value, document.getElementById('hav2.3').value,
-        document.getElementById('hav3.1').value, document.getElementById('hav3.2').value,
-        document.getElementById('hav3.3').value, document.getElementById('hav4.1').value,
-        document.getElementById('hav4.2').value, document.getElementById('hav4.3').value
-      ],
-      [
-        document.getElementById('havC1').value, document.getElementById('havC2').value,
-        document.getElementById('havC3').value, document.getElementById('havC4').value
-      ]
     ) + '</strong>').fadeIn('slow');
 });
