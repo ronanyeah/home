@@ -13,121 +13,77 @@ var redis = function() {
   client = redisModule.createClient(redisURL.port, redisURL.hostname);
   client.auth(redisURL.auth.split(":")[1]);
 
+  client.on("error", function(err) {
+    console.log("Redis Error: " + err);
+  });
+
   return {
 
-    checkDatabaseForUser: function (analytics) {
+    checkDatabaseForUser: function(analytics) {
       client.select(0, function() {
-        client.exists(analytics.id, function (err, data) {
-          if (err) {
-            console.log(err);
+        client.exists(analytics.id, function(err, exists) {
+          if(exists) {
+            increaseViews(analytics);
           } else {
-            if(data) {
-              client.quit(function(err, data) {
-                if (err) {
-                  console.log(err);
-                } else {
-                  redis().increaseViews(analytics);
-                }
-              });
-            } else {
-              client.quit(function(err, data) {
-                if (err) {
-                  console.log(err);
-                } else {
-                  redis().addNewUser(analytics);
-                }
-              });
-            }
+            addNewUser(analytics);
           }
         });
       });
+
+      function increaseViews(analytics) {
+        client.hget(analytics.id, "visits", function(err, numberOfVisits) {
+          client.hmset(analytics.id, "visits", Number(numberOfVisits) + 1, "ip", analytics.ip, "lastVisited", analytics.lastVisited, function(err, data) {
+            client.quit();
+          });
+        });
+      }
+
+      function addNewUser(analytics) {
+        client.hmset(analytics.id, analytics, function(err, data) {
+          client.quit();
+        });
+      }
     },
 
-    increaseViews: function (analytics) {
-      client.select(0, function() {
-        client.hget(analytics.id, "visits", function (err, data) {
-          if (err) {
-            console.log(err);
-          } else {
-            client.hmset(analytics.id, "visits", Number(data) + 1, "ip", analytics.ip, "lastVisited", analytics.lastVisited, function(err, data) {
-              if (err) {
-                console.log(err);
-              } else {
-                client.quit(function(err, data) {
-                  if (err) {
-                    console.log(err);
-                  } else {
-                    // console.log('client quit:', data);
-                  }
-                });
-              }
+    pullAnalytics: function(returnAnalytics) {
+      var analyticsArray = [],
+          databaseKeys = [],
+          counter;
+
+      scanRedis(0);
+
+      function scanRedis(cursorNumber) {
+        client.scan(cursorNumber, function(err, scanResults) {
+          databaseKeys = databaseKeys.concat(scanResults[1]);
+
+          if(scanResults[0] === "0") {
+            counter = databaseKeys.length;
+
+            databaseKeys.forEach(function(key) {
+              client.hgetall(key, addAnalyticsToArray);
             });
+          } else {
+            scanRedis(scanResults[0]);
           }
         });
-      });
-    },
+      }
 
-    addNewUser: function (analytics) {
-      client.select(0, function() {
-        client.hmset(analytics.id, analytics, function (err, data) {
-          if (err) {
-            console.log(err);
-          } else {
-            client.quit(function(err, data) {
-              if (err) {
-                console.log(err);
-              } else {
-                // console.log('client quit:', data);
-              }
-            });
-          }
-        });
-      });
-    },
+      function addAnalyticsToArray(err, analyticsObject) {
+        analyticsArray.push(analyticsObject);
 
-    pullAnalytics: function (databaseNumber, callback) {
-      var fileLoad = [],
-          dbKeys = [];
+        if(analyticsArray.length === counter) {
+          client.quit();
 
-      client.select(databaseNumber, function() {
-        scan(databaseNumber);
-      });
-
-      function redisCallback(err, data) {
-        if(err) {
-          console.log(err);
-        } else {
-          fileLoad.push(data);
-          if(fileLoad.length === dbKeys.length) {
-            client.quit(function(err, data) {
-              if (err) {
-                console.log(err);
-              } else {
-                callback(fileLoad);
-                // console.log('client quit:', data);
-              }
-            });
-          }
+          returnAnalytics(analyticsArray);
         }
       }
 
-      function scan(databaseNumber) {
-        client.scan(databaseNumber, function(err, data) {
-          if(err) {
-            console.log(err);
-          } else {
-            dbKeys = dbKeys.concat(data[1]);
-            if(data[0] === "0") {
-              for(var i = 0; i < dbKeys.length; i++) {
-                client.hgetall(dbKeys[i], redisCallback);
-              }
-            } else {
-              scan(data[0]);
-            }
-          }
-        });
-      }
+    },
 
+    setLocation: function(id, coordinate) {
+      client.hset(id, "location", coordinate, function(err, data) {
+        client.quit();
+      });
     }
 
   };

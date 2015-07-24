@@ -57,7 +57,7 @@ a:hover {
 
 #nav div:last-child a {
   color: #5a5a5a;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: bold;
   font-family: Arial, Helvetica, sans-serif;
   text-decoration: none;
@@ -143,16 +143,6 @@ a:hover {
   height: 200px;
   margin: 0 auto;
   width: 90%;
-}
-
-#buttonHav {
-  background-color: #CCCCCC;
-  border-radius: 5px;
-  cursor: pointer;
-  display: inline-block;
-  height: 20px;  text-align: center;
-  margin-top: 2px;
-  margin-bottom: 2px;
 }
 
 /*BASE64*/
@@ -314,10 +304,6 @@ a:hover {
   text-decoration: none;
 }
 
-.inputHav {
-  width: 50px;
-}
-
 .menu {
   background-color: black;
   color: white;
@@ -327,4 +313,9 @@ a:hover {
 .plink {
   background-color: #efefef;
   border: 10px solid lightblue;
+}
+
+@media (max-width: 700px) {
+
+
 }

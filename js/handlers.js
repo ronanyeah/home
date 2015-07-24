@@ -4,8 +4,9 @@ function registerVisit(id, request) {
   var analytics = {
     id: id,
     ip: request.headers['x-forwarded-for']  || request.info.remoteAddress,
-    visits: 1,
-    lastVisited: new Date().getTime()
+    lastVisited: new Date().getTime(),
+    location: 0,
+    visits: 1
   };
   redis().checkDatabaseForUser(analytics);
 }
@@ -27,8 +28,8 @@ module.exports = {
   },
 
   pullAnalytics: function(request, reply) {
-    redis().pullAnalytics(0, function(data) {
-      reply(JSON.stringify(data));
+    redis().pullAnalytics(function(analyticsArray) {
+      reply(JSON.stringify(analyticsArray));
     });
   },
 

@@ -14,6 +14,10 @@ module.exports = {
       out.push(control[0]);
       control.push(control[0] + control[1]);
       control = control.slice(1);
+
+      if (control[1] === Infinity) {
+        return out.join(", ") + ', Infinity...';
+      }
     }
 
     return out.join(", ");
