@@ -2,7 +2,7 @@ $ = require('jquery');
 
 window.app = angular.module('myApp', []);
 
-var sortClaps = function (a, b) {
+var sortObjects = function (a, b) {
   var aTime = Number(a.lastVisited);
   var bTime = Number(b.lastVisited);
   if (aTime < bTime) {
@@ -21,7 +21,7 @@ $('#homeButton').click(function(){
 app.controller('dbCtrl', function ($scope, $http) {
   $http.get('/pullAnalytics').success(function(data) {
     var arr = [];
-    data = data.sort(sortClaps);
+    data = data.sort(sortObjects);
     data.forEach(function (x) {
       x.lastVisited = new Date(Number(x.lastVisited)).toLocaleString();
       if(document.cookie.split("=")[1] === x.id) {
