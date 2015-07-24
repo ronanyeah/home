@@ -1,14 +1,23 @@
 var redis = require('./redis.js');
 
 function registerVisit(id, request) {
+  if (maliciousIdCheck(id)) {
+    return;
+  }
+
   var analytics = {
     id: id,
-    ip: request.headers['x-forwarded-for']  || request.info.remoteAddress,
+    ip: request.headers['x-forwarded-for'] || request.info.remoteAddress,
     lastVisited: new Date().getTime(),
     location: 0,
     visits: 1
   };
+
   redis().checkDatabaseForUser(analytics);
+
+  function maliciousIdCheck(id) {
+    return id.length !== 10 || id.match(/[^A-Za-z0-9]/);
+  }
 }
 
 module.exports = {
@@ -35,7 +44,18 @@ module.exports = {
 
   newUser: function(request, reply) {
     registerVisit(request.payload.cookie, request);
-    reply(true);
+    reply();
+  },
+
+  setLocation: function(request, reply) {
+    var id;
+    if(request.headers.cookie) {
+      if(request.headers.cookie.indexOf('userId=') > -1) {
+        id = request.headers.cookie.split('userId=')[1].substr(0, 10);
+      }
+    }
+    redis().setLocation(id, request.payload.coordinate);
+    reply();
   },
 
   addAnalytics: function(request, reply) {

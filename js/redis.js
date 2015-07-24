@@ -6,10 +6,6 @@ var redis = function() {
       redisURL = url.parse(process.env.REDIS_URL),
       client;
 
-  function sanitiseText(text) {
-    //replace non AZaz09 characters with #
-  }
-
   client = redisModule.createClient(redisURL.port, redisURL.hostname);
   client.auth(redisURL.auth.split(":")[1]);
 

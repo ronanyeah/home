@@ -2,7 +2,7 @@ var $ = require('jquery');
 
 module.exports = {
 
-  userCookie: function () {
+  createUserCookie: function() {
     var userId = '';
     var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
@@ -10,31 +10,38 @@ module.exports = {
       userId += chars.charAt(Math.floor(Math.random() * chars.length));
     }
 
-    return userId;
+    document.cookie = 'userId=' + userId + ';expires=' + setExpiryDate();
+
+    $.ajax({
+      type: 'POST',
+      url: '/newUser',
+      data: {cookie: userId}
+    });
+
+    function setExpiryDate() {
+      var expires = new Date().setFullYear(new Date().getFullYear() + 1);
+
+      return new Date(expires).toGMTString();
+    }
   },
 
-  expireCookie: function () {
-    var expires = new Date().setFullYear(new Date().getFullYear() + 1);
-
-    return new Date(expires).toGMTString();
-  },
-
-  cookieCheck: function () {
-
-    if(!document.cookie) {
-      var cookie = this.userCookie();
-      document.cookie = 'userId=' + cookie + ';expires=' + this.expireCookie();
-
-      $.ajax({
-        type: "POST",
-        url: '/newUser',
-        data: {cookie: cookie}
-      });
-
+  cookieCheck: function() {
+    if (document.cookie) {
+      if (document.cookie.indexOf('userId=') === -1) {
+        this.createUserCookie();
+      } else if (maliciousCookie()) {
+        this.createUserCookie();
+      } else {
+        console.log('welcome back');
+      }
     } else {
-      console.log('welcome back');
+      this.createUserCookie();
     }
 
+    function maliciousCookie() {
+      var userId = document.cookie.split('userId=')[1].substr(0, 10);
+      return userId.match(/[^A-Za-z0-9]/);
+    }
   }
 
 };

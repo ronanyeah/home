@@ -14,9 +14,9 @@ var haversineFunctions = {
     if (map) {
       map.remove();
     }
-
+    
     map = leaflet.map('leaflet').fitWorld();
-
+    
     leaflet.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
       attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
       maxZoom: 18,
@@ -43,6 +43,12 @@ var haversineFunctions = {
         .setLatLng(currentPosition)
         .setContent("You are here!")
         .openOn(map);
+
+      $.ajax({
+        type: "POST",
+        url: '/sendLocation',
+        data: {coordinate: JSON.stringify(currentPosition)}
+      });
     });
   },
 
@@ -107,7 +113,7 @@ var haversineFunctions = {
         a = ( Math.sin(dlatitude / 2) * Math.sin(dlatitude / 2) ) +
           ( Math.cos(rlatitude1) * Math.cos(rlatitude2) * Math.sin(dlongitude / 2) * Math.sin(dlongitude / 2) );
 
-    return Math.floor(earth * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)))) + "km";
+    return Math.round(earth * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)))) + "km";
   }
 
 };

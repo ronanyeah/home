@@ -27,6 +27,12 @@ module.exports = [
 
   {
     method: 'POST',
+    path: '/sendLocation',
+    handler: handlers.setLocation
+  },
+
+  {
+    method: 'POST',
     path: '/addAnalytics',
     handler: handlers.addAnalytics
   },
