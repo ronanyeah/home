@@ -22,9 +22,21 @@ var redis = function() {
             console.log(err);
           } else {
             if(data) {
-              redis().increaseViews(analytics);
+              client.quit(function(err, data) {
+                if (err) {
+                  console.log(err);
+                } else {
+                  redis().increaseViews(analytics);
+                }
+              });
             } else {
-              redis().addNewUser(analytics);
+              client.quit(function(err, data) {
+                if (err) {
+                  console.log(err);
+                } else {
+                  redis().addNewUser(analytics);
+                }
+              });
             }
           }
         });
@@ -73,12 +85,12 @@ var redis = function() {
       });
     },
 
-    pullAnalytics: function (db, callback) {
+    pullAnalytics: function (databaseNumber, callback) {
       var fileLoad = [],
           dbKeys = [];
 
-      client.select(db, function() {
-        scan(0);
+      client.select(databaseNumber, function() {
+        scan(databaseNumber);
       });
 
       function redisCallback(err, data) {

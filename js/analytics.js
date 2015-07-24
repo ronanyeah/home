@@ -19,10 +19,10 @@ $('#homeButton').click(function(){
 });
 
 app.controller('dbCtrl', function ($scope, $http) {
-  $http.get('/pullAnalytics').success(function(data) {
+  $http.get('/pullAnalytics').success(function(analyticsObjects) {
     var arr = [];
-    data = data.sort(sortObjects);
-    data.forEach(function (x) {
+    analyticsObjects = analyticsObjects.sort(sortObjects);
+    analyticsObjects.forEach(function(x) {
       x.lastVisited = new Date(Number(x.lastVisited)).toLocaleString();
       if(document.cookie.split("=")[1] === x.id) {
         $scope.you = x;
