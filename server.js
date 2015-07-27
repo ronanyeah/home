@@ -1,35 +1,35 @@
-var Hapi = require("hapi"),
-    server = new Hapi.Server();
+var Hapi = require('hapi'),
+    server = new Hapi.Server(),
+    goodAnalytics = require('good'),
+    analyticsOptions = {
+      opsInterval: 1000,
+      reporters:
+      [
+        {
+          reporter: require('good-http'),
+          events: { request: '*' },
+          config: {
+            endpoint : 'http://localhost:8000/addAnalytics',
+            threshold: 0
+          }
+        }
+      ]
+    };
 
 server.connection({
   port: process.env.PORT
 });
 
-server.route(require("./js/routes.js"));
-
-var analyticsOptions = {
-  opsInterval: 1000,
-  reporters:
-  [
-    {
-      reporter: require('good-http'),
-      events: { request: '*' },
-      config: {
-        endpoint : 'http://localhost:8000/addAnalytics',
-        threshold: 0
-      }
-    }
-  ]
-};
+server.route(require('./js/backend/routes.js'));
  
 server.register(
   {
-    register: require('good'),
+    register: goodAnalytics,
     options: analyticsOptions
   },
-  function () {
-    server.start(function () {
-      console.log("Server running at: " + server.info.uri + "!");
+  function() {
+    server.start(function() {
+      console.log('Server running at: ' + server.info.uri + '!');
     });
   }
 );

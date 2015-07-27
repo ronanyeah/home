@@ -20,11 +20,11 @@ $('#homeButton').click(function(){
 
 app.controller('dbCtrl', function ($scope, $http) {
   $http.get('/pullAnalytics').success(function(analyticsObjects) {
-    var arr = [];
+    var pastVistors = [];
     analyticsObjects = analyticsObjects.sort(sortObjects);
     analyticsObjects.forEach(function(x) {
       x.lastVisited = new Date(Number(x.lastVisited)).toLocaleString();
-      if(document.cookie.split("=")[1] === x.id) {
+      if(document.cookie) {
         $scope.you = x;
       } else {
         arr.push(x);

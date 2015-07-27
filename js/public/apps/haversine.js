@@ -95,7 +95,8 @@ var haversineFunctions = {
   },
 
   haversineFormula: function(cooordinateArray) {
-    var earth = 6371;
+    var earth = 6371,
+        output;
 
     function toRads (cooordinate) { //convert to Radians
       return cooordinate * Math.PI / 180;
@@ -113,7 +114,8 @@ var haversineFunctions = {
         a = ( Math.sin(dlatitude / 2) * Math.sin(dlatitude / 2) ) +
           ( Math.cos(rlatitude1) * Math.cos(rlatitude2) * Math.sin(dlongitude / 2) * Math.sin(dlongitude / 2) );
 
-    return Math.round(earth * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)))) + "km";
+    output = earth * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
+    return Math.round(output * 100) / 100 + "km";
   }
 
 };

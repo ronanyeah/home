@@ -1,5 +1,5 @@
 var redis = function() {
-  "use strict";
+  'use strict';
 
   var redisModule = require('redis'),
       url = require('url'),
@@ -7,10 +7,10 @@ var redis = function() {
       client;
 
   client = redisModule.createClient(redisURL.port, redisURL.hostname);
-  client.auth(redisURL.auth.split(":")[1]);
+  client.auth(redisURL.auth.split(':')[1]);
 
-  client.on("error", function(err) {
-    console.log("Redis Error: " + err);
+  client.on('error', function(err) {
+    console.log('Redis Error: ' + err);
   });
 
   return {
@@ -27,8 +27,8 @@ var redis = function() {
       });
 
       function increaseViews(analytics) {
-        client.hget(analytics.id, "visits", function(err, numberOfVisits) {
-          client.hmset(analytics.id, "visits", Number(numberOfVisits) + 1, "ip", analytics.ip, "lastVisited", analytics.lastVisited, function(err, data) {
+        client.hget(analytics.id, 'visits', function(err, numberOfVisits) {
+          client.hmset(analytics.id, 'visits', Number(numberOfVisits) + 1, 'ip', analytics.ip, 'lastVisited', analytics.lastVisited, function(err, data) {
             client.quit();
           });
         });
@@ -46,13 +46,15 @@ var redis = function() {
           databaseKeys = [],
           counter;
 
-      scanRedis(0);
+      client.select(0, function() {
+        scanRedis(0);
+      });
 
       function scanRedis(cursorNumber) {
         client.scan(cursorNumber, function(err, scanResults) {
           databaseKeys = databaseKeys.concat(scanResults[1]);
 
-          if(scanResults[0] === "0") {
+          if(scanResults[0] === '0') {
             counter = databaseKeys.length;
 
             databaseKeys.forEach(function(key) {
@@ -77,7 +79,7 @@ var redis = function() {
     },
 
     setLocation: function(id, coordinate) {
-      client.hset(id, "location", coordinate, function(err, data) {
+      client.hset(id, 'location', coordinate, function(err, data) {
         client.quit();
       });
     }
