@@ -1,7 +1,7 @@
-var base64 = require('./appScriptFiles/base64.js'),
-    fibonacci = require('./appScriptFiles/fibonacci.js'),
-    vigenere = require('./appScriptFiles/vigenere.js'),
-    haversine = require('./appScriptFiles/haversine.js'),
+var base64 = require('./apps/base64.js'),
+    fibonacci = require('./apps/fibonacci.js'),
+    vigenere = require('./apps/vigenere.js'),
+    haversine = require('./apps/haversine.js'),
     cookieScripts = require('./cookieScripts.js'),
     $ = require('jquery');
 

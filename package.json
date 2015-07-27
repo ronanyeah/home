@@ -7,7 +7,7 @@
     "test": "lab -t 80 -r lcov > lcov.info",
     "go": "foreman run nodemon server.js",
     "check": "npm run jshint && npm run coverage",
-    "bro": "browserify ./js/main.js -o ./bundle/mainBundle.js && browserify ./js/analytics.js -o ./bundle/analyticsBundle.js",
+    "bro": "browserify ./js/public/main.js -o ./bundle/mainBundle.js && browserify ./js/public/analytics.js -o ./bundle/analyticsBundle.js",
     "coverage": "lab -t 80 -r console",
     "coverage-html": "lab -t 100 -r html > tests.html",
     "jshint": "jshint -c .jshintrc --exclude-path .jshintignore .",
