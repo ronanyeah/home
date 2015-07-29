@@ -27,9 +27,9 @@ app.controller('dbCtrl', function ($scope, $http) {
       if(document.cookie) {
         $scope.you = x;
       } else {
-        arr.push(x);
+        pastVistors.push(x);
       }
     });
-    $scope.users = arr;
+    $scope.users = pastVistors;
   });
 });
