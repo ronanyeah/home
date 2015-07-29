@@ -2,17 +2,26 @@ $ = require('jquery');
 
 window.app = angular.module('myApp', []);
 
-var sortObjects = function (a, b) {
+function sortObjects(a, b) {
   var aTime = Number(a.lastVisited);
   var bTime = Number(b.lastVisited);
   if (aTime < bTime) {
     return 1;
-  }
-  if (aTime > bTime) {
+  } else if (aTime > bTime) {
     return -1;
+  } else {
+    return 0;
   }
-  return 0;
-};
+}
+
+function getUserIdFromCookie() {
+  if (document.cookie) {
+    if (document.cookie.indexOf('userId') !== -1) {
+      return document.cookie.split('userId=')[1].substr(0, 10);
+    }
+  }
+  return null;
+}
 
 $('#homeButton').click(function(){
   window.location = "/";
@@ -24,7 +33,8 @@ app.controller('dbCtrl', function ($scope, $http) {
     analyticsObjects = analyticsObjects.sort(sortObjects);
     analyticsObjects.forEach(function(x) {
       x.lastVisited = new Date(Number(x.lastVisited)).toLocaleString();
-      if(document.cookie) {
+      var cookie = getUserIdFromCookie();
+      if (x.id === cookie) {
         $scope.you = x;
       } else {
         pastVistors.push(x);
