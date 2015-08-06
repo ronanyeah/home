@@ -10,7 +10,7 @@ var redis = function() {
   client.auth(redisURL.auth.split(':')[1]);
 
   client.on('error', function(err) {
-    console.log('Redis Error: ' + err);
+    console.log('(Redis Error)', err);
   });
 
   return {
