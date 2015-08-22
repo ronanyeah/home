@@ -5,9 +5,12 @@
   "main": "server.js",
   "scripts": {
     "test": "lab -t 80 -r lcov > lcov.info",
-    "go": "foreman run nodemon server.js",
+    "start": "nf run nodemon server.js",
     "check": "npm run jshint && npm run coverage",
     "bro": "browserify ./js/public/main.js -o ./bundle/mainBundle.js && browserify ./js/public/analytics.js -o ./bundle/analyticsBundle.js",
+    "watch:mainjs": "watchify ./js/public/main.js -o ./bundle/mainBundle.js",
+    "watch:analyticsjs": "watchify ./js/public/analytics.js -o ./bundle/analyticsBundle.js",
+    "watch": "npm run watch:analyticsjs & npm run watch:mainjs",
     "coverage": "lab -t 80 -r console",
     "coverage-html": "lab -t 100 -r html > tests.html",
     "jshint": "jshint -c .jshintrc --exclude-path .jshintignore .",
@@ -34,7 +37,8 @@
   },
   "homepage": "https://github.com/wallcrawler/home#readme",
   "dependencies": {
-    "browserify": "^10.2.4",
+    "angular": "^1.4.4",
+    "foreman": "^1.4.1",
     "good": "^6.2.0",
     "good-http": "^5.0.0",
     "handlebars": "^3.0.3",
@@ -44,11 +48,13 @@
     "redis": "^0.12.1"
   },
   "devDependencies": {
+    "browserify": "^10.2.4",
     "code": "^1.4.1",
     "codeclimate-test-reporter": "^0.1.0",
     "jshint": "^2.8.0",
     "lab": "^5.11.1",
     "pre-commit": "^1.0.10",
-    "shot": "^1.5.3"
+    "shot": "^1.5.3",
+    "watchify": "^3.3.1"
   }
 }

@@ -3,11 +3,11 @@ var redis = function() {
 
   var redisModule = require('redis'),
       url = require('url'),
-      redisURL = url.parse(process.env.REDIS_URL),
+      redisUrl = url.parse(process.env.REDIS_URL),
       client;
 
-  client = redisModule.createClient(redisURL.port, redisURL.hostname);
-  client.auth(redisURL.auth.split(':')[1]);
+  client = redisModule.createClient(redisUrl.port, redisUrl.hostname);
+  client.auth(redisUrl.auth);
 
   client.on('error', function(err) {
     console.log('(Redis Error)', err);
@@ -27,10 +27,8 @@ var redis = function() {
       });
 
       function increaseViews(analytics) {
-        client.hget(analytics.id, 'visits', function(err, numberOfVisits) {
-          client.hmset(analytics.id, 'visits', Number(numberOfVisits) + 1, 'ip', analytics.ip, 'lastVisited', analytics.lastVisited, function(err, data) {
-            client.quit();
-          });
+        client.hincrby(analytics.id, 'visits', 1, function(err, data) {
+          client.quit();
         });
       }
 
