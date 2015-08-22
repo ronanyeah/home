@@ -7,7 +7,7 @@
     "test": "lab -t 80 -r lcov > lcov.info",
     "start": "nf run nodemon server.js",
     "check": "npm run jshint && npm run coverage",
-    "build": "browserify ./js/public/main.js -o ./build/mainBundle.js && browserify ./js/public/analytics.js -o ./build/analyticsBundle.js",
+    "build": "browserify -t uglifyify ./js/public/main.js | uglifyjs -o ./build/mainBundle.js && browserify -t uglifyify ./js/public/analytics.js | uglifyjs -o ./build/analyticsBundle.js",
     "watch:mainjs": "watchify ./js/public/main.js -o ./build/mainBundle.js",
     "watch:analyticsjs": "watchify ./js/public/analytics.js -o ./build/analyticsBundle.js",
     "watch": "npm run watch:analyticsjs & npm run watch:mainjs",
@@ -38,6 +38,7 @@
   "homepage": "https://github.com/wallcrawler/home#readme",
   "dependencies": {
     "angular": "^1.4.4",
+    "browserify": "^10.2.4",
     "foreman": "^1.4.1",
     "good": "^6.2.0",
     "good-http": "^5.0.0",
@@ -46,7 +47,8 @@
     "jquery": "^2.1.4",
     "leaflet": "^0.7.3",
     "redis": "^0.12.1",
-    "browserify": "^10.2.4"
+    "uglifyify": "^3.0.1",
+    "uglifyjs": "^2.4.10"
   },
   "devDependencies": {
     "code": "^1.4.1",
