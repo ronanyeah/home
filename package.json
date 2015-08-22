@@ -45,10 +45,10 @@
     "hapi": "^8.6.1",
     "jquery": "^2.1.4",
     "leaflet": "^0.7.3",
-    "redis": "^0.12.1"
+    "redis": "^0.12.1",
+    "browserify": "^10.2.4"
   },
   "devDependencies": {
-    "browserify": "^10.2.4",
     "code": "^1.4.1",
     "codeclimate-test-reporter": "^0.1.0",
     "jshint": "^2.8.0",
