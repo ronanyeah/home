@@ -7,7 +7,7 @@
     "test": "lab -t 80 -r lcov > lcov.info",
     "start": "nf run nodemon server.js",
     "check": "npm run jshint && npm run coverage",
-    "bro": "browserify ./js/public/main.js -o ./bundle/mainBundle.js && browserify ./js/public/analytics.js -o ./bundle/analyticsBundle.js",
+    "build": "browserify ./js/public/main.js -o ./bundle/mainBundle.js && browserify ./js/public/analytics.js -o ./bundle/analyticsBundle.js",
     "watch:mainjs": "watchify ./js/public/main.js -o ./bundle/mainBundle.js",
     "watch:analyticsjs": "watchify ./js/public/analytics.js -o ./bundle/analyticsBundle.js",
     "watch": "npm run watch:analyticsjs & npm run watch:mainjs",
