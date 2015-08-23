@@ -6,7 +6,7 @@ var leaflet = require('leaflet'),
     mapLine,
     map;
 
-leaflet.Icon.Default.imagePath = '/static/img/leaflet_images';
+leaflet.Icon.Default.imagePath = '/static/images/leaflet_images';
 
 var haversineFunctions = {
 
