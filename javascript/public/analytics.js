@@ -1,8 +1,6 @@
 var angular = require('angular'),
     $ = require('jquery');  
 
-window.app = angular.module('myApp', []);
-
 function sortObjects(a, b) {
   var aTime = Number(a.lastVisited);
   var bTime = Number(b.lastVisited);
@@ -27,6 +25,8 @@ function getUserIdFromCookie() {
 $('#homeButton').click(function() {
   window.location = "/";
 });
+
+var app = angular.module('analyticsApp', []);
 
 app.controller('dbCtrl', function($scope, $http) {
   $http.get('/pullAnalytics').success(function(analyticsObjects) {
