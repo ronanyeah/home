@@ -1,8 +1,8 @@
 .DS_Store
 .env
-build/*.js
 lcov.info
 node_modules
 npm-debug.log
 temp
 tests.html
+home.zip

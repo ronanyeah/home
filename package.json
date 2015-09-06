@@ -4,14 +4,14 @@
   "description": "ronan mccabe",
   "main": "server.js",
   "scripts": {
+    "prod": "node server.js",
     "test": "lab -t 80 -r lcov > lcov.info",
     "start": "nf run nodemon server.js",
     "check": "npm run jshint && npm run coverage",
+    "watch": "npm run watch:analyticsjs & npm run watch:mainjs",
     "build": "browserify ./javascript/public/main.js | uglifyjs -o ./build/mainBundle.js && browserify ./javascript/public/analytics.js | uglifyjs -o ./build/analyticsBundle.js",
-    "buildx": "browserify -t uglifyify ./javascript/public/main.js | uglifyjs -o ./build/mainBundle.js && browserify -t uglifyify ./javascript/public/analytics.js | uglifyjs -o ./build/analyticsBundle.js",
     "watch:mainjs": "watchify ./javascript/public/main.js -o ./build/mainBundle.js",
     "watch:analyticsjs": "watchify ./javascript/public/analytics.js -o ./build/analyticsBundle.js",
-    "watch": "npm run watch:analyticsjs & npm run watch:mainjs",
     "coverage": "lab -t 80 -r console",
     "coverage-html": "lab -t 100 -r html > tests.html",
     "jshint": "jshint -c .jshintrc --exclude-path .jshintignore .",
@@ -48,7 +48,6 @@
     "jquery": "^2.1.4",
     "leaflet": "^0.7.3",
     "redis": "^0.12.1",
-    "uglifyify": "^3.0.1",
     "uglifyjs": "^2.4.10"
   },
   "devDependencies": {

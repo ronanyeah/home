@@ -1,6 +1,6 @@
-var Hapi = require('hapi'),
-    server = new Hapi.Server(),
-    goodAnalytics = require('good'),
+var Hapi             = require('hapi'),
+    server           = new Hapi.Server(),
+    goodAnalytics    = require('good'),
     analyticsOptions = {
       opsInterval: 1000,
       reporters:
