@@ -46,13 +46,7 @@
     "hapi": "^8.6.1",
     "jquery": "^2.1.4",
     "leaflet": "^0.7.3",
-    "redis": "^0.12.1",
-<<<<<<< HEAD
-    "uglifyjs": "^2.4.10",
-    "watchify": "^3.4.0"
-=======
-    "uglifyjs": "^2.4.10"
->>>>>>> 9f55bba526648163151dd372009bc6796f2de256
+    "redis": "^0.12.1"
   },
   "devDependencies": {
     "code": "^1.4.1",
@@ -61,6 +55,7 @@
     "lab": "^5.11.1",
     "pre-commit": "^1.0.10",
     "shot": "^1.5.3",
-    "watchify": "^3.3.1"
+    "uglifyjs": "^2.4.10",
+    "watchify": "^3.4.0"
   }
 }
