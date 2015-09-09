@@ -34,7 +34,7 @@ app.controller('dbCtrl', function ($scope, $http) {
     analyticsObjects.forEach(function(x) {
       x.lastVisited = new Date(Number(x.lastVisited)).toLocaleString();
       var cookie = getUserIdFromCookie();
-      if (x.id === cookie) {
+      if (x.id == cookie) {
         $scope.you = x;
       } else {
         pastVistors.push(x);

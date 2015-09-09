@@ -1,9 +1,0 @@
-.DS_Store
-.env
-*/mainBundle.js
-*/analyticsBundle.js
-lcov.info
-node_modules
-npm-debug.log
-temp
-tests.html
