@@ -1,6 +1,5 @@
-$ = require('jquery');
-
-window.app = angular.module('myApp', []);
+var angular = require('angular'),
+    $ = require('jquery');  
 
 function sortObjects(a, b) {
   var aTime = Number(a.lastVisited);
@@ -23,11 +22,13 @@ function getUserIdFromCookie() {
   return null;
 }
 
-$('#homeButton').click(function(){
+$('#homeButton').click(function() {
   window.location = "/";
 });
 
-app.controller('dbCtrl', function ($scope, $http) {
+var app = angular.module('analyticsApp', []);
+
+app.controller('dbCtrl', function($scope, $http) {
   $http.get('/pullAnalytics').success(function(analyticsObjects) {
     var pastVistors = [];
     analyticsObjects = analyticsObjects.sort(sortObjects);

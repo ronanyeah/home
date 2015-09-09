@@ -4,14 +4,17 @@
   "description": "ronan mccabe",
   "main": "server.js",
   "scripts": {
+    "prod": "node server.js",
     "test": "lab -t 80 -r lcov > lcov.info",
     "start": "nf run nodemon server.js",
     "check": "npm run jshint && npm run coverage",
-    "build": "browserify ./js/public/main.js | uglifyjs -o ./build/mainBundle.js && browserify ./js/public/analytics.js | uglifyjs -o ./build/analyticsBundle.js",
-    "watch": "watchify ./js/public/main.js -o ./build/mainBundle.js & watchify ./js/public/analytics.js -o ./build/analyticsBundle.js",
+    "watch": "npm run watch:analyticsjs & npm run watch:mainjs",
+    "build": "browserify ./javascript/public/main.js | uglifyjs -o ./build/mainBundle.js && browserify ./javascript/public/analytics.js | uglifyjs -o ./build/analyticsBundle.js",
+    "watch:mainjs": "watchify ./javascript/public/main.js -o ./build/mainBundle.js",
+    "watch:analyticsjs": "watchify ./javascript/public/analytics.js -o ./build/analyticsBundle.js",
     "coverage": "lab -t 80 -r console",
     "coverage-html": "lab -t 100 -r html > tests.html",
-    "jshint": "jshint .",
+    "jshint": "jshint -c .jshintrc --exclude-path .jshintignore .",
     "postinstall": "npm run build",
     "codeclimate": "CODECLIMATE_REPO_TOKEN=03ec9a93ba205a0eb5c27aedea5ca5f262411b24336566fba622ae012b4d3886 codeclimate-test-reporter < lcov.info"
   },
@@ -34,7 +37,9 @@
   },
   "homepage": "https://github.com/wallcrawler/home#readme",
   "dependencies": {
+    "angular": "^1.4.4",
     "browserify": "^10.2.4",
+    "foreman": "^1.4.1",
     "good": "^6.2.0",
     "good-http": "^5.0.0",
     "handlebars": "^3.0.3",
@@ -42,8 +47,12 @@
     "jquery": "^2.1.4",
     "leaflet": "^0.7.3",
     "redis": "^0.12.1",
+<<<<<<< HEAD
     "uglifyjs": "^2.4.10",
     "watchify": "^3.4.0"
+=======
+    "uglifyjs": "^2.4.10"
+>>>>>>> 9f55bba526648163151dd372009bc6796f2de256
   },
   "devDependencies": {
     "code": "^1.4.1",
@@ -51,6 +60,7 @@
     "jshint": "^2.8.0",
     "lab": "^5.11.1",
     "pre-commit": "^1.0.10",
-    "shot": "^1.5.3"
+    "shot": "^1.5.3",
+    "watchify": "^3.3.1"
   }
 }

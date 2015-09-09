@@ -32,7 +32,7 @@ module.exports = {
       } else if (maliciousCookie()) {
         this.createUserCookie();
       } else {
-        console.log('welcome back');
+        console.log('Welcome back!');
       }
     } else {
       this.createUserCookie();

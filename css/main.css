@@ -78,7 +78,7 @@ a:hover {
 
 #jumbotron {
   background-attachment: fixed;
-  background-image: url('/static/img/monticello.jpg');
+  background-image: url('/static/images/monticello.jpg');
   background-position: 50% 50%;
   background-repeat: no-repeat;
   background-size: cover;
@@ -132,7 +132,7 @@ a:hover {
 /*HAVERSINE*/
 
 #haversineHatch {
-  background-image: url('/static/img/haver.jpg');
+  background-image: url('/static/images/haver.jpg');
   background-position: 50% 50%;
 }
 
@@ -149,7 +149,7 @@ a:hover {
 /*BASE64*/
 
 #base64Hatch {
-  background-image: url('/static/img/base64.jpg');
+  background-image: url('/static/images/base64.jpg');
   background-position: 100% 100%;
 }
 
@@ -182,7 +182,7 @@ a:hover {
 /*VIGENERE*/
 
 #vigenereHatch {
-  background-image: url('/static/img/vig.jpg');
+  background-image: url('/static/images/vig.jpg');
 }
 
 #vigenereDrop > div {
@@ -202,7 +202,7 @@ a:hover {
 /*FIBONACCI*/
 
 #fibonacciHatch {
-  background-image: url('/static/img/fibo.jpg');
+  background-image: url('/static/images/fibo.jpg');
   background-position: 50% 70%;
 }
 

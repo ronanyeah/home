@@ -1,6 +1,6 @@
-var Hapi = require('hapi'),
-    server = new Hapi.Server(),
-    goodAnalytics = require('good'),
+var Hapi             = require('hapi'),
+    server           = new Hapi.Server(),
+    goodAnalytics    = require('good'),
     analyticsOptions = {
       opsInterval: 1000,
       reporters:
@@ -20,7 +20,7 @@ server.connection({
   port: process.env.PORT
 });
 
-server.route(require('./js/backend/routes.js'));
+server.route(require('./javascript/api/routes.js'));
  
 server.register(
   {

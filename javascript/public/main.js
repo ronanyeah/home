@@ -6,7 +6,6 @@ var base64 = require('./apps/base64.js'),
     $ = require('jquery');
 
 window.onload = function() {
-
   hideDropdownDivs();
   cookieScripts.cookieCheck();
 
