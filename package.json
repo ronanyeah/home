@@ -10,16 +10,16 @@
     "check": "npm run jshint && npm run coverage",
     "watch": "npm run watch:analyticsjs & npm run watch:mainjs",
     "build": "browserify ./javascript/public/main.js | uglifyjs -o ./build/mainBundle.js && browserify ./javascript/public/analytics.js | uglifyjs -o ./build/analyticsBundle.js",
+    "bro": "browserify ./javascript/public/main.js -o ./build/mainBundle.js && browserify ./javascript/public/analytics.js -o ./build/analyticsBundle.js",
     "watch:mainjs": "watchify ./javascript/public/main.js -o ./build/mainBundle.js",
     "watch:analyticsjs": "watchify ./javascript/public/analytics.js -o ./build/analyticsBundle.js",
     "coverage": "lab -t 80 -r console",
     "coverage-html": "lab -t 100 -r html > tests.html",
-    "jshint": "jshint -c .jshintrc --exclude-path .jshintignore .",
+    "jshint": "jshint --config .jshintrc .",
     "postinstall": "npm run build",
     "codeclimate": "CODECLIMATE_REPO_TOKEN=03ec9a93ba205a0eb5c27aedea5ca5f262411b24336566fba622ae012b4d3886 codeclimate-test-reporter < lcov.info"
   },
-  "pre-commit": [
-  ],
+  "pre-commit": [],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wallcrawler/home.git"
@@ -46,16 +46,17 @@
     "hapi": "^8.6.1",
     "jquery": "^2.1.4",
     "leaflet": "^0.7.3",
-    "redis": "^0.12.1"
+    "redis": "^0.12.1",
+    "uglifyjs": "^2.4.10"
   },
   "devDependencies": {
     "code": "^1.4.1",
     "codeclimate-test-reporter": "^0.1.0",
     "jshint": "^2.8.0",
     "lab": "^5.11.1",
+    "nodemon": "^1.4.1",
     "pre-commit": "^1.0.10",
     "shot": "^1.5.3",
-    "uglifyjs": "^2.4.10",
     "watchify": "^3.4.0"
   }
 }
