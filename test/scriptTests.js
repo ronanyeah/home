@@ -2,9 +2,9 @@ var Code = require('code'),
     Lab = require('lab'),
     lab = exports.lab = Lab.script();
 
-var base64 = require('../javascript/public/apps/base64.js'),
-    fibonacci = require('../javascript/public/apps/fibonacci.js'),
-    vigenere = require('../javascript/public/apps/vigenere.js');
+var base64 = require('../public/javascript/apps/base64.js'),
+    fibonacci = require('../public/javascript/apps/fibonacci.js'),
+    vigenere = require('../public/javascript/apps/vigenere.js');
 
 lab.test('base64 encode tests', function (done) {
   Code.expect(base64.encode('')).to.equal('ENTER SOME TEXT!');
