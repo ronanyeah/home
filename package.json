@@ -18,7 +18,9 @@
     "postinstall": "npm run build",
     "codeclimate": "CODECLIMATE_REPO_TOKEN=03ec9a93ba205a0eb5c27aedea5ca5f262411b24336566fba622ae012b4d3886 codeclimate-test-reporter < lcov.info"
   },
-  "pre-commit": [],
+  "pre-commit": [
+    "jshint"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wallcrawler/home.git"
