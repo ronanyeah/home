@@ -1,6 +1,12 @@
+'use strict';
+
 var redis = require('./redis.js');
 
 function registerVisit(id, request) {
+  function maliciousIdCheck(id) {
+    return id.length !== 10 || id.match(/[^A-Za-z0-9]/);
+  }
+
   if (maliciousIdCheck(id)) {
     return;
   }
@@ -14,10 +20,6 @@ function registerVisit(id, request) {
   };
 
   redis().checkDatabaseForUser(analytics);
-
-  function maliciousIdCheck(id) {
-    return id.length !== 10 || id.match(/[^A-Za-z0-9]/);
-  }
 }
 
 module.exports = {
@@ -29,11 +31,11 @@ module.exports = {
         registerVisit(request.headers.cookie.split('userId=')[1].substr(0, 10), request);
       }
     }
-    reply.file('./views/index.html');
+    reply.file('./public/views/index.html');
   },
 
   analytics: function(request, reply) {
-    reply.file('./views/analytics.html');
+    reply.file('./public/views/analytics.html');
   },
 
   pullAnalytics: function(request, reply) {

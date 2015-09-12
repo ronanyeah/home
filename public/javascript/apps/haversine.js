@@ -1,3 +1,5 @@
+'use strict';
+
 var leaflet = require('leaflet'),
     $ = require('jquery'),
     coordinateArray = [{lat: 51.505, lng: -0.09}], //merry old London

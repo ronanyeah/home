@@ -1,0 +1,5 @@
+typescript
+es6
+react
+sass and make pages responsive
+replace maliciousIdCheck with joi and add hashing or signed cookies

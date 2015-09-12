@@ -1,15 +1,11 @@
+'use strict';
+
 var base64 = require('./apps/base64.js'),
     fibonacci = require('./apps/fibonacci.js'),
     vigenere = require('./apps/vigenere.js'),
     haversine = require('./apps/haversine.js'),
     cookieScripts = require('./cookieScripts.js'),
     $ = require('jquery');
-
-window.onload = function() {
-  hideDropdownDivs();
-  cookieScripts.cookieCheck();
-
-};
 
 function hideDropdownDivs() {
   $('#base64Drop').hide();
@@ -21,6 +17,12 @@ function hideDropdownDivs() {
   $('#haversineDrop').hide();
   $('#haversineResult').hide();
 }
+
+window.onload = function() {
+  hideDropdownDivs();
+  cookieScripts.cookieCheck();
+
+};
 
 $('#jumbotron div:first-child').click(function() {
   window.location = "/analytics";

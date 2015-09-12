@@ -1,5 +1,6 @@
+'use strict';
+
 var redis = function() {
-  'use strict';
 
   var redisModule = require('redis'),
       url = require('url'),

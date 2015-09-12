@@ -1,3 +1,5 @@
+'use strict';
+
 var handlers = require('./handlers.js');
 
 module.exports = [
@@ -42,7 +44,7 @@ module.exports = [
     path: '/static/{path*}',
     handler:  {
       directory: {
-        path: './'
+        path: './public/'
       }
     }
   }

@@ -1,3 +1,5 @@
+'use strict';
+
 var Hapi             = require('hapi'),
     server           = new Hapi.Server(),
     goodAnalytics    = require('good'),
@@ -20,7 +22,7 @@ server.connection({
   port: process.env.PORT
 });
 
-server.route(require('./javascript/api/routes.js'));
+server.route(require('./api/routes.js'));
  
 server.register(
   {

@@ -1,4 +1,19 @@
 {
+  "globals": {
+    "$": true,
+    "require": true,
+    "window": true,
+    "console": true,
+    "module": true,
+    "document": true,
+    "navigator": true
+  },
+  "node": true,
   "curly": true,
-  "eqeqeq": true
+  "eqeqeq": true,
+  "latedef": true,
+  "nocomma": true,
+  "strict": true,
+  "undef": true,
+  "unused": "vars"
 }

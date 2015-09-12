@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = {
   
   encode: function (message, codeword) {
