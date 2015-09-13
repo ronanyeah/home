@@ -25,43 +25,18 @@ window.onload = function() {
 };
 
 $('#jumbotron div:first-child').click(function() {
-  window.location = "/analytics";
+  window.location = '/analytics';
 });
 
-//enter key support
-$('#userInputEnc').keypress(function(e) {
+$('input').keypress(function(e) {
   if (e.keyCode === 13) {
-    $('#button1').click();
+    $(this).next('.button').click();
   }
 });
 
-$('#userInputDec').keypress(function(e) {
+$('form').keypress(function(e) {
   if (e.keyCode === 13) {
-    $('#button2').click();
-  }
-});
-
-$('#fiboInput').keypress(function(e) {
-  if (e.keyCode === 13) {
-    $('#buttonFib').click();
-  }
-});
-
-$('#vigMesEnc, #vigPasEnc').keypress(function(e) {
-  if (e.keyCode === 13) {
-    $('#buttonVigEnc').click();
-  }
-});
-
-$('#vigMesDec, #vigPasDec').keypress(function(e) {
-  if (e.keyCode === 13) {
-    $('#buttonVigDec').click();
-  }
-});
-
-$('.inputHav').keypress(function(e) {
-  if (e.keyCode === 13) {
-    $('#buttonHav').click();
+    $(this).next('.button').click();
   }
 });
 
@@ -89,7 +64,7 @@ $('#haversineHatch').click(function() {
     haversine.makeMap();
   });
 });
-
+  
 //result divs
 $('#button1').click(function() {
   $('#base64Result').fadeIn('slow');

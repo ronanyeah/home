@@ -7,3 +7,8 @@ temp
 tests.html
 home.zip
 dump.rdb
+awsBuild
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

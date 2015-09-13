@@ -1,3 +1,5 @@
+'use strict';
+
 var Code = require('code'),
     Lab = require('lab'),
     lab = exports.lab = Lab.script();

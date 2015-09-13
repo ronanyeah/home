@@ -9,11 +9,12 @@
     "test": "lab -t 80 -r lcov > lcov.info",
     "check": "npm run jshint && npm run coverage",
     "watch": "npm run watch:analyticsjs & npm run watch:mainjs",
+    "build:aws": "rm -rf awsBuild && mkdir awsBuild && npm run build && cp -r public awsBuild && cp -r api awsBuild && cp index.js awsBuild && cp package.json awsBuild",
     "build": "browserify ./public/javascript/main.js | uglifyjs -o ./public/javascript/build/mainBundle.js && browserify ./public/javascript/analytics.js | uglifyjs -o ./public/javascript/build/analyticsBundle.js",
     "watch:mainjs": "watchify ./public/javascript/main.js -o ./public/javascript/build/mainBundle.js",
     "watch:analyticsjs": "watchify ./public/javascript/analytics.js -o ./public/javascript/build/analyticsBundle.js",
     "coverage": "lab -t 80 -r console",
-    "coverage-html": "lab -t 100 -r html > tests.html",
+    "coverage:html": "lab -t 100 -r html > tests.html",
     "jshint": "jshint .",
     "postinstall": "npm run build",
     "codeclimate": "CODECLIMATE_REPO_TOKEN=03ec9a93ba205a0eb5c27aedea5ca5f262411b24336566fba622ae012b4d3886 codeclimate-test-reporter < lcov.info"
