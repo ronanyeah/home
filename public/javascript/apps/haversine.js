@@ -8,13 +8,14 @@ var leaflet = require('leaflet'),
     mapLine,
     map;
 
-leaflet.Icon.Default.imagePath = '/static/images/leaflet_images';
+leaflet.Icon.Default.imagePath = '/static/images/leafletImages';
 
 var haversineFunctions = {
 
   makeMap: function() {
     if (map) {
       map.remove();
+      $('#haversineResult').hide();
     }
     
     map = leaflet.map('leaflet').fitWorld();

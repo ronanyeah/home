@@ -1,11 +1,11 @@
 'use strict';
 
-var base64 = require('./apps/base64.js'),
-    fibonacci = require('./apps/fibonacci.js'),
-    vigenere = require('./apps/vigenere.js'),
-    haversine = require('./apps/haversine.js'),
+var base64        = require('./apps/base64.js'),
+    fibonacci     = require('./apps/fibonacci.js'),
+    vigenere      = require('./apps/vigenere.js'),
+    haversine     = require('./apps/haversine.js'),
     cookieScripts = require('./cookieScripts.js'),
-    $ = require('jquery');
+    $             = require('jquery');
 
 function hideDropdownDivs() {
   $('#base64Drop').hide();
@@ -21,13 +21,13 @@ function hideDropdownDivs() {
 window.onload = function() {
   hideDropdownDivs();
   cookieScripts.cookieCheck();
-
 };
 
 $('#jumbotron div:first-child').click(function() {
   window.location = '/analytics';
 });
 
+// Enter button support
 $('input').keypress(function(e) {
   if (e.keyCode === 13) {
     $(this).next('.button').click();
@@ -41,29 +41,26 @@ $('form').keypress(function(e) {
 });
 
 //hatch color change
-$('.hatch').hover(function() {
-  $(this).addClass('plink');
-  $(this).stop().animate({paddingBottom: '+=10px'}, 'fast');
-}, function() {
-  $(this).removeClass('plink');
-  $(this).stop().animate({paddingBottom: '-=10px'}, 'fast');
-});
+$('.hatch').hover(
+  function() {
+    $(this).addClass('plink');
+    $(this).stop().animate({paddingBottom: '+=10px'}, 'fast');
+  },
+  function() {
+    $(this).removeClass('plink');
+    $(this).stop().animate({paddingBottom: '-=10px'}, 'fast');
+  }
+);
 
 //input divs
-$('#base64Hatch').click(function() {
-  $('#base64Drop').fadeToggle('slow');
+$('.hatch').click(function() {
+  $(this).next('.drop').fadeToggle('slow');
 });
-$('#fibonacciHatch').click(function() {
-  $('#fibonacciDrop').fadeToggle('slow');
+
+$('#haversineHatch').bind('click', function() {
+  haversine.makeMap();
 });
-$('#vigenereHatch').click(function() {
-  $('#vigenereDrop').fadeToggle('slow');
-});
-$('#haversineHatch').click(function() {
-  $('#haversineDrop').fadeToggle('slow', function() {
-    haversine.makeMap();
-  });
-});
+
   
 //result divs
 $('#button1').click(function() {
