@@ -10,9 +10,9 @@
     "check": "npm run jshint && npm run coverage",
     "watch": "npm run watch:analyticsjs & npm run watch:mainjs",
     "aws": "rm -rf awsBuild && mkdir awsBuild && npm run build && cp -r public awsBuild && cp -r api awsBuild && cp index.js awsBuild && cp package.json awsBuild",
-    "build": "browserify ./public/javascript/main.js | uglifyjs -o ./public/javascript/build/mainBundle.js && browserify ./public/javascript/analytics.js | uglifyjs -o ./public/javascript/build/analyticsBundle.js",
-    "watch:mainjs": "watchify ./public/javascript/main.js -o ./public/javascript/build/mainBundle.js",
-    "watch:analyticsjs": "watchify ./public/javascript/analytics.js -o ./public/javascript/build/analyticsBundle.js",
+    "build": "browserify -p tsify ./public/javascript/main.js | uglifyjs -o ./public/javascript/build/mainBundle.js && browserify -p tsify ./public/javascript/analytics.js | uglifyjs -o ./public/javascript/build/analyticsBundle.js",
+    "watch:mainjs": "watchify -p tsify  ./public/javascript/main.js -o ./public/javascript/build/mainBundle.js",
+    "watch:analyticsjs": "watchify -p tsify ./public/javascript/analytics.js -o ./public/javascript/build/analyticsBundle.js",
     "coverage": "lab -t 80 -r console",
     "coverage:html": "lab -t 100 -r html > tests.html",
     "jshint": "jshint .",
@@ -59,6 +59,7 @@
     "nodemon": "^1.4.1",
     "pre-commit": "^1.0.10",
     "shot": "^1.5.3",
+    "tsify": "^0.12.0",
     "watchify": "^3.4.0"
   }
 }
