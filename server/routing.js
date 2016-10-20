@@ -42,7 +42,7 @@ const sendFile = path =>
     .then( data => {
       const mime = contentType(path)
       res.writeHead(200, { 'Content-Type': mime })
-      mime === 'image/x-icon' || mime === 'image/png'
+      return mime.substring(0, 5) === 'image'
         ? res.end(data, 'binary')
         : res.end(data.toString())
     } )

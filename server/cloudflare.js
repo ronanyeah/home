@@ -33,7 +33,10 @@ const getCurrentIp = _ =>
   .then(
     res => res.status === 200
       ? res.json()
-      : Promise.reject(Error('Failed to query IP address.'))
+      : Promise.reject(Error(
+          'Failed to query IP address.' +
+          `\n${res.status}: '${res.statusText}'`
+        ))
   )
   .then(
     body => veryBadIpValidation( body.ip )
@@ -67,7 +70,8 @@ const updateDnsRecordIp = (currentIp, dnsId, zoneId, authEmail, authKey) =>
       res => res.status === 200
         ? res.json()
         : Promise.reject(Error(
-            'Failed to retrieve current settings on a DNS record.'
+            'Failed to retrieve current settings on a DNS record.' +
+            `\n${res.status}: '${res.statusText}'`
           ))
     )
     .then( body => body.result )
@@ -91,7 +95,10 @@ const updateDnsRecordIp = (currentIp, dnsId, zoneId, authEmail, authKey) =>
         .then(
           res => res.status === 200
             ? res.json()
-            : Promise.reject(Error('Failed to update a DNS record.'))
+            : Promise.reject(Error(
+                'Failed to update a DNS record.' +
+                `\n${res.status}: '${res.statusText}'`
+              ))
         )
         .then( body => JSON.stringify(body, 0, 2) )
   })
@@ -125,9 +132,8 @@ const ipAddressCheckIn = _ =>
         ]
   })
   .then( console.log )
-  .catch( err =>
-    console.log(err.stack) )
-ipAddressCheckIn()
+  .catch( err => console.log(err) )
+
 module.exports = {
   ipAddressCheckIn,
   updateDnsRecordIp,
