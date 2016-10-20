@@ -1,65 +1,27 @@
 {
   "name": "home",
-  "version": "1.0.0",
-  "description": "ronan mccabe",
+  "version": "2.0.0",
+  "description": "home",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nf run nodemon index.js",
-    "test": "lab -t 80 -r lcov > lcov.info",
-    "check": "npm run jshint && npm run coverage",
-    "watch": "npm run watch:analyticsjs & npm run watch:mainjs",
-    "aws": "rm -rf awsBuild && mkdir awsBuild && npm run build && cp -r public awsBuild && cp -r api awsBuild && cp index.js awsBuild && cp package.json awsBuild",
-    "build": "browserify -p tsify ./public/javascript/main.js | uglifyjs -o ./public/javascript/build/mainBundle.js && browserify -p tsify ./public/javascript/analytics.js | uglifyjs -o ./public/javascript/build/analyticsBundle.js",
-    "watch:mainjs": "watchify -p tsify  ./public/javascript/main.js -o ./public/javascript/build/mainBundle.js",
-    "watch:analyticsjs": "watchify -p tsify ./public/javascript/analytics.js -o ./public/javascript/build/analyticsBundle.js",
-    "coverage": "lab -t 80 -r console",
-    "coverage:html": "lab -t 100 -r html > tests.html",
-    "jshint": "jshint .",
-    "postinstall": "npm run build",
-    "codeclimate": "CODECLIMATE_REPO_TOKEN=03ec9a93ba205a0eb5c27aedea5ca5f262411b24336566fba622ae012b4d3886 codeclimate-test-reporter < lcov.info"
+    "start": "node ./server/index.js",
+    "dev": "PORT=3000 node ./server/index.js"
   },
-  "pre-commit": [
-    "jshint"
-  ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wallcrawler/home.git"
+    "url": "git+https://github.com/ronanyeah/home.git"
   },
-  "keywords": [
-    "ronan",
-    "mccabe",
-    "london",
-    "ireland"
-  ],
-  "author": "ronan mccabe",
-  "license": "ISC",
+  "author": "ronanyeah",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/wallcrawler/home/issues"
+    "url": "https://github.com/ronanyeah/home/issues"
   },
-  "homepage": "https://github.com/wallcrawler/home#readme",
+  "homepage": "https://ronanmccabe.me/",
   "dependencies": {
-    "angular": "^1.4.4",
-    "browserify": "^10.2.4",
-    "foreman": "^1.4.1",
-    "good": "^6.2.0",
-    "good-http": "^5.0.0",
-    "handlebars": "^3.0.3",
-    "hapi": "^8.6.1",
-    "jquery": "^2.1.4",
-    "leaflet": "^0.7.3",
-    "redis": "^0.12.1",
-    "uglifyjs": "^2.4.10"
-  },
-  "devDependencies": {
-    "code": "^1.4.1",
-    "codeclimate-test-reporter": "^0.1.0",
-    "jshint": "^2.8.0",
-    "lab": "^5.11.1",
-    "nodemon": "^1.4.1",
-    "pre-commit": "^1.0.10",
-    "shot": "^1.5.3",
-    "tsify": "^0.12.0",
-    "watchify": "^3.4.0"
+    "bluebird": "^3.4.6",
+    "co": "^4.6.0",
+    "node-fetch": "^1.6.3",
+    "nodemailer": "^2.6.4",
+    "ramda": "^0.22.1"
   }
 }
