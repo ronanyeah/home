@@ -43,9 +43,9 @@ const sendFile = path =>
     .then( data => {
       const mime = contentType(path)
       res.writeHead(200, { 'Content-Type': mime })
-      return mime.substring(0, 5) === 'image'
-        ? res.end(data, 'binary')
-        : res.end(data.toString())
+      return mime.substring(0, 4) === 'text'
+        ? res.end( data.toString() )
+        : res.end( data, 'binary' )
     } )
 
 const views = {
