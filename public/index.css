@@ -1,0 +1,82 @@
+body {
+  font-family: 'Lato', sans-serif;
+  background-color: #95AFBA;
+  cursor: crosshair;
+}
+
+h1, p {
+  text-align: center;
+}
+
+div {
+  padding-top: 20vh;
+}
+
+h1 {
+  user-select: none;
+  color: #161925;
+  font-size: 5vh;
+}
+
+p {
+  color: #344055;
+  font-size: 2vh;
+}
+
+a {
+  color: #3F7CAC;
+  transition-duration: 0.2s;
+  text-decoration: none;
+}
+
+a:hover {
+  font-size: 2.2vh;
+}
+
+/*
+  Credit to Harry Fox for the tooltip:
+  https://github.com/harrygfox/css-tooltip
+*/
+span.tooltip {
+  cursor: help;
+  position: relative;
+}
+
+.tooltip::before, 
+.tooltip::after {
+  position: absolute;
+  left: 50%;
+  display: block;
+  opacity: 0;
+  z-index: -999;
+}
+
+.tooltip:hover::before,
+.tooltip:focus::before,
+.tooltip:hover::after,
+.tooltip:focus::after {
+  opacity: 1;
+  z-index: 999;
+}
+
+.tooltip::before {
+  content: "";
+  border-style: solid;
+  border-width: 1em 0.75em 0 0.75em;
+  border-color: #8EA8C3 transparent transparent transparent;
+  bottom: 100%;
+  margin-left: -0.5em;
+}
+
+.tooltip:after {
+  content: attr(data-tip);
+  background-color: #8EA8C3;
+  border-radius: 0.25em;
+  bottom: 170%;
+  width: 13.5em;
+  padding: 1em 0.5em;
+  margin-left: -6.75em;
+  color: #344055;
+  text-align: center;
+  font-size: 0.75em;
+}
