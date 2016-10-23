@@ -5,15 +5,12 @@ const nodemailer = require('nodemailer')
 
 const config = require(`${__dirname}/mailConfig.json`)
 // {
-  // recipientEmail: String,
-  // - the address to send the email to
-
   // senderEmail: String,
   // - the gmail address the email is being 'sent' from
 
   // password: String,
-  // - can be found here:
-  // https://security.google.com/settings/security/apppasswords
+  // - google password, or app password if you have 2FA enabled
+  // https://support.google.com/accounts/answer/185833
 // }
 
 const mailTransporter = bluebird.promisifyAll(
@@ -25,10 +22,18 @@ const mailTransporter = bluebird.promisifyAll(
   )
 )
 
-module.exports = content =>
+/**
+ * Sends an email.
+ * @param {string} recipient email address of recipient
+ * @param {string} fromLabel name to show in the inbox
+ * @param {string} subject subject line
+ * @param {string} content email text
+ * @returns {Promise<Object>} response object
+ */
+module.exports = (recipient, fromLabel, subject, content) =>
   mailTransporter.sendMailAsync({
-    from: `"IP Update" <${ config.senderEmail }>`,
-    to: config.recipientEmail,
-    subject: 'IP Update',
+    from: `"${ fromLabel }" <${ config.senderEmail }>`,
+    to: recipient,
+    subject: subject,
     text: content
   })

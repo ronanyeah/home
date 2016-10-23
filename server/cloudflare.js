@@ -15,7 +15,7 @@ const config = require(`${__dirname}/cloudflareConfig.json`)
   // authKey: String,
   // - api key
 
-  // authEmail: 'ronan_mccabe@hotmail.com',
+  // emailAddress: String,
   // - cloudflare email
 
   // dnsRecordIds: Array<String>
@@ -115,7 +115,7 @@ const ipAddressCheckIn = _ =>
 
     yield config.dnsRecordIds.map(
       id => updateDnsRecordIp(
-        currentIp, id, config.zoneId, config.authEmail, config.authKey
+        currentIp, id, config.zoneId, config.emailAddress, config.authKey
       )
     )
 
@@ -123,6 +123,9 @@ const ipAddressCheckIn = _ =>
       ? 'no change'
       : yield [
           sendNotificationEmail(
+            config.emailAddress,
+            'Rasperry Pi',
+            'IP Update',
             `${ currentIp } - ${ Date() }`
           ),
           fs.writeFileAsync(
