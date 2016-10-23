@@ -30,5 +30,5 @@ module.exports = content =>
     from: `"IP Update" <${ config.senderEmail }>`,
     to: config.recipientEmail,
     subject: 'IP Update',
-    content
+    text: content
   })
