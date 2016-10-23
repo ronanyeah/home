@@ -19,6 +19,7 @@ const contentType =
         js: 'application/javascript',
         json: 'application/json',
         html: 'text/html',
+        css: 'text/css',
         ico: 'image/x-icon',
         png: 'image/png'
       }
