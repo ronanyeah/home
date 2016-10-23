@@ -23,5 +23,8 @@
     "node-fetch": "^1.6.3",
     "nodemailer": "^2.6.4",
     "ramda": "^0.22.1"
+  },
+  "devDependencies": {
+    "tape": "^4.6.2"
   }
 }
