@@ -31,6 +31,9 @@ a {
 
 a:hover {
   font-size: 2.2vh;
+  padding: 3px;
+  color: white;
+  background-color: #161925;
 }
 
 /*
