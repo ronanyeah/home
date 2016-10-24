@@ -1,8 +1,7 @@
 'use strict'
 
-const https    = require('https')
-const bluebird = require('bluebird')
-const fs       = bluebird.promisifyAll( require('fs') )
+const https = require('https')
+const fs    = require('fs')
 
 const { ipAddressCheckIn } = require(`${__dirname}/cloudflare.js`)
 const routing              = require(`${__dirname}/routing.js`)
