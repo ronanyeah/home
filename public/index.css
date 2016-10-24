@@ -4,6 +4,12 @@ body {
   cursor: crosshair;
 }
 
+.script {
+  position: fixed;
+  bottom: 0px;
+  left: 1em;
+}
+
 h1, p {
   text-align: center;
 }
@@ -45,7 +51,7 @@ span.tooltip {
   position: relative;
 }
 
-.tooltip::before, 
+.tooltip::before,
 .tooltip::after {
   position: absolute;
   left: 50%;
