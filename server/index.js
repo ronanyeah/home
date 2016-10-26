@@ -45,7 +45,7 @@ https.createServer(
     routing( req.url )( req, res )
     .catch( err => { // all errors are to be caught here
       console.log(err)
-      res.writeHead(500, { 'Content-Type': 'text/html' })
+      res.writeHead(500, { 'Content-Type': 'text/plain' })
       res.end( 'Oops!' )
     } )
 )
