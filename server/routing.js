@@ -21,7 +21,8 @@ const contentType =
         html: 'text/html',
         css: 'text/css',
         ico: 'image/x-icon',
-        png: 'image/png'
+        png: 'image/png',
+        jpg: 'image/jpg'
       }
     )
   )
