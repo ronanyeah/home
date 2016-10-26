@@ -4,8 +4,10 @@
   "description": "home",
   "main": "index.js",
   "scripts": {
-    "start": "node ./server/index.js",
-    "dev": "PORT=3000 node ./server/index.js"
+    "start": "npm run build && node ./server/index.js",
+    "build": "webpack",
+    "watch": "webpack -w",
+    "dev": "PORT=3000 nodemon --debug ./server/index.js"
   },
   "repository": {
     "type": "git",
@@ -25,6 +27,13 @@
     "ramda": "^0.22.1"
   },
   "devDependencies": {
-    "tape": "^4.6.2"
+    "autoprefixer": "^6.5.1",
+    "css-loader": "^0.25.0",
+    "nodemon": "^1.11.0",
+    "postcss-loader": "^1.0.0",
+    "precss": "^1.4.0",
+    "style-loader": "^0.13.1",
+    "tape": "^4.6.2",
+    "webpack": "^1.13.2"
   }
 }

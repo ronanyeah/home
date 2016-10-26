@@ -4,7 +4,7 @@ const R        = require('ramda')
 const bluebird = require('bluebird')
 const fs       = bluebird.promisifyAll( require('fs') )
 
-const assetFolder = `${__dirname}/../public`
+const assetFolder = `${__dirname}/../client/public`
 
 const availableAssets = fs.readdirSync(assetFolder)
 
