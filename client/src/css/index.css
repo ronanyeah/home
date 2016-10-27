@@ -1,9 +1,4 @@
-html {
-  height: 100%;
-  font-family: 'Lato', sans-serif;
-  background-color: #95AFBA;
-  cursor: crosshair;
-}
+@import "./lato-font.css";
 
 .script {
   position: fixed;

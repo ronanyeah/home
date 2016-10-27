@@ -31,7 +31,6 @@ try {
       fs.lstatSync(file)
     } catch (err) {
       console.log(`'${file}' is missing!`)
-      process.exit()
     }
   }
 )

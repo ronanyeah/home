@@ -1,21 +1,18 @@
 const webpack = require('webpack')
 
 module.exports = {
-  entry: './client/src/js/index.js',
+  entry: '',
   output: {
-    filename: './client/public/bundle.js'
+    filename: ''
   },
   plugins: [
-    new webpack.optimize.UglifyJsPlugin()
   ],
   module: {
     loaders: [
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader!postcss-loader'
+        loader: ''
       }
     ]
-  },
-  postcss: _ =>
-    [ require('autoprefixer'), require('precss') ]
+  }
 }
