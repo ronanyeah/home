@@ -1,5 +1,9 @@
 @import "./lato-font.css";
 
+body {
+  font-family: 'Lato', sans-serif;
+}
+
 .script {
   position: fixed;
   bottom: 0px;
