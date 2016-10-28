@@ -6,6 +6,7 @@
   "scripts": {
     "start": "npm run build && node ./server/index.js",
     "watch:css": "watch 'npm run build:css' ./client/src/css/",
+    "build": "npm run build:css",
     "build:css": "node ./scripts/postcss.js",
     "dev": "PORT=3000 nodemon --debug ./server/index.js"
   },
