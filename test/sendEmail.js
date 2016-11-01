@@ -2,15 +2,16 @@
 
 const test = require('tape')
 
-const mailer = require('../server/mailer.js')
+const { senderEmail, password } = require(`${__dirname}/../private/mailConfig.json`)
 
-const { emailAddress } = require('../server/cloudflareConfig.json')
+const mailer =
+  require(`${__dirname}/../tools/emailer.js`)(senderEmail, password)
 
 test('testing mail send...', t => {
   t.plan(1)
 
   mailer(
-    emailAddress,
+    senderEmail, // Send to myself.
     'TEST',
     'TEST',
     `TEST - ${ Date() }`

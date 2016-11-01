@@ -5,7 +5,9 @@ const co       = require('co')
 const fetch    = require('node-fetch')
 const fs       = bluebird.promisifyAll( require('fs') )
 
-const sendEmail = require(`${global.ROOT}/tools/emailer.js`)
+const { senderEmail, password } = require(`${global.ROOT}/private/mailConfig.json`)
+const sendEmail =
+  require(`${global.ROOT}/tools/emailer.js`)(senderEmail, password)
 
 const config = require(`${global.ROOT}/private/cloudflareConfig.json`)
 // {
