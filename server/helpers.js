@@ -1,10 +1,9 @@
 'use strict'
 
 const R        = require('ramda')
+const co       = require('co')
 const bluebird = require('bluebird')
 const fs       = bluebird.promisifyAll( require('fs') )
-
-const assetFolder = `${__dirname}/../client/public`
 
 // Accepts an asset path and returns a 'Content-Type'.
 const getContentType =
@@ -25,34 +24,18 @@ const getContentType =
     )
   )
 
-// Promisifies any synchronous requests so I can catch all errors at the root of the app.
-const promisify =
-  fn =>
-    (req, res) =>
-      new Promise( (resolve, reject) => {
-        try {
-          fn(req, res)
-        } catch (err) {
-          reject(Error(`${req.url}: ${err.message}`))
-        }
-
-        resolve('OK')
-      } )
-
 const sendFile =
   path =>
-    (req, res) =>
-      fs.readFileAsync(`${assetFolder}${path}`)
-      .then( data => {
-        const contentType = getContentType(path)
-        res.writeHead(200, { 'Content-Type': contentType })
-        return contentType.substring(0, 4) === 'text'
-          ? res.end( data.toString() )
-          : res.end( data, 'binary' )
-      } )
+    co.wrap(function* (req, res) {
+      const data = yield fs.readFileAsync(path)
+      const contentType = getContentType(path)
+      res.writeHead(200, { 'Content-Type': contentType })
+      return contentType.substring(0, 4) === 'text'
+        ? res.end( data.toString() )
+        : res.end( data, 'binary' )
+    })
 
 module.exports = {
   getContentType,
-  sendFile,
-  promisify
+  sendFile
 }

@@ -2,51 +2,36 @@
 
 const https = require('https')
 const fs    = require('fs')
+const path  = require('path')
 
-const { ipAddressCheckIn } = require(`${__dirname}/cloudflare.js`)
-const routing              = require(`${__dirname}/routing.js`)
+global.ROOT = path.resolve(`${__dirname}/../`)
+
+require(`${global.ROOT}/tools/checkForSupportFiles`)(
+  [
+    `${global.ROOT}/private/mailConfig.json`,
+    `${global.ROOT}/private/cloudflareConfig.json`,
+    `${global.ROOT}/private/pvt.pem`,
+    `${global.ROOT}/private/cert.pem`
+  ]
+)
+
+const { ipAddressCheckIn } = require(`${global.ROOT}/tools/cloudflare.js`)
+const router = require(`${global.ROOT}/server/router.js`)
 
 const port = process.env.PORT || 443
 
-// check for log file and
-// create if necessary
-try {
-  fs.lstatSync(`${__dirname}/ipLog.json`)
-} catch (err) {
-  fs.writeFileSync(
-    `${__dirname}/ipLog.json`, JSON.stringify({ ip: '0.0.0.0' })
-  )
-}
-
-// ensure config files and https certs exist
-[
-  `${__dirname}/mailConfig.json`,
-  `${__dirname}/cloudflareConfig.json`,
-  `${__dirname}/pvt.pem`,
-  `${__dirname}/cert.pem`
-]
-.forEach(
-  file => {
-    try {
-      fs.lstatSync(file)
-    } catch (err) {
-      console.log(`'${file}' is missing!`)
-    }
-  }
-)
-
 https.createServer(
   {
-    key: fs.readFileSync(`${__dirname}/pvt.pem`),
-    cert: fs.readFileSync(`${__dirname}/cert.pem`)
+    key: fs.readFileSync(`${global.ROOT}/private/pvt.pem`),
+    cert: fs.readFileSync(`${global.ROOT}/private/cert.pem`)
   },
   (req, res) =>
-    routing( req.url )( req, res )
+    router( req.method )( req.url )( req, res )
     .catch( err => { // all errors are to be caught here
       console.log(err)
       res.writeHead(500, { 'Content-Type': 'text/plain' })
       res.end( 'Oops!' )
-    } )
+    })
 )
 .listen(
   port,
