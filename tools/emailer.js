@@ -3,7 +3,8 @@
 const bluebird   = require('bluebird')
 const nodemailer = require('nodemailer')
 
-const config = require(`${__dirname}/mailConfig.json`)
+// Pass this config in instead.
+const config = require(`${global.ROOT}/private/mailConfig.json`)
 // {
   // senderEmail: String,
   // - the gmail address the email is being 'sent' from

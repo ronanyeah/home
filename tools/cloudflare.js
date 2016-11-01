@@ -5,9 +5,9 @@ const co       = require('co')
 const fetch    = require('node-fetch')
 const fs       = bluebird.promisifyAll( require('fs') )
 
-const sendNotificationEmail = require(`${__dirname}/mailer.js`)
+const sendEmail = require(`${global.ROOT}/tools/emailer.js`)
 
-const config = require(`${__dirname}/cloudflareConfig.json`)
+const config = require(`${global.ROOT}/private/cloudflareConfig.json`)
 // {
   // zoneId: String,
   // - id of the cloudflare website instance
@@ -47,7 +47,7 @@ const getCurrentIp = _ =>
 // Checks the current ip address the DNS record is pointing to,
 // compares it to my current ip, and updates if necessary.
 const updateDnsRecordIp = (currentIp, dnsId, zoneId, authEmail, authKey) =>
-  co(function*() {
+  co(function* () {
 
     const headers = {
       'Content-Type': 'application/json',
@@ -104,12 +104,7 @@ const updateDnsRecordIp = (currentIp, dnsId, zoneId, authEmail, authKey) =>
   })
 
 const ipAddressCheckIn = _ =>
-  co(function*() {
-
-    const oldIp =
-      yield fs.readFileAsync(`${__dirname}/ipLog.json`)
-      .then( txt => JSON.parse( txt ) )
-      .then( data => data.ip )
+  co(function* () {
 
     const currentIp = yield getCurrentIp()
 
@@ -119,10 +114,17 @@ const ipAddressCheckIn = _ =>
       )
     )
 
-    return currentIp === oldIp || process.env.TEST
+    const oldIp =
+      fs.lstatSync(`${__dirname}/ipLog.json`)
+        ? yield fs.readFileAsync(`${__dirname}/ipLog.json`)
+          .then( txt => JSON.parse( txt ) )
+          .then( data => data.ip )
+        : null
+
+    return currentIp === oldIp
       ? 'no change'
       : yield [
-          sendNotificationEmail(
+          sendEmail(
             config.emailAddress,
             'Rasperry Pi',
             'IP Update',
