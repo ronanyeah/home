@@ -40,3 +40,8 @@ jspm_packages
 elm-stuff
 # elm-repl generated files
 repl-temp-*
+
+# my stuff
+private
+ipLog.json
+client/public/**/bundle.*
