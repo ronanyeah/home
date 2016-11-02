@@ -12,6 +12,9 @@ module.exports = {
   '/pencils':
     sendFile(`${global.ROOT}/client/public/pencils/index.html`),
 
+  '/cv':
+    sendFile(`${global.ROOT}/client/public/cv.html`),
+
   '/cloud':
     sendFile(`${global.ROOT}/client/public/word-cloud/index.html`),
 
