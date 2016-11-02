@@ -16,7 +16,7 @@ module.exports = files => {
   )
 
   if (missingFiles.length) {
-    console.log('Files missing!\n', missingFiles.join('\n'))
+    console.log(`Files missing!\n${missingFiles.join('\n')}`)
     return process.exit()
   }
 
