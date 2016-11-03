@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run build && node ./server/index.js",
-    "build": "npm run build:css",
-    "build:css": "node ./scripts/postcss.js",
+    "build": "node ./client/src/main/BUILD.js",
+    "watch": "nodemon -e css -x 'npm run build'",
     "dev": "PORT=3000 nodemon --debug ./server/index.js"
   },
   "repository": {
