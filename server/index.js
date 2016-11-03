@@ -28,8 +28,8 @@ https.createServer(
     router( req.method )( req.url )( req, res )
     .catch( err => { // all errors are to be caught here
       console.log(err)
-      res.writeHead(500, { 'Content-Type': 'text/plain' })
-      res.end( 'Oops!' )
+      res.writeHead(500, { 'Content-Type': 'text/html' })
+      return res.end('<p style="font-size: 10vh; text-align: center;">Oops!</p>')
     })
 )
 .listen(
