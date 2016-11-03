@@ -1,31 +1,7 @@
 'use strict'
 
-const bluebird = require('bluebird')
-const co       = require('co')
-const fetch    = require('node-fetch')
-const fs       = bluebird.promisifyAll( require('fs') )
-
-const { senderEmail, password } = require(`${global.ROOT}/private/mailConfig.json`)
-const sendEmail =
-  require(`${global.ROOT}/tools/emailer.js`)(senderEmail, password)
-
-const config = require(`${global.ROOT}/private/cloudflareConfig.json`)
-// {
-  // zoneId: String,
-  // - id of the cloudflare website instance
-
-  // authKey: String,
-  // - api key
-
-  // emailAddress: String,
-  // - cloudflare email
-
-  // dnsRecordIds: Array<String>
-  // - the DNS records that need to have their ip addresses updated.
-  // your DNS records can be found at:
-  // https://api.cloudflare.com/client/v4 +
-  // /zones/<YOUR-ZONE-ID>/dns_records
-// }
+const co    = require('co')
+const fetch = require('node-fetch')
 
 const veryBadIpValidation = ip =>
   ip === ip.split('.').map( x => String(Number(x)) ).join('.')
@@ -105,44 +81,7 @@ const updateDnsRecordIp = (currentIp, dnsId, zoneId, authEmail, authKey) =>
         .then( body => JSON.stringify(body, 0, 2) )
   })
 
-const ipAddressCheckIn = _ =>
-  co(function* () {
-
-    const currentIp = yield getCurrentIp()
-
-    yield config.dnsRecordIds.map(
-      id => updateDnsRecordIp(
-        currentIp, id, config.zoneId, config.emailAddress, config.authKey
-      )
-    )
-
-    const oldIp =
-      fs.lstatSync(`${__dirname}/ipLog.json`)
-        ? yield fs.readFileAsync(`${__dirname}/ipLog.json`)
-          .then( txt => JSON.parse( txt ) )
-          .then( data => data.ip )
-        : null
-
-    return currentIp === oldIp
-      ? 'no change'
-      : yield [
-          sendEmail(
-            config.emailAddress,
-            'Rasperry Pi',
-            'IP Update',
-            `${ currentIp } - ${ Date() }`
-          ),
-          fs.writeFileAsync(
-            `${__dirname}/ipLog.json`,
-            JSON.stringify({ ip: currentIp })
-          )
-        ]
-  })
-  .then( console.log )
-  .catch( console.log )
-
 module.exports = {
-  ipAddressCheckIn,
   updateDnsRecordIp,
   getCurrentIp
 }

@@ -15,7 +15,6 @@ require(`${global.ROOT}/tools/checkForSupportFiles`)(
   ]
 )
 
-const { ipAddressCheckIn } = require(`${global.ROOT}/tools/cloudflare.js`)
 const router = require(`${global.ROOT}/server/router.js`)
 
 const port = process.env.PORT || 443
@@ -37,7 +36,11 @@ https.createServer(
   port,
   _ => {
     console.log(`https server listening on port ${port}`)
-    // Check every five minutes.
-    setInterval(ipAddressCheckIn, 300000)
+
+    fs.readdirSync(`${global.ROOT}/scripts/`)
+    .forEach(
+      file =>
+        setInterval(require(`${global.ROOT}/scripts/${file}`), 300000)
+    )   // Run every five minutes.
   }
 )
