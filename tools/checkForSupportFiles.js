@@ -7,7 +7,7 @@ module.exports = files => {
   const missingFiles = files.filter(
     file => {
       try {
-        fs.lstatSync(file)
+        fs.statSync(file)
       } catch (err) {
         return true
       }
