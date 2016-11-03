@@ -35,33 +35,12 @@ a {
   text-decoration: none;
 }
 
-div > a:hover {
+a:hover {
   background-color: #161925;
   color: white;
   font-size: 2.2vh;
   padding: 3px;
 }
-
-.toy-list {
-  opacity: 0;
-  /*margin-top: -40px;*/
-  transition-duration: 600ms;
-}
-
-.toy-list > a {
-  background-color: grey;
-  padding: 3px;
-  color: blue;
-}
-
-.toy-list.shift {
-  /*transform: translate(0px, 40px);*/
-  opacity: 1;
-}
-
-/*.toys.shift {*/
-  /*transform: translate(0, -50px);*/
-/*}*/
 
 /*
   Credit to Harry Fox for the tooltip:
