@@ -1,6 +1,5 @@
 'use strict'
 
-const https = require('https')
 const fs    = require('fs')
 const path  = require('path')
 
@@ -15,32 +14,32 @@ require(`${global.ROOT}/tools/checkForSupportFiles`)(
   ]
 )
 
-const router = require(`${global.ROOT}/server/router.js`)
+const { http, https } = require(`${global.ROOT}/server/server.js`)
+
+const server =
+  process.env.NODE_ENV === 'development'
+    ? http
+    : https(
+        fs.readFileSync(`${global.ROOT}/private/pvt.pem`),
+        fs.readFileSync(`${global.ROOT}/private/cert.pem`)
+      )
 
 const port = process.env.PORT || 443
 
-https.createServer(
-  {
-    key: fs.readFileSync(`${global.ROOT}/private/pvt.pem`),
-    cert: fs.readFileSync(`${global.ROOT}/private/cert.pem`)
-  },
-  (req, res) =>
-    router( req.method )( req.url )( req, res )
-    .catch( err => { // all errors are to be caught here
-      console.log(err)
-      res.writeHead(500, { 'Content-Type': 'text/html' })
-      return res.end('<p style="font-size: 10vh; text-align: center;">Oops!</p>')
-    })
-)
-.listen(
+server.listen(
   port,
   _ => {
-    console.log(`https server listening on port ${port}`)
+    console.log(
+      `${
+         process.env.NODE_ENV === 'development' ? 'http' : 'https'
+       } server listening on port ${port}`
+    )
 
-    fs.readdirSync(`${global.ROOT}/scripts/`)
+    return fs.readdirSync(`${global.ROOT}/scripts/`)
     .forEach(
       file =>
+        // Run every five minutes.
         setInterval(require(`${global.ROOT}/scripts/${file}`), 300000)
-    )   // Run every five minutes.
+    )
   }
 )
