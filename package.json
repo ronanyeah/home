@@ -21,10 +21,13 @@
   "homepage": "https://ronanmccabe.me/",
   "dependencies": {
     "bluebird": "^3.4.6",
+    "cheerio": "^0.22.0",
     "co": "^4.6.0",
     "node-fetch": "^1.6.3",
     "nodemailer": "^2.6.4",
     "ramda": "^0.22.1",
+    "web-push": "^3.2.0",
+    "whatwg-fetch": "^2.0.0",
     "wordcloud": "^1.0.5"
   },
   "devDependencies": {
