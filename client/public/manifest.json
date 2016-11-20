@@ -1,0 +1,13 @@
+{
+  "short_name": "tux",
+  "name": "tux",
+  "icons": [
+    {
+      "src": "/pwa/tux.png",
+      "type": "image/png",
+      "sizes": "144x144"
+    }
+  ],
+  "start_url": "/pwa/index.html",
+  "display": "fullscreen"
+}
