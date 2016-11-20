@@ -3,7 +3,7 @@
 const co = require('co')
 
 const { sendFile } = require(`${global.ROOT}/server/helpers.js`)
-const sendPush = require(`${global.ROOT}/tools/pushNotify.js`)
+const { push } = require(`${global.ROOT}/tools/pushNotify.js`)
 
 // Synchronous handlers must be promisified.
 module.exports = {
@@ -13,7 +13,7 @@ module.exports = {
 
   '/push':
     co.wrap(function* (req, res) {
-      sendPush('TEST PUSH', Date())
+      push('TEST PUSH', Date())
 
       res.writeHead(200)
       return res.end()

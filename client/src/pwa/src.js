@@ -89,3 +89,4 @@ window.onload = _ =>
   navigator.serviceWorker.controller
     ? null
     : navigator.serviceWorker.register('/pwa/sw.js', {scope: './'})
+      .catch(console.log)
