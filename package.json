@@ -7,7 +7,7 @@
     "start": "npm run build && node ./server/index.js",
     "build": "node ./client/src/main/BUILD.js",
     "watch": "nodemon -e css -x 'npm run build'",
-    "dev": "PORT=3000 nodemon --debug ./server/index.js"
+    "dev": "NODE_ENV=development PORT=3000 nodemon --inspect --debug ./server/index.js"
   },
   "repository": {
     "type": "git",
