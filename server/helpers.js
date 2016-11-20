@@ -24,6 +24,18 @@ const getContentType =
     )
   )
 
+const bodyReader = req =>
+  new Promise( (resolve, reject) => {
+    let body = []
+
+    req.on('data', chunk => body.push(chunk) )
+
+    req.on('end', _ => resolve(Buffer.concat(body).toString()) )
+
+    return req.on('error', err => reject(err) )
+
+  } )
+
 const sendFile =
   path =>
     co.wrap(function* (req, res) {
@@ -37,5 +49,6 @@ const sendFile =
 
 module.exports = {
   getContentType,
-  sendFile
+  sendFile,
+  bodyReader
 }
