@@ -2,24 +2,25 @@
 
 const R        = require('ramda')
 const co       = require('co')
+const path     = require('path')
 const bluebird = require('bluebird')
 const fs       = bluebird.promisifyAll( require('fs') )
 
 // Accepts an asset path and returns a 'Content-Type'.
 const getContentType =
   R.pipe(
-    R.split('.'),
-    R.last,
+    path.parse,
+    R.prop('ext'),
     R.prop(
       R.__,
       {
-        js: 'application/javascript',
-        json: 'application/json',
-        html: 'text/html',
-        css: 'text/css',
-        ico: 'image/x-icon',
-        png: 'image/png',
-        jpg: 'image/jpg'
+        '.js': 'application/javascript',
+        '.json': 'application/json',
+        '.html': 'text/html',
+        '.css': 'text/css',
+        '.ico': 'image/x-icon',
+        '.png': 'image/png',
+        '.jpg': 'image/jpg'
       }
     )
   )
