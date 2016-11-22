@@ -23,11 +23,14 @@ fs.existsSync(vapidKeysPath)
 
 const vapidKeys = require(vapidKeysPath)
 
+const readJson = path =>
+  JSON.parse( fs.readFileSync(path, 'utf8') )
+
 const removeSubscription = endpoint =>
   fs.writeFileSync(
     subscriptionsPath,
     JSON.stringify(
-      fs.readFileSync(subscriptionsPath)
+      readJson(subscriptionsPath)
       .filter(
         subscription =>
           subscription.endpoint !== endpoint
@@ -36,7 +39,7 @@ const removeSubscription = endpoint =>
   )
 
 const addSubscription = newSub => {
-  const subscriptions = fs.readFileSync(subscriptionsPath)
+  const subscriptions = readJson(subscriptionsPath)
 
   return subscriptions.find(
     subscription =>
@@ -50,7 +53,7 @@ const addSubscription = newSub => {
 }
 
 const push = (title = 'HEY', body = '') =>
-  fs.readFileSync(subscriptionsPath)
+  readJson(subscriptionsPath)
   .forEach(
     subscription =>
       wp.sendNotification(

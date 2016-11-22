@@ -47,8 +47,8 @@ module.exports = _ =>
 
     const oldIp =
       fs.existsSync(ipLogPath)
-        ? yield fs.readFileAsync(ipLogPath)
-          .then( txt => JSON.parse( txt ) )
+        ? yield fs.readFileAsync(ipLogPath, 'utf8')
+          .then( JSON.parse )
           .then( data => data.ip )
         : null
 

@@ -3,7 +3,7 @@
 const postcss = require('postcss')
 const fs = require('fs')
 
-const css = fs.readFileSync(`${__dirname}/src.css`)
+const css = fs.readFileSync(`${__dirname}/src.css`, 'utf8')
 
 postcss(
   [

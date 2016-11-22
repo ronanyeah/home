@@ -23,8 +23,8 @@ const server =
       ? http.createServer()
       : https.createServer(
           {
-            key: fs.readFileSync(`${global.ROOT}/private/pvt.pem`),
-            cert: fs.readFileSync(`${global.ROOT}/private/cert.pem`)
+            key: fs.readFileSync(`${global.ROOT}/private/pvt.pem`, 'utf8'),
+            cert: fs.readFileSync(`${global.ROOT}/private/cert.pem`, 'utf8')
           }
         )
 
