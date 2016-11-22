@@ -27,7 +27,7 @@ const removeSubscription = endpoint =>
   fs.writeFileSync(
     subscriptionsPath,
     JSON.stringify(
-      require(subscriptionsPath)
+      fs.readFileSync(subscriptionsPath)
       .filter(
         subscription =>
           subscription.endpoint !== endpoint
@@ -36,7 +36,7 @@ const removeSubscription = endpoint =>
   )
 
 const addSubscription = newSub => {
-  const subscriptions = require(subscriptionsPath)
+  const subscriptions = fs.readFileSync(subscriptionsPath)
 
   return subscriptions.find(
     subscription =>
@@ -50,7 +50,7 @@ const addSubscription = newSub => {
 }
 
 const push = (title = 'HEY', body = '') =>
-  require(subscriptionsPath)
+  fs.readFileSync(subscriptionsPath)
   .forEach(
     subscription =>
       wp.sendNotification(
