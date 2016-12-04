@@ -1,12 +1,16 @@
 {
   "name": "home",
-  "version": "2.0.0",
+  "version": "17.0.0",
   "description": "home",
   "main": "index.js",
   "scripts": {
+    "test": "node test/index.js",
+    "test:watch": "nodemon --ignore ./scrap/ ./scripts/ -x 'node ./test/index.js'",
     "start": "npm run build && node ./server/index.js",
     "build": "node ./client/src/main/BUILD.js",
     "watch": "nodemon -e css -x 'npm run build'",
+    "pwa": "ngrok http 3000",
+    "devx": "NODE_ENV=development PORT=3000 nodemon --inspect --debug-brk ./server/index.js",
     "dev": "NODE_ENV=development PORT=3000 nodemon --inspect --debug ./server/index.js"
   },
   "repository": {
@@ -20,12 +24,12 @@
   },
   "homepage": "https://ronanmccabe.me/",
   "dependencies": {
-    "bluebird": "^3.4.6",
     "cheerio": "^0.22.0",
-    "co": "^4.6.0",
+    "fluture": "^4.1.0",
     "node-fetch": "^1.6.3",
-    "nodemailer": "^2.6.4",
     "ramda": "^0.22.1",
+    "rotools": "^0.3.1",
+    "sanctuary": "^0.11.1",
     "web-push": "^3.2.0",
     "whatwg-fetch": "^2.0.0",
     "wordcloud": "^1.0.5"
