@@ -1,10 +1,10 @@
-import 'whatwg-fetch'
+'use strict'
 
-window.testPush = _ =>
+window.testPush = () =>
   fetch('/push')
   .catch(alert)
 
-window.unsubscribe = _ =>
+window.unsubscribe = () =>
   navigator.serviceWorker.ready
   .then(
     reg =>
@@ -13,12 +13,12 @@ window.unsubscribe = _ =>
         subscription =>
             subscription
               ? subscription.unsubscribe()
-              : null
+              : 0
       )
   )
   .catch(alert)
 
-window.check = _ =>
+window.check = () =>
   navigator.serviceWorker.ready
   .then(
     reg =>
@@ -34,7 +34,7 @@ window.check = _ =>
   )
   .catch(alert)
 
-window.subscribe = _ =>
+window.subscribe = () =>
   navigator.serviceWorker.ready
   .then(
     reg =>
@@ -80,13 +80,16 @@ function urlBase64ToUint8Array (base64String) {
       .replace(/_/g, '/')
     )
 
-  return new Uint8Array(rawData.length).map(
-    (_, index) => rawData.charCodeAt(index)
+  return new Uint8Array(rawData.length)
+    .map(
+      (_, index) =>
+        rawData.charCodeAt(index)
   )
 }
 
-window.onload = _ =>
+window.onload = () =>
   navigator.serviceWorker.controller
     ? null
-    : navigator.serviceWorker.register('/pwa/sw.js', {scope: './'})
+    : navigator.serviceWorker.register('/sw.js')
+      .then(console.log)
       .catch(console.log)
