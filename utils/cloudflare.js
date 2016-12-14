@@ -1,8 +1,8 @@
 'use strict'
 
-const { prop, curry } = require('ramda')
+const { curry } = require('ramda')
 const { futch } = require('rotools')
-const { reject, fromPromise } = require('fluture')
+const { of, reject } = require('fluture')
 
 // String * 4 -> { Function }
 module.exports = curry( (authEmail, authKey) => {
@@ -37,18 +37,15 @@ module.exports = curry( (authEmail, authKey) => {
         method: 'PUT',
         body: JSON.stringify(settings),
         headers
-      }
+      },
+      'json'
     )
     .chain(
       res =>
-        res.status === 200
-          ? fromPromise( () => res.json(), 0 )
-          : reject(Error(
-              'Failed to update settings a DNS record.\n' +
-              `${res.status}: ${res.statusText}`
-            ))
+        res.result
+          ? of(res.result)
+          : reject(res.errors)
     )
-    .map( prop('result') )
 
   // String -> String -> Future Err Res
   const querySettings = (zoneId, dnsId) =>
@@ -58,18 +55,15 @@ module.exports = curry( (authEmail, authKey) => {
       `/dns_records/${dnsId}`,
       {
         headers
-      }
+      },
+      'json'
     )
     .chain(
       res =>
-        res.status === 200
-          ? fromPromise( () => res.json(), 0 )
-          : reject(Error(
-              'Failed to retrieve settings on a DNS record.\n' +
-              `${res.status}: ${res.statusText}`
-            ))
+        res.result
+          ? of(res.result)
+          : reject(res.errors)
     )
-    .map( prop('result') )
 
   return {
     querySettings,

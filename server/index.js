@@ -5,7 +5,6 @@ const https = require('https')
 const { resolve } = require('path')
 const { parse } = require('url')
 const { reject } = require('ramda')
-const { getCurrentIp } = require('rotools')
 const { readFileSync, existsSync } = require('fs')
 const { green, blue, yellow } = require('colors')
 
@@ -62,8 +61,7 @@ server
       ? 0
       : setInterval(
           () =>
-            getCurrentIp
-            .chain( dnsCheck )
+            dnsCheck
             .fork(errorLogger, console.log),
             300000
         )

@@ -11,7 +11,8 @@ const {
 const cfDns = require(`${ROOT}/utils/cloudflare.js`)(emailAddress, authKey)
 
 test('cloudflare', t => (
-  t.plan(1),
+  t.plan(2),
+
   parallel(
     10,
     dnsRecordIds.map(
@@ -19,5 +20,8 @@ test('cloudflare', t => (
         cfDns.querySettings(zoneId, id)
     )
   )
-  .fork( t.fail, res => t.equals(res.length, dnsRecordIds.length, 'settings returned') )
+  .fork( t.fail, res => t.equals(res.length, dnsRecordIds.length, 'settings returned') ),
+
+  cfDns.querySettings(zoneId, '12345')
+  .fork( err => t.equals(err[0].code, 7003, 'error handled'), t.fail )
 ) )
