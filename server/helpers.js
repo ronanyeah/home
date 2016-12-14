@@ -1,18 +1,17 @@
 'use strict'
 
-const R        = require('ramda')
-const co       = require('co')
-const path     = require('path')
-const bluebird = require('bluebird')
-const fs       = bluebird.promisifyAll( require('fs') )
+const { node }             = require('fluture')
+const { pipe, prop, flip } = require('sanctuary')
+const { parse }            = require('path')
+const { readFile }         = require('fs')
 
 // Accepts an asset path and returns a 'Content-Type'.
+// String -> String
 const getContentType =
-  R.pipe(
-    path.parse,
-    R.prop('ext'),
-    R.prop(
-      R.__,
+  pipe([
+    parse,
+    prop('ext'),
+    flip(prop)(
       {
         '.js': 'application/javascript',
         '.json': 'application/json',
@@ -23,30 +22,33 @@ const getContentType =
         '.jpg': 'image/jpg'
       }
     )
-  )
+  ])
 
+// Request -> Future Err Body
 const bodyReader = req =>
-  new Promise( (resolve, reject) => {
-    let body = []
+  Future( (rej, res) => {
+    const body = []
 
-    req.on('data', chunk => body.push(chunk) )
+    req.on( 'data', chunk => body.push(chunk) )
 
-    req.on('end', _ => resolve(Buffer.concat(body).toString()) )
-
-    return req.on('error', err => reject(err) )
-
+    req.on( 'end', () => res( Buffer.concat(body) ) )
   } )
 
+// String -> Future
 const sendFile =
   path =>
-    co.wrap(function* (req, res) {
-      const data = yield fs.readFileAsync(path)
-      const contentType = getContentType(path)
-      res.writeHead(200, { 'Content-Type': contentType })
-      return contentType.substring(0, 4) === 'text'
-        ? res.end( data.toString() )
-        : res.end( data, 'binary' )
-    })
+    node(
+      done =>
+        readFile( path, done )
+    )
+    .map(
+      content =>
+        ({
+          payload: content,
+          contentType: getContentType(path),
+          statusCode: 200
+        })
+    )
 
 module.exports = {
   getContentType,

@@ -1,21 +1,23 @@
 'use strict'
 
-const co       = require('co')
-const R        = require('ramda')
-const bluebird = require('bluebird')
-const fs       = bluebird.promisifyAll( require('fs') )
-
-const { bodyReader } = require(`${global.ROOT}/server/helpers.js`)
-const { addSubscription } = require(`${global.ROOT}/tools/pushNotify.js`)
+const { bodyReader } = require(`${ROOT}/server/helpers.js`)
+const push = require(`${ROOT}/utils/pushNotify.js`)(
+  `${ROOT}/private/push_subscriptions.json`,
+  `${ROOT}/private/vapid_keys.json`
+)
 
 module.exports = {
 
   '/subscribe':
-    co.wrap(function* (req, res) {
-      addSubscription( JSON.parse( yield bodyReader(req) ) )
-
-      res.writeHead(200)
-      return res.end()
-    })
+    (req, res) =>
+      bodyReader(req)
+      .map(String)
+      .map(JSON.parse)
+      .chain(addSubscription)
+      .map(
+        () => ({
+          statusCode: 200
+        })
+      )
 
 }

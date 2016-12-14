@@ -43,5 +43,4 @@ repl-temp-*
 
 # my stuff
 private
-ipLog.json
 client/public/**/bundle.*

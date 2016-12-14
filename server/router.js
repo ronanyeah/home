@@ -1,23 +1,24 @@
 'use strict'
 
-const R = require('ramda')
-const url   = require('url')
-const publicFolder = `${global.ROOT}/client/public`
+const { path, map, drop } = require('ramda')
+const { fileMapper }      = require('rotools')
 
-const handlers = require(`${global.ROOT}/server/handlers/index.js`)
-const assets = require(`${global.ROOT}/tools/assetIndexer.js`)(publicFolder)
-const { sendFile } = require(`${global.ROOT}/server/helpers.js`)
-const { error } = require(`${global.ROOT}/server/handlers/index.js`)
+const handlers = require(`${ROOT}/server/handlers/index.js`)
+const { sendFile } = require(`${ROOT}/server/helpers.js`)
 
+const publicFolder = `${ROOT}/client/public`
+const assetPaths =
+  map(
+    drop(publicFolder.length),
+    fileMapper(publicFolder)
+  )
+
+// String -> String -> Future Err Function
 module.exports =
-  (req, res) =>
-    req.method === 'GET' && assets.includes( url.parse(req.url).pathname )
-      ? sendFile(publicFolder + req.url)(req, res)
-        .catch( err => error(err)(req, res) )
-      : (
-          R.path(
-            [ req.method, url.parse(req.url).pathname ],
-            handlers
-          ) || handlers['GET']['/fourOhFour']
-        )(req, res)
-        .catch( err => error(err)(req, res) )
+  (method, pathname) =>
+    method === 'GET' && assetPaths.includes( pathname )
+      ? () => sendFile( publicFolder + pathname )
+      : path(
+          [ method, pathname ],
+          handlers
+        ) || handlers['GET']['/fourOhFour']

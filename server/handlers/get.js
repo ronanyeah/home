@@ -1,56 +1,89 @@
 'use strict'
 
-const co = require('co')
+const { of } = require('fluture')
+const { json, getCurrentIp } = require('rotools')
+const { prop } = require('ramda')
 
-const { sendFile } = require(`${global.ROOT}/server/helpers.js`)
-const { push } = require(`${global.ROOT}/tools/pushNotify.js`)
+const { sendFile } = require(`${ROOT}/server/helpers.js`)
+const push = require(`${ROOT}/utils/pushNotify.js`)(
+  `${ROOT}/private/push_subscriptions.json`,
+  `${ROOT}/private/vapid_keys.json`
+)
 
 // Synchronous handlers must be promisified.
 module.exports = {
 
   '/':
-    sendFile(`${global.ROOT}/client/public/main/index.html`),
+    () =>
+      sendFile(`${ROOT}/client/public/main/index.html`),
 
   '/push':
-    co.wrap(function* (req, res) {
-      push('TEST PUSH', Date())
-
-      res.writeHead(200)
-      return res.end()
-    }),
+    () => {
+      push.send('TEST PUSH', Date())
+      return of({
+        statusCode: 200
+      })
+    },
 
   '/pencils':
-    sendFile(`${global.ROOT}/client/public/pencils/index.html`),
+    () =>
+      sendFile(`${ROOT}/client/public/pencils/index.html`),
+
+  '/ip':
+    () =>
+      getCurrentIp
+      .map(
+        ip =>
+          ({
+              payload: ip,
+              statusCode: 200,
+              contentType: 'application/json'
+          })
+      ),
 
   '/pwa':
-    sendFile(`${global.ROOT}/client/public/pwa/index.html`),
+    () =>
+      sendFile(`${ROOT}/client/public/pwa/index.html`),
 
   '/cv':
-    sendFile(`${global.ROOT}/client/public/cv.html`),
+    () =>
+      sendFile(`${ROOT}/client/public/cv.html`),
 
   '/cloud':
-    sendFile(`${global.ROOT}/client/public/word-cloud/index.html`),
+    () =>
+      sendFile(`${ROOT}/client/public/word-cloud/index.html`),
 
   '/reveal':
-    sendFile(`${global.ROOT}/client/public/web-crypto/index.html`),
+    () =>
+      sendFile(`${ROOT}/client/public/web-crypto/index.html`),
 
   '/ping':
-    co.wrap(function* (req, res) {
-      res.writeHead(200, { 'Content-Type': 'application/json' })
-      return res.end( JSON.stringify({ alive: true }) )
-    }),
+    () =>
+      of({
+        payload: JSON.stringify({ alive: true }),
+        contentType: 'application/json',
+        statusCode: 200
+      }),
 
   '/config':
-    co.wrap(function* (req, res) {
-      const vapid = require(`${global.ROOT}/private/vapid_keys.json`)
-      res.writeHead(200, { 'Content-Type': 'application/json' })
-      return res.end( JSON.stringify({ applicationServerKey: vapid.publicKey }) )
-    }),
+    () =>
+      json.read(`${ROOT}/private/vapid_keys.json`)
+      .map( prop('publicKey') )
+      .map(
+        publicKey =>
+          ({
+            payload: JSON.stringify({ applicationServerKey: publicKey }),
+            contentType: 'application/json',
+            statusCode: 200
+          })
+      ),
 
   '/fourOhFour':
-    co.wrap(function* (req, res) {
-      res.writeHead(404, { 'Content-Type': 'text/html' })
-      return res.end('<p style="font-size: 10vh; text-align: center;">404!</p>')
-    })
+    () =>
+      of({
+        payload: '<p style="font-size: 10vh; text-align: center;">404!</p>',
+        contentType: 'text/html',
+        statusCode: 404
+      })
 
 }

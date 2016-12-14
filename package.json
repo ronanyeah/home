@@ -4,13 +4,12 @@
   "description": "home",
   "main": "index.js",
   "scripts": {
-    "test": "node test/index.js",
-    "test:watch": "nodemon --ignore ./scrap/ ./scripts/ -x 'node ./test/index.js'",
+    "test": "node ./test/index.js | tap-spec",
+    "test:watch": "nodemon --ignore test/scrap -x 'npm test'",
     "start": "npm run build && node ./server/index.js",
     "build": "node ./client/src/main/BUILD.js",
     "watch": "nodemon -e css -x 'npm run build'",
     "pwa": "ngrok http 3000",
-    "devx": "NODE_ENV=development PORT=3000 nodemon --inspect --debug-brk ./server/index.js",
     "dev": "NODE_ENV=development PORT=3000 nodemon --inspect --debug ./server/index.js"
   },
   "repository": {
@@ -24,14 +23,13 @@
   },
   "homepage": "https://ronanmccabe.me/",
   "dependencies": {
-    "cheerio": "^0.22.0",
+    "colors": "^1.1.2",
     "fluture": "^4.1.0",
-    "node-fetch": "^1.6.3",
+    "fs-extra": "^1.0.0",
     "ramda": "^0.22.1",
-    "rotools": "^0.3.1",
+    "rotools": "^0.4.1",
     "sanctuary": "^0.11.1",
     "web-push": "^3.2.0",
-    "whatwg-fetch": "^2.0.0",
     "wordcloud": "^1.0.5"
   },
   "devDependencies": {
@@ -42,8 +40,9 @@
     "babel-preset-latest": "^6.16.0",
     "cssnano": "^3.8.0",
     "nodemon": "^1.11.0",
-    "postcss-import": "^8.1.2",
+    "postcss-import": "^9.0.0",
     "precss": "^1.4.0",
+    "tap-spec": "^4.1.1",
     "tape": "^4.6.2",
     "webpack": "^1.13.2"
   }
