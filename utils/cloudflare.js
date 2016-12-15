@@ -1,25 +1,37 @@
 'use strict'
 
-const { curry } = require('ramda')
+const { pipe, map, concat, join } = require('ramda')
 const { futch } = require('rotools')
 const { of, reject } = require('fluture')
 
-// String * 4 -> { Function }
-module.exports = curry( (authEmail, authKey) => {
-  // authEmail: String,
-  // - cloudflare email
+// [Object] -> String
+const formatCloudflareErrors =
+  pipe(
+    map(
+      err =>
+        JSON.stringify(err, null, 2)
+    ),
+    join(',\n'),
+    concat('Cloudflare errors:\n')
+  )
 
-  // authKey: String,
-  // - api key
+// authEmail: String,
+// - cloudflare email
 
-  // zoneId: String,
-  // - id of the cloudflare website instance
+// authKey: String,
+// - api key
 
-  // dnsId: String
-  // - the DNS records that need to have their ip addresses updated.
-  // your DNS records can be found at:
-  // https://api.cloudflare.com/client/v4 +
-  // /zones/<YOUR-ZONE-ID>/dns_records
+// zoneId: String,
+// - id of the cloudflare website instance
+
+// dnsId: String
+// - the DNS records that need to have their ip addresses updated.
+// your DNS records can be found at:
+// https://api.cloudflare.com/client/v4 +
+// /zones/<YOUR-ZONE-ID>/dns_records
+
+// String -> String -> Function
+module.exports = (authEmail, authKey) => {
 
   const headers = {
     'Content-Type': 'application/json',
@@ -44,7 +56,7 @@ module.exports = curry( (authEmail, authKey) => {
       res =>
         res.result
           ? of(res.result)
-          : reject(res.errors)
+          : reject(Error(formatCloudflareErrors(res.errors)))
     )
 
   // String -> String -> Future Err Res
@@ -62,7 +74,7 @@ module.exports = curry( (authEmail, authKey) => {
       res =>
         res.result
           ? of(res.result)
-          : reject(res.errors)
+          : reject(Error(formatCloudflareErrors(res.errors)))
     )
 
   return {
@@ -70,4 +82,4 @@ module.exports = curry( (authEmail, authKey) => {
     updateSettings
   }
 
-})
+}

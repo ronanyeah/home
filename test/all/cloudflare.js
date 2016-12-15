@@ -23,5 +23,5 @@ test('cloudflare', t => (
   .fork( t.fail, res => t.equals(res.length, dnsRecordIds.length, 'settings returned') ),
 
   cfDns.querySettings(zoneId, '12345')
-  .fork( err => t.equals(err[0].code, 7003, 'error handled'), t.fail )
+  .fork( err => t.ok(err.message, 'error handled'), t.fail )
 ) )

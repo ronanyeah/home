@@ -45,28 +45,26 @@ const server =
         }
       )
 
+// Keep an eye on IP address changes.
+process.env.NODE_ENV === 'development'
+  ? 0
+  : setInterval(
+      () =>
+        dnsCheck
+        .fork(errorLogger, console.log),
+        300000
+    )
+
 server
 .listen(
   process.env.PORT || 443
 )
 .on(
   'listening',
-  () => (
-
+  () =>
     console.log(
       `\n${ blue('server listening on port') } ${ green(server.address().port) }\n`
-    ),
-
-    process.env.NODE_ENV === 'development'
-      ? 0
-      : setInterval(
-          () =>
-            dnsCheck
-            .fork(errorLogger, console.log),
-            300000
-        )
-
-  )
+    )
 )
 .on( 'request',
   (req, res) => (
@@ -82,8 +80,7 @@ server
 
     router( req.method, parse(req.url).pathname )( req, res )
     .fork(
-      (err, code = 500) => (
-        console.log(err.message),
+      err => (
         errorLogger(err),
         res.writeHead(500),
         res.end()
