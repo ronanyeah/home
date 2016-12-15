@@ -30,9 +30,9 @@ module.exports =
                       zoneId,
                       dnsId,
                       assoc(
-                        settings,
                         'content',
-                        currentIp
+                        currentIp,
+                        settings
                       )
                     )
             )
