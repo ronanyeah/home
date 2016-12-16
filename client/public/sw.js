@@ -29,3 +29,9 @@ self.addEventListener(
       )
     )
 )
+
+self.addEventListener(
+  'notificationclick',
+  event =>
+    event.notification.close()
+)
