@@ -11,7 +11,7 @@ slowly becoming an [elm](http://elm-lang.org/) project.
 
 ##### _to run:_
 1. `$ npm run dev`
-2. visit `localhost:3000`
+2. visit `http://localhost:3000`
 
 ##### _progressive web app development instructions for multiple devices:_
 1. `$ npm run dev`
