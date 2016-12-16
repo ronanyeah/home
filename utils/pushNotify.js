@@ -2,9 +2,9 @@
 
 const { readFileSync, existsSync, writeFileSync } = require('fs')
 const { map, append, reject } = require('ramda')
-const { generateVAPIDKeys, sendNotification } = require('web-push')
 const { Future, parallel, of } = require('fluture')
 const { json } = require('rotools')
+const wp = require('web-push')
 
 module.exports = ( subscriptionsPath, vapidKeysPath ) => {
 
@@ -20,7 +20,7 @@ module.exports = ( subscriptionsPath, vapidKeysPath ) => {
     : writeFileSync(
         vapidKeysPath,
         // Generate new keys.
-        JSON.stringify( generateVAPIDKeys() )
+        JSON.stringify( wp.generateVAPIDKeys() )
       )
 
   const vapidKeys = JSON.parse( readFileSync(vapidKeysPath) )
@@ -69,34 +69,22 @@ module.exports = ( subscriptionsPath, vapidKeysPath ) => {
       map(
         sub =>
           Future( (rej, res) =>
-            void sendNotification(
+            void wp.sendNotification(
               sub,
               JSON.stringify({ title, body }),
               vapidAuth
             )
             .then( res, rej )
           )
+          .chainRej(
+            err =>
+              err.statusCode === 410 // 410 means invalid subscription.
+                ? removeSubscription(sub.endpoint)
+                : Future.reject(err)
+          )
       )
     )
     .chain( parallel( Infinity ) )
-    .fork( console.log, console.log )
-      //forEach(
-        //subscription =>
-          //sendNotification(
-            //subscription,
-            //JSON.stringify({ title, body }),
-            //vapidAuth
-          //)
-          //.catch(
-            //err => {
-              //console.log(err.message)
-              //return err.statusCode === 410 // 410 means invalid subscription.
-                //? removeSubscription(subscriptionsPath, subscription.endpoint)
-                //: 0
-            //}
-          //)
-      //)
-    //)
 
   return {
     addSubscription,

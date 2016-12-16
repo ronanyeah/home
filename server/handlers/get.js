@@ -1,7 +1,7 @@
 'use strict'
 
 const { of } = require('fluture')
-const { json, getCurrentIp } = require('rotools')
+const { json } = require('rotools')
 const { prop } = require('ramda')
 
 const { sendFile } = require(`${ROOT}/server/helpers.js`)
@@ -17,17 +17,18 @@ module.exports = {
       sendFile(`${ROOT}/client/public/main/index.html`),
 
   '/push':
-    () => {
+    () =>
       push.send('TEST PUSH', Date())
-      return of({
-        statusCode: 200
-      })
-    },
+      .map(
+        () =>
+          ({
+              statusCode: 200
+          })
+      ),
 
   '/pencils':
     () =>
       sendFile(`${ROOT}/client/public/pencils/index.html`),
-
 
   '/pwa':
     () =>

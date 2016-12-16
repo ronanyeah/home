@@ -1,6 +1,6 @@
 'use strict'
 
-const { node }             = require('fluture')
+const { Future, node }     = require('fluture')
 const { pipe, prop, flip } = require('sanctuary')
 const { parse }            = require('path')
 const { readFile }         = require('fs')

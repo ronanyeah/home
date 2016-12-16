@@ -13,7 +13,7 @@ module.exports = {
       bodyReader(req)
       .map(String)
       .map(JSON.parse)
-      .chain(addSubscription)
+      .chain(push.addSubscription)
       .map(
         () => ({
           statusCode: 200
