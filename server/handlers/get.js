@@ -10,7 +10,6 @@ const push = require(`${ROOT}/utils/pushNotify.js`)(
   `${ROOT}/private/vapid_keys.json`
 )
 
-// Synchronous handlers must be promisified.
 module.exports = {
 
   '/':
