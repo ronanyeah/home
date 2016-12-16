@@ -29,17 +29,6 @@ module.exports = {
     () =>
       sendFile(`${ROOT}/client/public/pencils/index.html`),
 
-  '/ip':
-    () =>
-      getCurrentIp
-      .map(
-        ip =>
-          ({
-              payload: ip,
-              statusCode: 200,
-              contentType: 'application/json'
-          })
-      ),
 
   '/pwa':
     () =>
