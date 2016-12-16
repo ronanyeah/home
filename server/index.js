@@ -10,12 +10,16 @@ const { green, blue, yellow } = require('colors')
 
 global.ROOT = resolve(`${__dirname}/..`)
 
+const errorLogger = require(`${ROOT}/utils/errorLogger.js`)
+const dnsCheck = require(`${ROOT}/utils/dnsCheck.js`)
+const router = require(`${ROOT}/server/router.js`)
+
 // Ensures support files exist.
 ;(
   missingFiles =>
     missingFiles.length
       ? (
-          console.log(`\nFiles missing!\n${missingFiles.join('\n')}\n`),
+          errorLogger(Error(`\nFiles missing!\n${missingFiles.join('\n')}\n`)),
           process.exit()
         )
       : 0
@@ -32,9 +36,6 @@ global.ROOT = resolve(`${__dirname}/..`)
   )
 )
 
-const errorLogger = require(`${ROOT}/utils/errorLogger.js`)
-const dnsCheck = require(`${ROOT}/utils/dnsCheck.js`)
-const router = require(`${ROOT}/server/router.js`)
 const server =
   process.env.NODE_ENV === 'development'
     ? http.createServer()

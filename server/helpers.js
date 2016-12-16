@@ -34,7 +34,7 @@ const bodyReader = req =>
     req.on( 'end', () => res( Buffer.concat(body) ) )
   } )
 
-// String -> Future
+// String -> Future Err Response
 const sendFile =
   path =>
     node(
