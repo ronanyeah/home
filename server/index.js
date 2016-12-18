@@ -67,7 +67,8 @@ server
       `\n${ blue('server listening on port') } ${ green(server.address().port) }\n`
     )
 )
-.on( 'request',
+.on(
+  'request',
   (req, res) => (
     console.log(yellow(req.method), green(req.url)),
 
