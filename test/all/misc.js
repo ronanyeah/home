@@ -28,6 +28,6 @@ test('misc', t => (
   )
   .post('/')
   .send({ yeah: 'ok' })
-  .end( (err, res) => {} )
+  .end( _ => _ )
 
 ) )

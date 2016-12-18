@@ -21,7 +21,7 @@ module.exports = {
       .map(
         () =>
           ({
-              statusCode: 200
+            statusCode: 200
           })
       ),
 

@@ -11,7 +11,6 @@ module.exports = {
   '/subscribe':
     (req, res) =>
       bodyReader(req)
-      .map(String)
       .map(JSON.parse)
       .chain(push.addSubscription)
       .map(

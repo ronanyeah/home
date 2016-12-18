@@ -2,9 +2,27 @@
 
 const { readFileSync, existsSync, writeFileSync } = require('fs')
 const { map, append, reject } = require('ramda')
-const { Future, parallel, of } = require('fluture')
+const { both, Future, parallel, of, node } = require('fluture')
 const { json } = require('rotools')
 const wp = require('web-push')
+const joi = require('joi')
+
+// Object -> Future Err Object
+const validateSubscription = sub =>
+  node(
+    done =>
+      joi.validate(
+        sub,
+        joi.object().keys({
+          endpoint: joi.string(),
+          keys: joi.object().keys({
+            p256dh: joi.string(),
+            auth: joi.string()
+          }).requiredKeys('p256dh', 'auth')
+        }).requiredKeys('endpoint', 'keys'),
+        done
+      )
+  )
 
 module.exports = ( subscriptionsPath, vapidKeysPath ) => {
 
@@ -33,7 +51,7 @@ module.exports = ( subscriptionsPath, vapidKeysPath ) => {
     }
   }
 
-  // String -> Object -> Future Err Res
+  // String -> Future Err Res
   const removeSubscription = endpoint =>
     json.read(subscriptionsPath)
     .map(
@@ -47,27 +65,32 @@ module.exports = ( subscriptionsPath, vapidKeysPath ) => {
         json.write(subscriptionsPath, subs)
     )
 
-  // String -> Object -> Future Err Res
+  // Object -> Future Err Res
   const addSubscription = newSub =>
-    json.read(subscriptionsPath)
+    both(
+      validateSubscription(newSub),
+      json.read(subscriptionsPath)
+    )
     .chain(
-      subscriptions =>
-        subscriptions.find(
-          subscription =>
-            subscription.endpoint === newSub.endpoint
-        )
-          ? of('already subscribed')
-          : json.write(
-              subscriptionsPath,
-              append(newSub, subscriptions)
-            )
+      ([ validSub, subscriptions ]) =>
+          subscriptions.find(
+            subscription =>
+              subscription.endpoint === validSub.endpoint
+          )
+            ? of('already subscribed')
+            : json.write(
+                subscriptionsPath,
+                append(validSub, subscriptions)
+              )
     )
 
+  // String -> String -> Future Err Res
   const send = (title = 'HEY', body = '') =>
     json.read(subscriptionsPath)
     .map(
       map(
         sub =>
+          // Can't use fromPromise due to web-push design.
           Future( (rej, res) =>
             void wp.sendNotification(
               sub,
@@ -77,10 +100,10 @@ module.exports = ( subscriptionsPath, vapidKeysPath ) => {
             .then( res, rej )
           )
           .chainRej(
-            err =>
-              err.statusCode === 410 // 410 means invalid subscription.
-                ? removeSubscription(sub.endpoint)
-                : Future.reject(err)
+            err => (
+              removeSubscription(sub.endpoint),
+              Future.reject(err)
+            )
           )
       )
     )
