@@ -2,7 +2,6 @@
 
 const { of } = require('fluture')
 const { json } = require('rotools')
-const { prop } = require('ramda')
 
 const { sendFile } = require(`${ROOT}/server/helpers.js`)
 const push = require(`${ROOT}/utils/pushNotify.js`)(
@@ -57,11 +56,10 @@ module.exports = {
   '/config':
     () =>
       json.read(`${ROOT}/private/vapid_keys.json`)
-      .map( prop('publicKey') )
       .map(
-        publicKey =>
+        keys =>
           ({
-            payload: JSON.stringify({ applicationServerKey: publicKey }),
+            payload: JSON.stringify({ applicationServerKey: keys.publicKey }),
             contentType: 'application/json',
             statusCode: 200
           })
