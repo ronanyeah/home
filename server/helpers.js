@@ -1,9 +1,10 @@
 'use strict'
 
-const { Future, node }     = require('fluture')
+const { node } = require('fluture')
 const { pipe, prop, flip } = require('sanctuary')
-const { parse }            = require('path')
-const { readFile }         = require('fs')
+const { parse } = require('path')
+const { readFile } = require('fs')
+const hl = require('highland')
 
 // Accepts an asset path and returns a 'Content-Type'.
 // String -> String
@@ -26,13 +27,7 @@ const getContentType =
 
 // Request -> Future Err Body
 const bodyReader = req =>
-  Future( (rej, res) => {
-    const body = []
-
-    req.on( 'data', chunk => body.push(chunk) )
-
-    req.on( 'end', () => res( Buffer.concat(body) ) )
-  } )
+  node( done => hl(req).toCallback(done) )
 
 // String -> Future Err Response
 const sendFile =

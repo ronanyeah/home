@@ -18,7 +18,6 @@ test('misc', t => (
     (req, res) => (
       res.end(),
       bodyReader(req)
-      .map(String)
       .map(JSON.parse)
       .fork(
         t.fail,
