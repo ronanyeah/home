@@ -40,6 +40,7 @@
     "babel-polyfill": "^6.16.0",
     "babel-preset-latest": "^6.16.0",
     "cssnano": "^3.8.0",
+    "nock": "^9.0.2",
     "nodemon": "^1.11.0",
     "postcss-import": "^9.0.0",
     "precss": "^1.4.0",
