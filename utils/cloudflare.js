@@ -1,7 +1,7 @@
 'use strict'
 
 const { pipe, map, concat, join } = require('ramda')
-const { futch } = require('rotools')
+const { futchJson } = require('rotools')
 const { of, reject } = require('fluture')
 
 // [Object] -> String
@@ -41,7 +41,7 @@ module.exports = (authEmail, authKey) => {
 
   // String -> String -> Object -> Future Err Res
   const updateSettings = (zoneId, dnsId, settings) =>
-    futch(
+    futchJson(
       'https://api.cloudflare.com/client/v4' +
       `/zones/${zoneId}` +
       `/dns_records/${dnsId}`,
@@ -49,8 +49,7 @@ module.exports = (authEmail, authKey) => {
         method: 'PUT',
         body: JSON.stringify(settings),
         headers
-      },
-      'json'
+      }
     )
     .chain(
       res =>
@@ -61,14 +60,13 @@ module.exports = (authEmail, authKey) => {
 
   // String -> String -> Future Err Res
   const querySettings = (zoneId, dnsId) =>
-    futch(
+    futchJson(
       'https://api.cloudflare.com/client/v4' +
       `/zones/${zoneId}` +
       `/dns_records/${dnsId}`,
       {
         headers
-      },
-      'json'
+      }
     )
     .chain(
       res =>
