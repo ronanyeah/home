@@ -43,4 +43,5 @@ repl-temp-*
 
 # my stuff
 private
+coverage
 client/public/**/bundle.*

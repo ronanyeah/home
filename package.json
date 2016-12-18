@@ -9,6 +9,7 @@
     "start": "npm run build && node ./server/index.js",
     "build": "node ./client/src/main/BUILD.js",
     "watch": "nodemon -e css -x 'npm run build'",
+    "cov": "istanbul cover ./test/index.js",
     "pwa": "ngrok http 3000",
     "dev": "NODE_ENV=development PORT=3000 nodemon --inspect --debug ./server/index.js"
   },
@@ -41,6 +42,7 @@
     "babel-polyfill": "^6.16.0",
     "babel-preset-latest": "^6.16.0",
     "cssnano": "^3.8.0",
+    "istanbul": "^0.4.5",
     "nock": "^9.0.2",
     "nodemon": "^1.11.0",
     "postcss-import": "^9.0.0",
