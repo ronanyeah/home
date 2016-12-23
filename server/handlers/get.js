@@ -29,6 +29,10 @@ module.exports = {
     () =>
       sendFile(`${ROOT}/public/pwa/index.html`),
 
+  '/gifs':
+    () =>
+      sendFile(`${ROOT}/public/gifs/index.html`),
+
   '/cv':
     () =>
       sendFile(`${ROOT}/public/cv.html`),
