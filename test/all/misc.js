@@ -1,7 +1,7 @@
 'use strict'
 
 const test = require('tape')
-const request = require('supertest')
+const shot = require('shot')
 
 const { getContentType, bodyReader } = require(`${ROOT}/server/helpers.js`)
 
@@ -14,20 +14,20 @@ test('misc', t => (
     'content type'
   ),
 
-  request(
-    (req, res) => (
-      res.end(),
+  shot.inject(
+    (req, res) =>
       bodyReader(req)
-      .map(JSON.parse)
       .fork(
         t.fail,
-        json =>
-          t.equals(json.yeah, 'ok', 'body parser')
-      )
-    )
+        data =>
+          res.end(data)
+      ),
+    {
+      url: '/',
+      payload: 'TEST_PAYLOAD'
+    },
+    res =>
+      t.equals(res.payload, 'TEST_PAYLOAD', 'body parser')
   )
-  .post('/')
-  .send({ yeah: 'ok' })
-  .end( _ => _ )
 
 ) )
