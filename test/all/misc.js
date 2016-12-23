@@ -20,14 +20,11 @@ test('misc', t => (
       .fork(
         t.fail,
         data =>
-          res.end(data)
+          t.equals(String(data), 'TEST_PAYLOAD', 'body parser')
       ),
     {
       url: '/',
       payload: 'TEST_PAYLOAD'
-    },
-    res =>
-      t.equals(res.payload, 'TEST_PAYLOAD', 'body parser')
+    }
   )
-
 ) )
