@@ -13,7 +13,7 @@ module.exports = {
 
   '/':
     () =>
-      sendFile(`${ROOT}/client/public/main/index.html`),
+      sendFile(`${ROOT}/public/main/index.html`),
 
   '/push':
     () =>
@@ -25,25 +25,13 @@ module.exports = {
           })
       ),
 
-  '/pencils':
-    () =>
-      sendFile(`${ROOT}/client/public/pencils/index.html`),
-
   '/pwa':
     () =>
-      sendFile(`${ROOT}/client/public/pwa/index.html`),
+      sendFile(`${ROOT}/public/pwa/index.html`),
 
   '/cv':
     () =>
-      sendFile(`${ROOT}/client/public/cv.html`),
-
-  '/cloud':
-    () =>
-      sendFile(`${ROOT}/client/public/word-cloud/index.html`),
-
-  '/reveal':
-    () =>
-      sendFile(`${ROOT}/client/public/web-crypto/index.html`),
+      sendFile(`${ROOT}/public/cv.html`),
 
   '/ping':
     () =>

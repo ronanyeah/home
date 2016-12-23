@@ -19,8 +19,14 @@ postcss(
     from: `${__dirname}/src.css`
   }
 )
-.then( result => {
-  fs.writeFileSync(`${__dirname}/../../public/main/bundle.css`, result.css)
-  if ( result.map ) fs.writeFileSync('app.css.map', result.map)
-})
+.then(
+  result =>
+    fs.writeFileSync(
+      `${__dirname}/../../public/main/bundle.css`,
+      result.css
+    )
+  //result.map
+    //? fs.writeFileSync('app.css.map', result.map)
+    //: null
+)
 .catch( console.log )

@@ -36,16 +36,6 @@ const router = require(`${ROOT}/server/router.js`)
   )
 )
 
-const server =
-  process.env.NODE_ENV === 'development'
-    ? http.createServer()
-    : https.createServer(
-        {
-          key: readFileSync(`${ROOT}/private/server.key`, 'utf8'),
-          cert: readFileSync(`${ROOT}/private/server.crt`, 'utf8')
-        }
-      )
-
 // Keep an eye on IP address changes.
 process.env.NODE_ENV === 'development'
   ? 0
@@ -55,6 +45,16 @@ process.env.NODE_ENV === 'development'
         .fork(errorLogger, console.log),
         300000
     )
+
+const server =
+  process.env.NODE_ENV === 'development'
+    ? http.createServer()
+    : https.createServer(
+        {
+          key: readFileSync(`${ROOT}/private/server.key`, 'utf8'),
+          cert: readFileSync(`${ROOT}/private/server.crt`, 'utf8')
+        }
+      )
 
 server
 .listen(
@@ -84,8 +84,8 @@ server
     .fork(
       err => (
         errorLogger(err),
-        res.writeHead(500),
-        res.end()
+        res.writeHead(500, { 'Content-Type': 'text/html' }),
+        res.end('<p style="font-size: 10vh; text-align: center;">Server Error!</p>')
       ),
 
       ({ payload, contentType, statusCode }) => (

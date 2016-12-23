@@ -4,11 +4,12 @@
   "description": "home",
   "main": "index.js",
   "scripts": {
+    "build": "npm run build:main",
+    "build:main": "node ./client/main/BUILD.js",
+    "watch:main": "nodemon -e css -x 'npm run build:main'",
     "test": "node ./test/index.js | tap-spec",
     "test:watch": "nodemon --ignore test/scrap -x 'npm test'",
     "start": "npm run build && node ./server/index.js",
-    "build": "node ./client/src/main/BUILD.js",
-    "watch": "nodemon -e css -x 'npm run build'",
     "cov": "istanbul cover ./test/index.js",
     "pwa": "ngrok http 3000",
     "dev": "NODE_ENV=development PORT=3000 nodemon --inspect --debug ./server/index.js"
@@ -50,6 +51,6 @@
     "supertest": "^2.0.1",
     "tap-spec": "^4.1.1",
     "tape": "^4.6.2",
-    "webpack": "^1.13.2"
+    "webpack": "^1.14.0"
   }
 }

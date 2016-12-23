@@ -6,7 +6,7 @@ const { fileMapper } = require('rotools')
 const handlers = require(`${ROOT}/server/handlers/index.js`)
 const { sendFile } = require(`${ROOT}/server/helpers.js`)
 
-const publicFolder = `${ROOT}/client/public`
+const publicFolder = `${ROOT}/public`
 
 const assetPaths = fileMapper(publicFolder)
 
