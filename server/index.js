@@ -93,9 +93,10 @@ server
           statusCode,
           payload
             ? {
-                'Content-Type': contentType
+                'Content-Type': contentType,
+                'Content-Length': payload.length
               }
-            : undefined
+            : {}
         ),
         res.end(payload)
       )
