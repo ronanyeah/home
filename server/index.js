@@ -8,7 +8,13 @@ const { reject } = require('ramda')
 const { readFileSync, existsSync } = require('fs')
 const { green, blue, yellow } = require('colors')
 
-global.ROOT = resolve(`${__dirname}/..`)
+Object.assign( // eslint-disable-line
+  global,
+  {
+    ROOT: resolve(`${__dirname}/..`),
+    DEV: process.env.NODE_ENV === 'development'
+  }
+)
 
 const errorLogger = require(`${ROOT}/utils/errorLogger.js`)
 const dnsCheck = require(`${ROOT}/utils/dnsCheck.js`)
@@ -23,8 +29,7 @@ const router = require(`${ROOT}/server/router.js`)
           process.exit()
         )
       : 0
-)
-(
+)(
   reject(
     existsSync,
     [
@@ -37,17 +42,17 @@ const router = require(`${ROOT}/server/router.js`)
 )
 
 // Keep an eye on IP address changes.
-process.env.NODE_ENV === 'development'
-  ? 0
-  : setInterval(
-      () =>
+setInterval(
+  global.DEV
+    ? _ => _
+    : () =>
         dnsCheck
         .fork(errorLogger, console.log),
-        300000
-    )
+  300000
+)
 
 const server =
-  process.env.NODE_ENV === 'development'
+  global.DEV
     ? http.createServer()
     : https.createServer(
         {
@@ -71,7 +76,6 @@ server
   'request',
   (req, res) => (
     console.log(yellow(req.method), green(req.url)),
-
     [
       // Synchronous Middleware
     ]
