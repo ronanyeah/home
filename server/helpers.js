@@ -1,8 +1,9 @@
 'use strict'
 
 const { node } = require('fluture')
-const { pipe, prop, flip } = require('sanctuary')
+const { fromMaybe, get, pipe } = require('sanctuary')
 const { parse } = require('path')
+const { __, invoker } = require('ramda')
 const { readFile } = require('fs')
 const hl = require('highland')
 
@@ -11,18 +12,26 @@ const hl = require('highland')
 const getContentType =
   pipe([
     parse,
-    prop('ext'),
-    flip(prop)(
-      {
-        '.js': 'application/javascript',
-        '.json': 'application/json',
-        '.html': 'text/html',
-        '.css': 'text/css',
-        '.ico': 'image/x-icon',
-        '.png': 'image/png',
-        '.jpg': 'image/jpg'
-      }
-    )
+    get(String, 'ext'),
+    invoker(
+      1,
+      'chain'
+    )(
+      get(
+        String,
+        __,
+        {
+          '.js': 'application/javascript',
+          '.json': 'application/json',
+          '.html': 'text/html',
+          '.css': 'text/css',
+          '.ico': 'image/x-icon',
+          '.png': 'image/png',
+          '.jpg': 'image/jpg'
+        }
+      )
+    ),
+    fromMaybe('text/plain')
   ])
 
 // Request -> Future Err Body

@@ -5,13 +5,21 @@ const shot = require('shot')
 
 const { getContentType, bodyReader } = require(`${ROOT}/server/helpers.js`)
 
+const payload = 'TEST_PAYLOAD'
+
 test('misc', t => (
-  t.plan(2),
+  t.plan(3),
 
   t.equals(
     getContentType('/folder/index.js'),
     'application/javascript',
     'content type'
+  ),
+
+  t.equals(
+    getContentType('/.vimrc'),
+    'text/plain',
+    'default content type'
   ),
 
   shot.inject(
@@ -20,11 +28,11 @@ test('misc', t => (
       .fork(
         t.fail,
         data =>
-          t.equals(String(data), 'TEST_PAYLOAD', 'body parser')
+          t.equals(String(data), payload, 'body parser')
       ),
     {
-      url: '/',
-      payload: 'TEST_PAYLOAD'
+      url: '/foo',
+      payload
     }
   )
 ) )
