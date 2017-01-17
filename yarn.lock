@@ -3370,9 +3370,9 @@ ripemd160@0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/ripemd160/-/ripemd160-0.2.0.tgz#2bf198bde167cacfa51c0a928e84b68bbe171fce"
 
-rotools@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/rotools/-/rotools-1.0.0.tgz#fba3748f5c04cebe73dc72c619065a8d93045593"
+rotools@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/rotools/-/rotools-1.1.1.tgz#aaee6494979b7909d363f91b021a31bdea0350be"
   dependencies:
     fluture "^4.1.0"
     node-fetch "^1.6.3"
