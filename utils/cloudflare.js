@@ -15,22 +15,7 @@ const formatCloudflareErrors =
     concat('Cloudflare errors:\n')
   )
 
-// authEmail: String,
-// - cloudflare email
-
-// authKey: String,
-// - api key
-
-// zoneId: String,
-// - id of the cloudflare website instance
-
-// dnsId: String
-// - the DNS records that need to have their ip addresses updated.
-// your DNS records can be found at:
-// https://api.cloudflare.com/client/v4 +
-// /zones/<YOUR-ZONE-ID>/dns_records
-
-// String -> String -> Function
+// String -> String -> { Function }
 module.exports = (authEmail, authKey) => {
 
   const headers = {

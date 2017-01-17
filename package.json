@@ -4,17 +4,17 @@
   "description": "home",
   "main": "index.js",
   "scripts": {
+    "start": "npm run build && node START.js",
+    "test": "node ./test/index.js | tap-spec",
+    "test:watch": "nodemon --ignore test/scrap -x 'npm test'",
+    "server:dev": "nodemon --inspect --debug ./server/index.js",
     "build": "npm run build:main & npm run build:toys",
     "build:main": "node ./client/main/BUILD.js",
     "watch:main": "nodemon -e css -x 'npm run build:main'",
     "build:toys": "elm-make ./client/toys/Main.elm --warn --output ./public/toys/bundle.js",
     "watch:toys": "nodemon -e elm -x 'npm run build:toys'",
-    "test": "node ./test/index.js | tap-spec",
-    "test:watch": "nodemon --ignore test/scrap -x 'npm test'",
-    "start": "npm run build && node ./server/index.js",
     "cov": "istanbul cover ./test/index.js",
-    "pwa": "ngrok http 3000",
-    "dev": "NODE_ENV=development PORT=3000 nodemon --inspect --debug ./server/index.js"
+    "pwa": "ngrok http 3000"
   },
   "repository": {
     "type": "git",
@@ -32,6 +32,7 @@
     "fs-extra": "^1.0.0",
     "highland": "^2.10.1",
     "joi": "^10.0.6",
+    "pm2": "^2.2.3",
     "ramda": "^0.22.1",
     "rotools": "^1.0.0",
     "sanctuary": "^0.11.1",

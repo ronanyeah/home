@@ -27,14 +27,14 @@ const validateSubscription = sub =>
 module.exports = ( subscriptionsPath, vapidKeysPath ) => {
 
   existsSync(subscriptionsPath)
-    ? 0
+    ? false
     : writeFileSync(
         subscriptionsPath,
         '[]'
       )
 
   existsSync(vapidKeysPath)
-    ? 0
+    ? false
     : writeFileSync(
         vapidKeysPath,
         // Generate new keys.

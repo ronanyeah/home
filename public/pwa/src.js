@@ -13,7 +13,7 @@ window.unsubscribe = () =>
         subscription =>
             subscription
               ? subscription.unsubscribe()
-              : 0
+              : false
       )
   )
   .catch(alert)

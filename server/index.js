@@ -4,80 +4,48 @@ const http = require('http')
 const https = require('https')
 const { resolve } = require('path')
 const { parse } = require('url')
-const { reject } = require('ramda')
-const { readFileSync, existsSync } = require('fs')
 const { green, blue, yellow } = require('colors')
 
-Object.assign( // eslint-disable-line
-  global,
-  {
-    ROOT: resolve(`${__dirname}/..`),
-    DEV: process.env.NODE_ENV === 'development'
-  }
-)
+global.ROOT = resolve(`${__dirname}/..`) // eslint-disable-line fp/no-mutation
 
 const errorLogger = require(`${ROOT}/utils/errorLogger.js`)
 const dnsCheck = require(`${ROOT}/utils/dnsCheck.js`)
 const router = require(`${ROOT}/server/router.js`)
 
-// Ensures support files exist.
-;(
-  missingFiles =>
-    missingFiles.length
-      ? (
-          errorLogger(Error(`\nFiles missing!\n${missingFiles.join('\n')}\n`)),
-          process.exit()
-        )
-      : 0
-)(
-  reject(
-    existsSync,
-    [
-      `${ROOT}/private/mailConfig.json`,
-      `${ROOT}/private/cloudflareConfig.json`,
-      `${ROOT}/private/server.key`,
-      `${ROOT}/private/server.crt`
-    ]
-  )
-)
+// CONFIG
+const { HTTPS, PORT, IP_SYNC } = require(`${ROOT}/server/config.js`)
 
-// Keep an eye on IP address changes.
-setInterval(
-  global.DEV
-    ? _ => _
-    : () =>
+IP_SYNC
+  ? setInterval(
+      () =>
+        // Synchronise public IP address changes w/ Cloudflare.
         dnsCheck
         .fork(errorLogger, console.log),
-  300000
-)
+      300000
+    )
+  : false
 
 const server =
-  global.DEV
-    ? http.createServer()
-    : https.createServer(
-        {
-          key: readFileSync(`${ROOT}/private/server.key`, 'utf8'),
-          cert: readFileSync(`${ROOT}/private/server.crt`, 'utf8')
-        }
-      )
+  HTTPS
+    ? https.createServer(HTTPS)
+    : http.createServer()
 
 server
-.listen(
-  process.env.PORT || 443
-)
+.listen(PORT)
 .on(
   'listening',
   () =>
     console.log(
-      `\n${ blue('server listening on port') } ${ green(server.address().port) }\n`
+      `\n${ blue('server listening on port') } ${ green(PORT) }\n`
     )
 )
 .on(
   'request',
   (req, res) => (
     console.log(yellow(req.method), green(req.url)),
+
     [
-      // Synchronous Middleware
+      // Synchronous middleware.
     ]
     .forEach(
       mw =>
