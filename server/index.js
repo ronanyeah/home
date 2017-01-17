@@ -4,7 +4,7 @@ const http = require('http')
 const https = require('https')
 const { resolve } = require('path')
 const { parse } = require('url')
-const { green, blue, yellow } = require('colors')
+const { red, green, blue, yellow } = require('colors')
 
 global.ROOT = resolve(`${__dirname}/..`) // eslint-disable-line fp/no-mutation
 
@@ -36,7 +36,7 @@ server
   'listening',
   () =>
     console.log(
-      `\n${ blue('server listening on port') } ${ green(PORT) }\n`
+      `\n${ red( HTTPS ? 'https' : 'http' ) } ${ blue('server listening on port') } ${ green(PORT) }\n`
     )
 )
 .on(
