@@ -29,9 +29,9 @@ module.exports = {
     () =>
       sendFile(`${ROOT}/public/pwa/index.html`),
 
-  '/gifs':
+  '/toys':
     () =>
-      sendFile(`${ROOT}/public/gifs/index.html`),
+      sendFile(`${ROOT}/public/toys/index.html`),
 
   '/cv':
     () =>

@@ -6,7 +6,11 @@
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <style>
-      body { padding: 0px; margin: 0px; }
+      body {
+        padding: 0px;
+        margin: 0px;
+      }
+
       img {
         display: relative;
         width: 12.4vw;
@@ -14,12 +18,13 @@
       }
     </style>
     <!--<link rel="stylesheet" href="https://unpkg.com/tachyons@4.5.5/css/tachyons.min.css"/>-->
+    <link rel="stylesheet" href="/toys/index.css"/>
   </head>
   <body>
     <div id="app"></div>
-    <script src="/gifs/bundle.js"></script>
+    <script src="/toys/bundle.js"></script>
     <script>
-      Elm.Main.embed(document.getElementById('app'))
+      Elm.Toys.embed(document.getElementById('app'))
     </script>
   </body>
 </html>
