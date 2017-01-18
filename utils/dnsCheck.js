@@ -19,10 +19,9 @@ module.exports =
     currentIp =>
       parallel(
         Infinity,
-
         CLOUDFLARE.dnsRecordIds.map(
           dnsId =>
-            cf.querySettings(CLOUDFLARE.zoneId, CLOUDFLARE.dnsId)
+            cf.querySettings(CLOUDFLARE.zoneId, dnsId)
             .chain(
               settings =>
                 equals( currentIp, prop('content', settings) ) // 'content' is the currently set IP.
