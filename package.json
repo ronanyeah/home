@@ -4,7 +4,7 @@
   "description": "home",
   "main": "index.js",
   "scripts": {
-    "start": "npm run build && node START.js",
+    "start": "node ./server/index.js",
     "test": "node ./test/index.js | tap-spec",
     "test:watch": "nodemon --ignore test/scrap -x 'npm test'",
     "server:dev": "nodemon --inspect --debug ./server/index.js",
@@ -40,10 +40,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^6.5.1",
-    "babel-core": "^6.18.0",
-    "babel-loader": "^6.2.7",
     "babel-polyfill": "^6.16.0",
-    "babel-preset-latest": "^6.16.0",
     "cssnano": "^3.8.0",
     "istanbul": "^0.4.5",
     "nock": "^9.0.2",

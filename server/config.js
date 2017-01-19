@@ -3,7 +3,8 @@
 const { readFileSync } = require('fs')
 
 module.exports = {
-  IP_SYNC: process.env.IP_SYNC,
+  IP_SYNC:
+    process.env.IP_SYNC,
   PORT:
     process.env.HTTPS
       ? 443
@@ -17,18 +18,19 @@ module.exports = {
       : false,
   CLOUDFLARE:
     require(`${ROOT}/private/cloudflareConfig.json`)
-    // authEmail: String,
-    // - cloudflare email
-
-    // authKey: String,
-    // - api key
-
-    // zoneId: String,
-    // - id of the cloudflare website instance
-
-    // dnsId: String
-    // - the DNS records that need to have their ip addresses updated.
-    // your DNS records can be found at:
-    // https://api.cloudflare.com/client/v4 +
-    // /zones/<YOUR-ZONE-ID>/dns_records
+    // {
+    //    authEmail: <string>,
+    //    - cloudflare email
+    //
+    //    authKey: <string>,
+    //    - api key
+    //
+    //    zoneId: <string>,
+    //    - id of the cloudflare website instance
+    //
+    //    dnsId: <string>,
+    //    - The DNS records that need to have their IP addresses updated.
+    //      Your DNS records can be found at:
+    //      https://api.cloudflare.com/client/v4/zones/<YOUR-ZONE-ID>/dns_records
+    // }
 }
