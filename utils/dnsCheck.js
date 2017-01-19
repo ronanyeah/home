@@ -1,6 +1,6 @@
 'use strict'
 
-const { prop, assoc, equals }  = require('ramda')
+const { propEq, assoc }  = require('ramda')
 const { of, parallel } = require('fluture')
 const { getCurrentIp } = require('rotools')
 
@@ -24,7 +24,7 @@ module.exports =
             cf.querySettings(CLOUDFLARE.zoneId, dnsId)
             .chain(
               settings =>
-                equals( currentIp, prop('content', settings) ) // 'content' is the currently set IP.
+                propEq('content', currentIp, settings) // 'content' is the currently set IP.
                   ? of('no change')
                   : cf.updateSettings(
                       CLOUDFLARE.zoneId,
