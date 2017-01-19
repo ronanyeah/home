@@ -10,7 +10,7 @@
     "server:dev": "nodemon --inspect --debug ./server/index.js",
     "build": "npm run build:main & npm run build:toys",
     "build:main": "node ./client/main/BUILD.js",
-    "watch:main": "nodemon -e css -x 'npm run build:main'",
+    "watch:main": "nodemon -e css -e html -x 'npm run build:main'",
     "build:toys": "elm-make ./client/toys/Main.elm --warn --output ./public/toys/bundle.js",
     "watch:toys": "nodemon -e elm -x 'npm run build:toys'",
     "cov": "istanbul cover ./test/index.js",
