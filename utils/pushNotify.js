@@ -1,7 +1,7 @@
 'use strict'
 
 const { readFileSync, existsSync, writeFileSync } = require('fs')
-const { map, append, reject } = require('ramda')
+const { map, append, reject, propEq } = require('ramda')
 const { both, Future, parallel, of, node } = require('fluture')
 const { json } = require('rotools')
 const wp = require('web-push')
@@ -56,13 +56,11 @@ module.exports = ( subscriptionsPath, vapidKeysPath ) => {
     json.read(subscriptionsPath)
     .map(
       reject(
-        subscription =>
-          subscription.endpoint === endpoint
+        propEq('endpoint', endpoint)
       )
     )
     .chain(
-      subs =>
-        json.write(subscriptionsPath, subs)
+      json.write(subscriptionsPath)
     )
 
   // Object -> Future Err Res
@@ -74,8 +72,7 @@ module.exports = ( subscriptionsPath, vapidKeysPath ) => {
     .chain(
       ([ validSub, subscriptions ]) =>
           subscriptions.find(
-            subscription =>
-              subscription.endpoint === validSub.endpoint
+            propEq('endpoint', validSub.endpoint)
           )
             ? of('already subscribed')
             : json.write(
