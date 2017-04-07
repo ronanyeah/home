@@ -21,7 +21,7 @@ module.exports = {
     () =>
       push.send('TEST PUSH', Date())
       .map(
-        () =>
+        _ =>
           ({
             statusCode: 200
           })

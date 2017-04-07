@@ -1,11 +1,12 @@
 'use strict'
 
-const { map } = require('ramda')
-const { Future, parallel, node, of, reject } = require('fluture')
+const { map, test, propSatisfies } = require('ramda')
+const { Future, parallel, node, of } = require('fluture')
 const wp = require('web-push')
 const joi = require('joi')
 
-const db = require(`${ROOT}/db/sqlite.js`)
+const redis = require(`${ROOT}/db/redis.js`)
+const errorLogger = require(`${ROOT}/utils/errorLogger.js`)
 
 // Object -> Future Err Object
 const validateSubscription = sub =>
@@ -24,18 +25,7 @@ const validateSubscription = sub =>
       )
   )
 
-const formatSubscription =
-  ({ endpoint, p256dh, auth }) =>
-    ({
-       endpoint,
-       keys: {
-         p256dh,
-         auth
-       }
-    })
-
-const ALREADY_SUBSCRIBED_ERROR =
-  'SQLITE_CONSTRAINT: UNIQUE constraint failed: subscriptions.endpoint'
+const isRegistrationError = propSatisfies(test(/NotRegistered/), 'message')
 
 module.exports = ( myEmail, vapidPublicKey, vapidPrivateKey ) => {
 
@@ -48,33 +38,25 @@ module.exports = ( myEmail, vapidPublicKey, vapidPrivateKey ) => {
   }
 
   // String -> Future Err Res
-  const removeSubscription = endpoint =>
-    db.run(
-      'DELETE FROM subscriptions WHERE endpoint = ?',
-      endpoint
-    )
+  const removeSubscription =
+    endpoint =>
+      redis.delete(endpoint)
 
   // Object -> Future Err Res
   const addSubscription = newSub =>
     validateSubscription(newSub)
     .chain(
       sub =>
-        db.run(
-          'INSERT INTO subscriptions VALUES (?, ?, ?)',
-          [ sub.endpoint, sub.keys.p256dh, sub.keys.auth ]
-        )
-        .chainRej(
-          err =>
-            err.message === ALREADY_SUBSCRIBED_ERROR
-              ? of('OK')
-              : reject(err)
+        redis.set(
+          sub.endpoint,
+          JSON.stringify(sub)
         )
     )
 
   // String -> String -> Future Err Res
   const send = (title = 'HEY', body = '') =>
-    db.all('SELECT * FROM subscriptions')
-    .map(map(formatSubscription))
+    redis.all
+    .map(map(JSON.parse))
     .map(map(
       sub =>
         // Can't use fromPromise due to web-push design.
@@ -87,13 +69,12 @@ module.exports = ( myEmail, vapidPublicKey, vapidPrivateKey ) => {
           .then( res, rej )
         )
         .chainRej(
-          err => (
-            removeSubscription(sub.endpoint)
-            .chain(
-              _ =>
-                Future.reject(err)
-            )
-          )
+          err =>
+            // Intercept (but log) errors,
+            // and delete subscription if registration is invalid.
+            isRegistrationError(err)
+              ? removeSubscription(sub.endpoint)
+              : of(errorLogger(err))
         )
     ))
     .chain( parallel( 20 ) )
