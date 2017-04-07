@@ -1,7 +1,7 @@
 'use strict'
 
 const { readFileSync, writeFileSync, existsSync } = require('fs')
-const { ensureDirSync } = require('fs-extra')
+const { ensureDirSync, ensureFileSync } = require('fs-extra')
 const { resolve } = require('path')
 const { unless } = require('ramda')
 const wp = require('web-push')
@@ -12,6 +12,9 @@ const ERROR_LOG = resolve('./error_log.txt')
 
 // Ensure private folder.
 ensureDirSync('./private')
+
+// Ensure sqlite file.
+ensureFileSync(SQLITE_FILE)
 
 // Ensure push keys.
 unless(
