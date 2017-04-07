@@ -3,10 +3,9 @@
 const { of } = require('fluture')
 const { json } = require('rotools')
 
-const { PUSH_SUBSCRIPTIONS_PATH, MY_EMAIL, VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY } = require(`${ROOT}/config.js`)
+const { MY_EMAIL, VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY } = require(`${ROOT}/config.js`)
 const { sendFile } = require(`${ROOT}/server/helpers.js`)
 const push = require(`${ROOT}/utils/pushNotify.js`)(
-  PUSH_SUBSCRIPTIONS_PATH,
   MY_EMAIL,
   VAPID_PUBLIC_KEY,
   VAPID_PRIVATE_KEY

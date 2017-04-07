@@ -1,10 +1,11 @@
 'use strict'
 
-const { map, append, reject, propEq } = require('ramda')
-const { both, Future, parallel, of, node } = require('fluture')
-const { json } = require('rotools')
+const { map } = require('ramda')
+const { Future, parallel, node, of, reject } = require('fluture')
 const wp = require('web-push')
 const joi = require('joi')
+
+const db = require(`${ROOT}/db/sqlite.js`)
 
 // Object -> Future Err Object
 const validateSubscription = sub =>
@@ -23,7 +24,20 @@ const validateSubscription = sub =>
       )
   )
 
-module.exports = ( subscriptionsPath, myEmail, vapidPublicKey, vapidPrivateKey ) => {
+const formatSubscription =
+  ({ endpoint, p256dh, auth }) =>
+    ({
+       endpoint,
+       keys: {
+         p256dh,
+         auth
+       }
+    })
+
+const ALREADY_SUBSCRIBED_ERROR =
+  'SQLITE_CONSTRAINT: UNIQUE constraint failed: subscriptions.endpoint'
+
+module.exports = ( myEmail, vapidPublicKey, vapidPrivateKey ) => {
 
   const vapidAuth = {
     vapidDetails: {
@@ -35,58 +49,54 @@ module.exports = ( subscriptionsPath, myEmail, vapidPublicKey, vapidPrivateKey )
 
   // String -> Future Err Res
   const removeSubscription = endpoint =>
-    json.read(subscriptionsPath)
-    .map(
-      reject(
-        propEq('endpoint', endpoint)
-      )
-    )
-    .chain(
-      json.write(subscriptionsPath)
+    db.run(
+      'DELETE FROM subscriptions WHERE endpoint = ?',
+      endpoint
     )
 
   // Object -> Future Err Res
   const addSubscription = newSub =>
-    both(
-      validateSubscription(newSub),
-      json.read(subscriptionsPath)
-    )
+    validateSubscription(newSub)
     .chain(
-      ([ validSub, subscriptions ]) =>
-          subscriptions.find(
-            propEq('endpoint', validSub.endpoint)
-          )
-            ? of('already subscribed')
-            : json.write(
-                subscriptionsPath,
-                append(validSub, subscriptions)
-              )
+      sub =>
+        db.run(
+          'INSERT INTO subscriptions VALUES (?, ?, ?)',
+          [ sub.endpoint, sub.keys.p256dh, sub.keys.auth ]
+        )
+        .chainRej(
+          err =>
+            err.message === ALREADY_SUBSCRIBED_ERROR
+              ? of('OK')
+              : reject(err)
+        )
     )
 
   // String -> String -> Future Err Res
   const send = (title = 'HEY', body = '') =>
-    json.read(subscriptionsPath)
-    .map(
-      map(
-        sub =>
-          // Can't use fromPromise due to web-push design.
-          Future( (rej, res) =>
-            void wp.sendNotification(
-              sub,
-              JSON.stringify({ title, body }),
-              vapidAuth
-            )
-            .then( res, rej )
+    db.all('SELECT * FROM subscriptions')
+    .map(map(formatSubscription))
+    .map(map(
+      sub =>
+        // Can't use fromPromise due to web-push design.
+        Future( (rej, res) =>
+          void wp.sendNotification(
+            sub,
+            JSON.stringify({ title, body }),
+            vapidAuth
           )
-          .chainRej(
-            err => (
-              removeSubscription(sub.endpoint),
-              Future.reject(err)
+          .then( res, rej )
+        )
+        .chainRej(
+          err => (
+            removeSubscription(sub.endpoint)
+            .chain(
+              _ =>
+                Future.reject(err)
             )
           )
-      )
-    )
-    .chain( parallel( Infinity ) )
+        )
+    ))
+    .chain( parallel( 20 ) )
 
   return {
     addSubscription,

@@ -6,8 +6,9 @@ const { resolve } = require('path')
 const { unless } = require('ramda')
 const wp = require('web-push')
 
-const PUSH_SUBSCRIPTIONS_PATH = resolve('./private/push_subscriptions.json')
 const VAPID_KEYS_PATH = resolve('./private/vapid_keys.json')
+const SQLITE_FILE = resolve('./private/db.sqlite3')
+const ERROR_LOG = resolve('./error_log.txt')
 
 // Ensure private folder.
 ensureDirSync('./private')
@@ -24,24 +25,14 @@ unless(
   VAPID_KEYS_PATH
 )
 
-// Ensure push subscriptions file.
-unless(
-  existsSync,
-  path =>
-    writeFileSync(
-      path,
-      '[]'
-    ),
-  PUSH_SUBSCRIPTIONS_PATH
-)
-
 const vapidKeys = JSON.parse(readFileSync(VAPID_KEYS_PATH))
 
 module.exports = {
   MY_EMAIL: 'hey@ronanmccabe.me',
   VAPID_PUBLIC_KEY: vapidKeys.publicKey,
   VAPID_PRIVATE_KEY: vapidKeys.privateKey,
-  PUSH_SUBSCRIPTIONS_PATH,
+  SQLITE_FILE,
+  ERROR_LOG,
   PORT:
     process.env.HTTPS
       ? 443

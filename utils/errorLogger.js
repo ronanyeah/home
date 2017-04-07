@@ -2,10 +2,12 @@
 
 const { appendFile } = require('fs')
 
+const { ERROR_LOG } = require(`${ROOT}/config.js`)
+
 module.exports = err => (
   console.log(err),
   appendFile(
-    `${__dirname}/error_log.txt`,
+    ERROR_LOG,
     `${Date()}\n${err.message}\n\n`
   )
 )

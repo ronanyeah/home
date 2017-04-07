@@ -16,7 +16,7 @@ module.exports = {
       .chain(encase(JSON.parse))
       .chain(push.addSubscription)
       .map(
-        () => ({
+        _ => ({
           statusCode: 200
         })
       )
