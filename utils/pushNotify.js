@@ -1,6 +1,5 @@
 'use strict'
 
-const { readFileSync, existsSync, writeFileSync } = require('fs')
 const { map, append, reject, propEq } = require('ramda')
 const { both, Future, parallel, of, node } = require('fluture')
 const { json } = require('rotools')
@@ -24,30 +23,13 @@ const validateSubscription = sub =>
       )
   )
 
-module.exports = ( subscriptionsPath, vapidKeysPath ) => {
-
-  existsSync(subscriptionsPath)
-    ? false
-    : writeFileSync(
-        subscriptionsPath,
-        '[]'
-      )
-
-  existsSync(vapidKeysPath)
-    ? false
-    : writeFileSync(
-        vapidKeysPath,
-        // Generate new keys.
-        JSON.stringify( wp.generateVAPIDKeys() )
-      )
-
-  const vapidKeys = JSON.parse( readFileSync(vapidKeysPath) )
+module.exports = ( subscriptionsPath, myEmail, vapidPublicKey, vapidPrivateKey ) => {
 
   const vapidAuth = {
     vapidDetails: {
-      subject: 'mailto:hey@ronanmccabe.me',
-      publicKey: vapidKeys.publicKey,
-      privateKey: vapidKeys.privateKey
+      subject: `mailto:${myEmail}`,
+      publicKey: vapidPublicKey,
+      privateKey: vapidPrivateKey
     }
   }
 

@@ -6,24 +6,14 @@ const { resolve } = require('path')
 const { parse } = require('url')
 const { red, green, blue, yellow } = require('colors')
 
+// SET PROJECT ROOT
 global.ROOT = resolve(`${__dirname}/..`) // eslint-disable-line fp/no-mutation
 
-const errorLogger = require(`${ROOT}/utils/errorLogger.js`)
-const dnsCheck = require(`${ROOT}/utils/dnsCheck.js`)
-const router = require(`${ROOT}/server/router.js`)
-
 // CONFIG
-const { HTTPS, PORT, IP_SYNC } = require(`${ROOT}/server/config.js`)
+const { HTTPS, PORT } = require(`${ROOT}/config.js`)
 
-IP_SYNC
-  ? setInterval(
-      () =>
-        // Synchronise public IP address changes w/ Cloudflare.
-        dnsCheck
-        .fork(errorLogger, console.log),
-      300000
-    )
-  : false
+const errorLogger = require(`${ROOT}/utils/errorLogger.js`)
+const router = require(`${ROOT}/server/router.js`)
 
 const server =
   HTTPS
