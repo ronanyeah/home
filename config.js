@@ -34,6 +34,7 @@ module.exports = {
   SQLITE_FILE,
   ERROR_LOG,
   PORT:
+    process.env.PORT ||
     process.env.HTTPS
       ? 443
       : 3000,
