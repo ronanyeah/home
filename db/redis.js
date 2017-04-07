@@ -3,7 +3,7 @@
 const redis = require('redis')
 const { node, of } = require('fluture')
 
-const client = redis.createClient()
+const client = redis.createClient(process.env.REDIS_URL)
 
 module.exports = {
   set:
