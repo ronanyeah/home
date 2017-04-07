@@ -38,9 +38,11 @@ module.exports = {
   ERROR_LOG,
   PORT:
     process.env.PORT ||
-    process.env.HTTPS
-      ? 443
-      : 3000,
+    (
+      process.env.HTTPS
+        ? 443
+      : 3000
+    ),
   HTTPS:
     process.env.HTTPS
       ? {
