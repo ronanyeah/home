@@ -6,6 +6,12 @@ const { node, of } = require('fluture')
 const client = redis.createClient(process.env.REDIS_URL)
 
 module.exports = {
+  get:
+    key =>
+      node(
+        done =>
+          client.get(key, done)
+      ),
   set:
     (key, value) =>
       node(

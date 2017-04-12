@@ -24,12 +24,13 @@ unless(
   VAPID_KEYS_PATH
 )
 
-const vapidKeys = JSON.parse(readFileSync(VAPID_KEYS_PATH))
+const { publicKey, privateKey } = JSON.parse(readFileSync(VAPID_KEYS_PATH))
 
 module.exports = {
   MY_EMAIL: 'hey@ronanmccabe.me',
-  VAPID_PUBLIC_KEY: vapidKeys.publicKey,
-  VAPID_PRIVATE_KEY: vapidKeys.privateKey,
+  VAPID_PUBLIC_KEY: publicKey,
+  VAPID_PRIVATE_KEY: privateKey,
+  PUSH_PASSWORD: process.env.PUSH_PASSWORD,
   ERROR_LOG,
   PORT:
     process.env.PORT ||

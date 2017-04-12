@@ -6,6 +6,7 @@ self.addEventListener(
       .then(
         cache =>
           cache.addAll([
+            '/tachyons.min.css',
             '/pwa/tux.png',
             '/pwa/index.html',
             '/pwa/src.js'

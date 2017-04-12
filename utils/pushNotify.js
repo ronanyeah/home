@@ -8,6 +8,8 @@ const joi = require('joi')
 const redis = require(`${ROOT}/db/redis.js`)
 const errorLogger = require(`${ROOT}/utils/errorLogger.js`)
 
+const { MY_EMAIL, VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY } = require(`${ROOT}/config.js`)
+
 // Object -> Future Err Object
 const validateSubscription = sub =>
   node(
@@ -27,61 +29,58 @@ const validateSubscription = sub =>
 
 const isRegistrationError = propSatisfies(test(/NotRegistered/), 'message')
 
-module.exports = ( myEmail, vapidPublicKey, vapidPrivateKey ) => {
-
-  const vapidAuth = {
-    vapidDetails: {
-      subject: `mailto:${myEmail}`,
-      publicKey: vapidPublicKey,
-      privateKey: vapidPrivateKey
-    }
+const vapidAuth = {
+  vapidDetails: {
+    subject: `mailto:${MY_EMAIL}`,
+    publicKey: VAPID_PUBLIC_KEY,
+    privateKey: VAPID_PRIVATE_KEY
   }
+}
 
-  // String -> Future Err Res
-  const removeSubscription =
-    endpoint =>
-      redis.delete(endpoint)
+// String -> Future Err Res
+const removeSubscription =
+  endpoint =>
+    redis.delete(endpoint)
 
-  // Object -> Future Err Res
-  const addSubscription = newSub =>
-    validateSubscription(newSub)
-    .chain(
-      sub =>
-        redis.set(
-          sub.endpoint,
-          JSON.stringify(sub)
+// Object -> Future Err Res
+const addSubscription = newSub =>
+  validateSubscription(newSub)
+  .chain(
+    sub =>
+      redis.set(
+        sub.endpoint,
+        JSON.stringify(sub)
+      )
+  )
+
+// String -> String -> Future Err Res
+const send = (title = 'HEY', body = '') =>
+  redis.all
+  .map(map(JSON.parse))
+  .map(map(
+    sub =>
+      // Can't use fromPromise due to web-push design.
+      Future( (rej, res) =>
+        void wp.sendNotification(
+          sub,
+          JSON.stringify({ title, body }),
+          vapidAuth
         )
-    )
+        .then( res, rej )
+      )
+      .chainRej(
+        err =>
+          // Intercept (but log) errors,
+          // and delete subscription if registration is invalid.
+          isRegistrationError(err)
+            ? removeSubscription(sub.endpoint)
+            : of(errorLogger(err))
+      )
+  ))
+  .chain( parallel( 20 ) )
 
-  // String -> String -> Future Err Res
-  const send = (title = 'HEY', body = '') =>
-    redis.all
-    .map(map(JSON.parse))
-    .map(map(
-      sub =>
-        // Can't use fromPromise due to web-push design.
-        Future( (rej, res) =>
-          void wp.sendNotification(
-            sub,
-            JSON.stringify({ title, body }),
-            vapidAuth
-          )
-          .then( res, rej )
-        )
-        .chainRej(
-          err =>
-            // Intercept (but log) errors,
-            // and delete subscription if registration is invalid.
-            isRegistrationError(err)
-              ? removeSubscription(sub.endpoint)
-              : of(errorLogger(err))
-        )
-    ))
-    .chain( parallel( 20 ) )
-
-  return {
-    addSubscription,
-    removeSubscription,
-    send
-  }
+module.exports = {
+  addSubscription,
+  removeSubscription,
+  send
 }

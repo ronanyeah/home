@@ -1,12 +1,9 @@
 'use strict'
 
-const { encase } = require('fluture')
+const { encase, of } = require('fluture')
 
 const { bodyReader } = require(`${ROOT}/server/helpers.js`)
-const push = require(`${ROOT}/utils/pushNotify.js`)(
-  `${ROOT}/private/push_subscriptions.json`,
-  `${ROOT}/private/vapid_keys.json`
-)
+const { removeSubscription, addSubscription } = require(`${ROOT}/utils/pushNotify.js`)
 
 module.exports = {
 
@@ -14,7 +11,23 @@ module.exports = {
     (req, res) =>
       bodyReader(req)
       .chain(encase(JSON.parse))
-      .chain(push.addSubscription)
+      .chain(addSubscription)
+      .map(
+        _ => ({
+          statusCode: 200
+        })
+      ),
+
+  '/unsubscribe':
+    (req, res) =>
+      bodyReader(req)
+      .chain(encase(JSON.parse))
+      .chain(
+        ({ subscriptionEndpoint }) =>
+          subscriptionEndpoint
+            ? removeSubscription(subscriptionEndpoint)
+            : of()
+      )
       .map(
         _ => ({
           statusCode: 200

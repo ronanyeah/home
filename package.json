@@ -6,8 +6,8 @@
   "scripts": {
     "start": "node ./server/index.js",
     "test": "node ./test/index.js | tap-spec",
-    "test:watch": "nodemon --ignore test/scrap -x 'npm test'",
-    "server:dev": "nodemon --inspect --debug ./server/index.js",
+    "watch:test": "nodemon --ignore test/scrap -x 'npm test'",
+    "watch:server": "nodemon --inspect --debug -x 'npm start'",
     "build": "npm run build:main & npm run build:toys",
     "build:main": "node ./client/main/BUILD.js",
     "watch:main": "nodemon -e css -e html -x 'npm run build:main'",
@@ -28,14 +28,14 @@
   "homepage": "https://ronanmccabe.me/",
   "dependencies": {
     "colors": "^1.1.2",
-    "fluture": "^4.1.0",
-    "fs-extra": "^1.0.0",
+    "fluture": "^5.0.0",
+    "fs-extra": "^2.1.2",
     "highland": "^2.10.1",
     "joi": "^10.0.6",
-    "ramda": "^0.22.1",
+    "ramda": "^0.23.0",
     "redis": "^2.7.1",
     "rotools": "^1.1.1",
-    "sanctuary": "^0.11.1",
+    "sanctuary": "^0.12.2",
     "web-push": "^3.2.0",
     "wordcloud": "^1.0.5"
   },
@@ -51,7 +51,7 @@
     "shot": "^3.4.0",
     "tap-spec": "^4.1.1",
     "tape": "^4.6.2",
-    "webpack": "^1.14.0"
+    "webpack": "^2.3.3"
   },
   "engines": {
     "node": "6.10.2"

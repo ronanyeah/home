@@ -1,31 +1,20 @@
 'use strict'
 
-const { of } = require('fluture')
+const { of, reject } = require('fluture')
 const { json } = require('rotools')
+const { pipe, flip, path } = require('ramda')
+const { parse } = require('url')
 
-const { MY_EMAIL, VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY } = require(`${ROOT}/config.js`)
 const { sendFile } = require(`${ROOT}/server/helpers.js`)
-const push = require(`${ROOT}/utils/pushNotify.js`)(
-  MY_EMAIL,
-  VAPID_PUBLIC_KEY,
-  VAPID_PRIVATE_KEY
-)
+const redis = require(`${ROOT}/db/redis.js`)
+
+const { VAPID_PUBLIC_KEY } = require(`${ROOT}/config.js`)
 
 module.exports = {
 
   '/':
     () =>
       sendFile(`${ROOT}/public/main/index.html`),
-
-  '/push':
-    () =>
-      push.send('TEST PUSH', Date())
-      .map(
-        _ =>
-          ({
-            statusCode: 200
-          })
-      ),
 
   '/pwa':
     () =>
@@ -39,6 +28,30 @@ module.exports = {
     () =>
       sendFile(`${ROOT}/public/cv.html`),
 
+  '/subscription':
+    (req, res) =>
+      pipe(
+        url => parse(url, true),
+        path(['query', 'endpoint']),
+        value =>
+          value
+            ? redis.get(
+                decodeURIComponent(value)
+              )
+              .map(
+                data =>
+                  data
+                    ? {
+                        payload: JSON.stringify(data),
+                        contentType: 'application/json',
+                        statusCode: 200
+                      }
+                    : { statusCode: 404 }
+              )
+            : of({ statusCode: 404 })
+      )
+      (req.url),
+
   '/ping':
     () =>
       of({
@@ -49,15 +62,11 @@ module.exports = {
 
   '/config':
     () =>
-      json.read(`${ROOT}/private/vapid_keys.json`)
-      .map(
-        keys =>
-          ({
-            payload: JSON.stringify({ applicationServerKey: keys.publicKey }),
-            contentType: 'application/json',
-            statusCode: 200
-          })
-      ),
+      of({
+        payload: JSON.stringify({ applicationServerKey: VAPID_PUBLIC_KEY }),
+        contentType: 'application/json',
+        statusCode: 200
+      }),
 
   '/fourOhFour':
     () =>
