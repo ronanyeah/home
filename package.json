@@ -28,31 +28,31 @@
   },
   "homepage": "https://ronanmccabe.me/",
   "dependencies": {
+    "autoprefixer": "^6.5.1",
+    "babel-polyfill": "^6.16.0",
     "colors": "^1.1.2",
+    "cssnano": "^3.8.0",
     "fluture": "^5.0.0",
     "fs-extra": "^2.1.2",
     "highland": "^2.10.1",
     "joi": "^10.0.6",
+    "postcss-import": "^9.0.0",
+    "precss": "^1.4.0",
     "ramda": "^0.23.0",
     "redis": "^2.7.1",
     "rotools": "^1.1.1",
     "sanctuary": "^0.12.2",
     "web-push": "^3.2.0",
+    "webpack": "^2.3.3",
     "wordcloud": "^1.0.5"
   },
   "devDependencies": {
-    "autoprefixer": "^6.5.1",
-    "babel-polyfill": "^6.16.0",
-    "cssnano": "^3.8.0",
     "istanbul": "^0.4.5",
     "nock": "^9.0.2",
     "nodemon": "^1.11.0",
-    "postcss-import": "^9.0.0",
-    "precss": "^1.4.0",
     "shot": "^3.4.0",
     "tap-spec": "^4.1.1",
-    "tape": "^4.6.2",
-    "webpack": "^2.3.3"
+    "tape": "^4.6.2"
   },
   "engines": {
     "node": "6.10.2"
