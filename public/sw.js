@@ -1,15 +1,18 @@
+const cacheName = 'tux-cache-1'
+
 self.addEventListener(
   'install',
   e =>
     e.waitUntil(
-      caches.open('pwa-cache')
+      caches.open(cacheName)
       .then(
         cache =>
           cache.addAll([
             '/tachyons.min.css',
             '/pwa/tux.png',
             '/pwa/index.html',
-            '/pwa/src.js'
+            '/pwa/src.js',
+            '/manifest.json'
           ])
       )
     )
@@ -35,4 +38,40 @@ self.addEventListener(
   'notificationclick',
   event =>
     event.notification.close()
+)
+
+self.addEventListener(
+  'activate',
+  e => (
+    e.waitUntil(
+      caches.keys()
+      .then(
+        cacheKeys =>
+          Promise.all(
+            cacheKeys
+            .filter(
+              key =>
+                key !== cacheName
+            )
+            .map(
+              key =>
+                caches.delete(key)
+            )
+          )
+      )
+    ),
+    self.clients.claim()
+  )
+)
+
+self.addEventListener(
+  'fetch',
+  e =>
+    e.respondWith(
+      caches.match(e.request)
+      .then(
+        cachedResponse =>
+          cachedResponse || fetch(e.request)
+      )
+    )
 )

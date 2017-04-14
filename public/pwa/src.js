@@ -15,6 +15,12 @@ window.push = () => {
           })
         }
       )
+      .then(
+        res =>
+          res.status === 200
+            ? null
+            : Promise.reject(Error('push error, status: ' + res.status))
+      )
       .catch(alert)
     : alert('FAIL')
 }
@@ -134,7 +140,7 @@ function urlBase64ToUint8Array (base64String) {
   const rawData =
     window.atob(
       (base64String + padding)
-      .replace(/\-/g, '+')
+      .replace(/-/g, '+')
       .replace(/_/g, '/')
     )
 
@@ -147,7 +153,7 @@ function urlBase64ToUint8Array (base64String) {
 
 window.onload = () => {
   if (navigator.serviceWorker && !navigator.serviceWorker.controller) {
-    navigator.serviceWorker.register('/sw.js')
+    return navigator.serviceWorker.register('/sw.js')
     .then(console.log)
     .catch(console.log)
   }
