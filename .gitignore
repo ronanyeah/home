@@ -46,3 +46,4 @@ private
 coverage
 public/**/bundle.*
 error_log.txt
+.env
