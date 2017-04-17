@@ -1,35 +1,22 @@
 'use strict'
 
-const { readFileSync, writeFileSync, existsSync } = require('fs')
-const { ensureDirSync } = require('fs-extra')
+const { readFileSync } = require('fs')
 const { resolve } = require('path')
-const { unless } = require('ramda')
-const wp = require('web-push')
 
-const VAPID_KEYS_PATH = resolve('./private/vapid_keys.json')
 const ERROR_LOG = resolve('./error_log.txt')
 
-// Ensure private folder.
-ensureDirSync('./private')
-
-// Ensure push keys.
-unless(
-  existsSync,
-  path =>
-    writeFileSync(
-      path,
-      // Generate new keys.
-      JSON.stringify( wp.generateVAPIDKeys() )
-    ),
-  VAPID_KEYS_PATH
-)
-
-const { publicKey, privateKey } = JSON.parse(readFileSync(VAPID_KEYS_PATH))
+if (
+  !process.env.VAPID_PUBLIC_KEY ||
+  !process.env.VAPID_PRIVATE_KEY ||
+  !process.env.PUSH_PASSWORD
+) {
+  throw Error('Missing environment variable!')
+}
 
 module.exports = {
   MY_EMAIL: 'hey@ronanmccabe.me',
-  VAPID_PUBLIC_KEY: publicKey,
-  VAPID_PRIVATE_KEY: privateKey,
+  VAPID_PUBLIC_KEY: process.env.VAPID_PUBLIC_KEY,
+  VAPID_PRIVATE_KEY: process.env.VAPID_PRIVATE_KEY,
   PUSH_PASSWORD: process.env.PUSH_PASSWORD,
   ERROR_LOG,
   PORT:
@@ -37,7 +24,7 @@ module.exports = {
     (
       process.env.HTTPS
         ? 443
-      : 3000
+        : 3000
     ),
   HTTPS:
     process.env.HTTPS
