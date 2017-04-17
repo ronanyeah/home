@@ -3,6 +3,10 @@
 const { readFileSync } = require('fs')
 const { resolve } = require('path')
 
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+
 const ERROR_LOG = resolve('./error_log.txt')
 
 if (
@@ -10,6 +14,8 @@ if (
   !process.env.VAPID_PRIVATE_KEY ||
   !process.env.PUSH_PASSWORD
 ) {
+  // Keys are from require('web-push').generateVAPIDKeys().
+  // Password can be anything.
   throw Error('Missing environment variable!')
 }
 
