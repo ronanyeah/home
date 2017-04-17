@@ -29,7 +29,6 @@
   "homepage": "https://ronanmccabe.me/",
   "dependencies": {
     "autoprefixer": "^6.5.1",
-    "babel-polyfill": "^6.16.0",
     "colors": "^1.1.2",
     "cssnano": "^3.8.0",
     "fluture": "^5.0.0",
@@ -41,7 +40,6 @@
     "ramda": "^0.23.0",
     "redis": "^2.7.1",
     "rotools": "^1.1.1",
-    "sanctuary": "^0.12.2",
     "web-push": "^3.2.0",
     "webpack": "^2.3.3",
     "wordcloud": "^1.0.5"
