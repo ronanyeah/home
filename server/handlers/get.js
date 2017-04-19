@@ -24,10 +24,6 @@ module.exports = {
     () =>
       sendFile(`${ROOT}/public/toys/index.html`),
 
-  '/cv':
-    () =>
-      sendFile(`${ROOT}/public/cv.html`),
-
   '/subscription':
     (req, res) =>
       pipe(
