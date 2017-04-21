@@ -28,7 +28,7 @@
   "homepage": "https://ronanmccabe.me/",
   "dependencies": {
     "autoprefixer": "^6.5.1",
-    "colors": "^1.1.2",
+    "chalk": "^1.1.3",
     "cssnano": "^3.8.0",
     "fluture": "^5.0.0",
     "fs-extra": "^2.1.2",

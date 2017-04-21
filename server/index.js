@@ -8,7 +8,7 @@ const http = require('http')
 const https = require('https')
 const { resolve } = require('path')
 const { parse } = require('url')
-const { red, green, blue, yellow } = require('colors')
+const { red, green, blue, yellow } = require('chalk')
 
 // SET PROJECT ROOT
 global.ROOT = resolve(`${__dirname}/..`) // eslint-disable-line fp/no-mutation
