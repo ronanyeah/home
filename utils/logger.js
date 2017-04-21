@@ -9,4 +9,4 @@ const logger =
       })
     : { info: console.log }
 
-module.exports = logger.info
+module.exports = console.log
