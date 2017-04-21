@@ -1,6 +1,8 @@
 'use strict'
 
-require('newrelic')
+if (process.env.NODE_ENV === 'production') {
+  require('newrelic')
+}
 
 const http = require('http')
 const https = require('https')
@@ -15,6 +17,7 @@ global.ROOT = resolve(`${__dirname}/..`) // eslint-disable-line fp/no-mutation
 const { HTTPS, PORT } = require(`${ROOT}/config.js`)
 
 const router = require(`${ROOT}/server/router.js`)
+const logger = require(`${ROOT}/utils/logger.js`)
 
 const server =
   HTTPS
@@ -26,7 +29,8 @@ server
 .on(
   'listening',
   () =>
-    console.log(
+    logger(
+      'SERVER_START',
       `\n${ red( HTTPS ? 'https' : 'http' ) } ${ blue('server listening on port') } ${ green(PORT) }\n`
     )
 )
@@ -46,7 +50,7 @@ server
     router( req.method, parse(req.url).pathname )( req, res )
     .fork(
       err => (
-        console.log(err),
+        logger('REQUEST_ERROR', err),
         res.writeHead(500, { 'Content-Type': 'text/html' }),
         res.end('<p style="font-size: 10vh; text-align: center;">Server Error!</p>')
       ),

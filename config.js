@@ -1,9 +1,8 @@
 'use strict'
 
 const { readFileSync } = require('fs')
-const { resolve } = require('path')
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'development') {
   require('dotenv').config()
 }
 

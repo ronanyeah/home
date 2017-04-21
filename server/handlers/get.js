@@ -1,8 +1,7 @@
 'use strict'
 
-const { of, reject } = require('fluture')
-const { json } = require('rotools')
-const { pipe, flip, path } = require('ramda')
+const { of } = require('fluture')
+const { pipe, path } = require('ramda')
 const { parse } = require('url')
 
 const { sendFile } = require(`${ROOT}/server/helpers.js`)
@@ -45,8 +44,9 @@ module.exports = {
                     : { statusCode: 404 }
               )
             : of({ statusCode: 404 })
-      )
-      (req.url),
+      )(
+        req.url
+      ),
 
   '/ping':
     () =>

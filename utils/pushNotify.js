@@ -6,6 +6,7 @@ const wp = require('web-push')
 const joi = require('joi')
 
 const redis = require(`${ROOT}/db/redis.js`)
+const logger = require(`${ROOT}/utils/logger.js`)
 
 const { MY_EMAIL, VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY } = require(`${ROOT}/config.js`)
 
@@ -73,7 +74,7 @@ const send = (title = 'HEY', body = '') =>
           // and delete subscription if registration is invalid.
           isRegistrationError(err)
             ? removeSubscription(sub.endpoint)
-            : of(console.log(err))
+            : of(logger('PUSH_ERROR', err))
       )
   ))
   .chain( parallel( 20 ) )
