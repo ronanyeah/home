@@ -7,6 +7,6 @@ const logger =
     ? new Logentries({
         token: process.env.LOGENTRIES_TOKEN
       })
-    : console.log
+    : { info: console.log }
 
-module.exports = logger
+module.exports = logger.info
