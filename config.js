@@ -7,8 +7,6 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
 
-const ERROR_LOG = resolve('./error_log.txt')
-
 if (
   !process.env.VAPID_PUBLIC_KEY ||
   !process.env.VAPID_PRIVATE_KEY ||
@@ -24,7 +22,6 @@ module.exports = {
   VAPID_PUBLIC_KEY: process.env.VAPID_PUBLIC_KEY,
   VAPID_PRIVATE_KEY: process.env.VAPID_PRIVATE_KEY,
   PUSH_PASSWORD: process.env.PUSH_PASSWORD,
-  ERROR_LOG,
   PORT:
     process.env.PORT ||
     (

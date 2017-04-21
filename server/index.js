@@ -1,5 +1,7 @@
 'use strict'
 
+require('newrelic')
+
 const http = require('http')
 const https = require('https')
 const { resolve } = require('path')
@@ -12,7 +14,6 @@ global.ROOT = resolve(`${__dirname}/..`) // eslint-disable-line fp/no-mutation
 // CONFIG
 const { HTTPS, PORT } = require(`${ROOT}/config.js`)
 
-const errorLogger = require(`${ROOT}/utils/errorLogger.js`)
 const router = require(`${ROOT}/server/router.js`)
 
 const server =
@@ -45,7 +46,7 @@ server
     router( req.method, parse(req.url).pathname )( req, res )
     .fork(
       err => (
-        errorLogger(err),
+        console.log(err),
         res.writeHead(500, { 'Content-Type': 'text/html' }),
         res.end('<p style="font-size: 10vh; text-align: center;">Server Error!</p>')
       ),
