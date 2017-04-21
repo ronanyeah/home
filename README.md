@@ -1,4 +1,4 @@
-# [https://ronanmccabe.me](https://ronanmccabe.me/)
+# [ronanmccabe.me](https://ronanmccabe.me)
 
 Node.js server using [Futures](https://github.com/fluture-js/Fluture) for async, and lots of [Ramda](http://ramdajs.com/).
 
