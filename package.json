@@ -34,7 +34,6 @@
     "fs-extra": "^2.1.2",
     "highland": "^2.10.1",
     "joi": "^10.0.6",
-    "le_node": "^1.7.0",
     "newrelic": "^1.38.2",
     "postcss-import": "^9.0.0",
     "precss": "^1.4.0",
