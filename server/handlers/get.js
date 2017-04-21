@@ -5,7 +5,7 @@ const { pipe, path } = require('ramda')
 const { parse } = require('url')
 
 const { sendFile } = require(`${ROOT}/server/helpers.js`)
-const redis = require(`${ROOT}/db/redis.js`)
+const subscriptions = require(`${ROOT}/db/subscriptions.js`)
 
 const { VAPID_PUBLIC_KEY } = require(`${ROOT}/config.js`)
 
@@ -30,7 +30,7 @@ module.exports = {
         path(['query', 'endpoint']),
         value =>
           value
-            ? redis.get(
+            ? subscriptions.get(
                 decodeURIComponent(value)
               )
               .map(

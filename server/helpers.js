@@ -5,6 +5,7 @@ const { parse } = require('path')
 const { __, prop, propOr, pipe } = require('ramda')
 const { readFile } = require('fs')
 const hl = require('highland')
+const joi = require('joi')
 
 // Accepts an asset path and returns a 'Content-Type'.
 // String -> String
@@ -47,7 +48,25 @@ const sendFile =
         })
     )
 
+// a -> Future Err a
+const validateSubscription = sub =>
+  node(
+    done =>
+      joi.validate(
+        sub,
+        joi.object().keys({
+          endpoint: joi.string(),
+          keys: joi.object().keys({
+            p256dh: joi.string(),
+            auth: joi.string()
+          }).requiredKeys('p256dh', 'auth')
+        }).requiredKeys('endpoint', 'keys'),
+        done
+      )
+  )
+
 module.exports = {
+  validateSubscription,
   getContentType,
   sendFile,
   bodyReader

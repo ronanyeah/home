@@ -4,6 +4,10 @@ if (process.env.NODE_ENV === 'production') {
   require('newrelic')
 }
 
+if (process.env.NODE_ENV === 'development') {
+  require('dotenv').config()
+}
+
 const http = require('http')
 const https = require('https')
 const { resolve } = require('path')

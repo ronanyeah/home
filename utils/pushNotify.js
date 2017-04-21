@@ -1,31 +1,14 @@
 'use strict'
 
 const { map, test, propSatisfies } = require('ramda')
-const { Future, parallel, node, of } = require('fluture')
+const { Future, parallel, of } = require('fluture')
 const wp = require('web-push')
-const joi = require('joi')
 
-const redis = require(`${ROOT}/db/redis.js`)
+const subscriptions = require(`${ROOT}/db/subscriptions.js`)
 const logger = require(`${ROOT}/utils/logger.js`)
+const { validateSubscription } = require(`${ROOT}/server/helpers.js`)
 
 const { MY_EMAIL, VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY } = require(`${ROOT}/config.js`)
-
-// Object -> Future Err Object
-const validateSubscription = sub =>
-  node(
-    done =>
-      joi.validate(
-        sub,
-        joi.object().keys({
-          endpoint: joi.string(),
-          keys: joi.object().keys({
-            p256dh: joi.string(),
-            auth: joi.string()
-          }).requiredKeys('p256dh', 'auth')
-        }).requiredKeys('endpoint', 'keys'),
-        done
-      )
-  )
 
 const isRegistrationError = propSatisfies(test(/NotRegistered/), 'message')
 
@@ -40,14 +23,14 @@ const vapidAuth = {
 // String -> Future Err Res
 const removeSubscription =
   endpoint =>
-    redis.delete(endpoint)
+    subscriptions.delete(endpoint)
 
 // Object -> Future Err Res
 const addSubscription = newSub =>
   validateSubscription(newSub)
   .chain(
     sub =>
-      redis.set(
+      subscriptions.set(
         sub.endpoint,
         JSON.stringify(sub)
       )
@@ -55,7 +38,7 @@ const addSubscription = newSub =>
 
 // String -> String -> Future Err Res
 const send = (title = 'HEY', body = '') =>
-  redis.all
+  subscriptions.all
   .map(map(JSON.parse))
   .map(map(
     sub =>

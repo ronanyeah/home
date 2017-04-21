@@ -13,4 +13,3 @@ test('router', t => (
 
   t.equals(typeof router('GET', '/not_a_route'), 'function', '404 gets returned')
 ) )
-
