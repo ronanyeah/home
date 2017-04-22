@@ -35,7 +35,7 @@ server
   () =>
     logger(
       'SERVER_START',
-      `\n${ red( HTTPS ? 'https' : 'http' ) } ${ blue('server listening on port') } ${ green(PORT) }\n`
+      `${ red( HTTPS ? 'https' : 'http' ) } ${ blue('server listening on port') } ${ green(PORT) }\n`
     )
 )
 .on(

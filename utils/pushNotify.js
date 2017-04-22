@@ -10,8 +10,6 @@ const { validateSubscription } = require(`${ROOT}/server/helpers.js`)
 
 const { MY_EMAIL, VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY } = require(`${ROOT}/config.js`)
 
-const isRegistrationError = propSatisfies(test(/NotRegistered/), 'message')
-
 const vapidAuth = {
   vapidDetails: {
     subject: `mailto:${MY_EMAIL}`,
@@ -19,6 +17,9 @@ const vapidAuth = {
     privateKey: VAPID_PRIVATE_KEY
   }
 }
+
+// Error -> Boolean
+const isRegistrationError = propSatisfies(test(/NotRegistered/), 'message')
 
 // String -> Future Err Res
 const removeSubscription =
@@ -36,7 +37,7 @@ const addSubscription = newSub =>
       )
   )
 
-// String -> String -> Future Err Res
+// (String, String) -> Future Err Res
 const send = (title = 'HEY', body = '') =>
   subscriptions.all
   .map(map(JSON.parse))
