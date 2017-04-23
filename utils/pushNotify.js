@@ -58,7 +58,7 @@ const send = (title = 'HEY', body = '') =>
           // and delete subscription if registration is invalid.
           isRegistrationError(err)
             ? removeSubscription(sub.endpoint)
-            : of(logger('PUSH_ERROR', err))
+            : of(logger('PUSH_ERROR', err.message))
       )
   ))
   .chain( parallel( 20 ) )

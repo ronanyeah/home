@@ -54,7 +54,7 @@ server
     router( req.method, parse(req.url).pathname )( req, res )
     .fork(
       err => (
-        logger('REQUEST_ERROR', err),
+        logger('REQUEST_ERROR', `${err.message} / ${req.url}`),
         res.writeHead(500, { 'Content-Type': 'text/html' }),
         res.end('<p style="font-size: 10vh; text-align: center;">Server Error!</p>')
       ),
