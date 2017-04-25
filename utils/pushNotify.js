@@ -1,21 +1,19 @@
 'use strict'
 
-const { map, test, propSatisfies } = require('ramda')
-const { Future, parallel, of } = require('fluture')
-const wp = require('web-push')
+const { map, test, propSatisfies, pipe } = require('ramda')
+const { fromPromise3, parallel, of } = require('fluture')
 
 const subscriptions = require(`${ROOT}/db/subscriptions.js`)
 const logger = require(`${ROOT}/utils/logger.js`)
 const { validateSubscription } = require(`${ROOT}/server/helpers.js`)
+const sendNotification = fromPromise3(require(`${ROOT}/utils/push.js`))
 
 const { MY_EMAIL, VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY } = require(`${ROOT}/config.js`)
 
-const vapidAuth = {
-  vapidDetails: {
-    subject: `mailto:${MY_EMAIL}`,
-    publicKey: VAPID_PUBLIC_KEY,
-    privateKey: VAPID_PRIVATE_KEY
-  }
+const vapidDetails = {
+  subject: `mailto:${MY_EMAIL}`,
+  publicKey: VAPID_PUBLIC_KEY,
+  privateKey: VAPID_PRIVATE_KEY
 }
 
 // Error -> Boolean
@@ -23,8 +21,10 @@ const isRegistrationError = propSatisfies(test(/NotRegistered/), 'message')
 
 // String -> Future Err Res
 const removeSubscription =
-  endpoint =>
-    subscriptions.delete(endpoint)
+  endpoint => {
+    logger('PUSH_UNSUB', endpoint)
+    return subscriptions.delete(endpoint)
+  }
 
 // Object -> Future Err Res
 const addSubscription = newSub =>
@@ -38,28 +38,26 @@ const addSubscription = newSub =>
   )
 
 // (String, String) -> Future Err Res
-const send = (title = 'HEY', body = '') =>
+const send = (title, body) =>
   subscriptions.all
-  .map(map(JSON.parse))
   .map(map(
-    sub =>
-      // Can't use fromPromise due to web-push design.
-      Future( (rej, res) =>
-        void wp.sendNotification(
+    pipe(
+      JSON.parse,
+      sub =>
+        sendNotification(
           sub,
           JSON.stringify({ title, body }),
-          vapidAuth
+          vapidDetails
         )
-        .then( res, rej )
-      )
-      .chainRej(
-        err =>
-          // Intercept (but log) errors,
-          // and delete subscription if registration is invalid.
-          isRegistrationError(err)
-            ? removeSubscription(sub.endpoint)
-            : of(logger('PUSH_ERROR', err.message))
-      )
+        .chainRej(
+          err =>
+            // Intercept (but log) errors,
+            // and delete subscription if registration is invalid.
+            isRegistrationError(err)
+              ? removeSubscription(sub.endpoint)
+              : of(logger('PUSH_ERROR', err.message))
+        )
+    )
   ))
   .chain( parallel( 20 ) )
 
