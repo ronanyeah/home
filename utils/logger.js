@@ -1,19 +1,19 @@
 'use strict'
 
-const newRelic = require('newrelic')
-
-const cLog = (tag, payload) =>
-  console.log(`${tag}\n${payload}`)
-
-const nrLog = (tag, payload) =>
-  newRelic.recordCustomEvent(
-    tag,
-    {
-      data: payload
-    }
-  )
+// Stop New Relic being required outside production.
+const nrLogger = () => {
+  const newRelic = require('newrelic')
+  return (tag, payload) =>
+    newRelic.recordCustomEvent(
+      tag,
+      {
+        data: payload
+      }
+    )
+}
 
 module.exports =
   process.env.NODE_ENV === 'production'
-    ? nrLog
-    : cLog
+    ? nrLogger()
+    : (tag, payload) =>
+        console.log(`${tag}\n${payload}`)
