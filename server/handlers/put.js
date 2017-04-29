@@ -3,12 +3,12 @@
 const { encase, of } = require('fluture')
 
 const { bodyReader } = require(`${ROOT}/server/helpers.js`)
-const { removeSubscription, addSubscription } = require(`${ROOT}/utils/pushNotify.js`)
+const { removeSubscription, addSubscription } = require(`${ROOT}/utils/pushManagement.js`)
 
 module.exports = {
 
   '/subscribe':
-    (req, res) =>
+    (req, _res) =>
       bodyReader(req)
       .chain(encase(JSON.parse))
       .chain(addSubscription)
@@ -19,7 +19,7 @@ module.exports = {
       ),
 
   '/unsubscribe':
-    (req, res) =>
+    (req, _res) =>
       bodyReader(req)
       .chain(encase(JSON.parse))
       .chain(

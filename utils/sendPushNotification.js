@@ -20,8 +20,9 @@ const webPushError = (statusCode, headers, body, endpoint) =>
     `Endpoint: ${endpoint}`
   )
 
-const ECPrivateKeyASN = asn1.define('ECPrivateKey', function() {
-  this.seq().obj(
+/* eslint-disable fp/no-this */
+const ECPrivateKeyASN = asn1.define('ECPrivateKey', function () {
+  return this.seq().obj(
     this.key('version').int(),
     this.key('privateKey').octstr(),
     this.key('parameters').explicit(0).objid()
@@ -30,6 +31,7 @@ const ECPrivateKeyASN = asn1.define('ECPrivateKey', function() {
       .optional()
   )
 })
+/* eslint-enable fp/no-this */
 
 // (String, String, String) -> String
 const createWebPushJwt = (audience, subject, privateKey) => {

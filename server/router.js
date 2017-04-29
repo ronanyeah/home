@@ -1,6 +1,6 @@
 'use strict'
 
-const { path } = require('ramda')
+const { pathOr } = require('ramda')
 const { fileMapper } = require('rotools')
 
 const handlers = require(`${ROOT}/server/handlers/index.js`)
@@ -15,7 +15,8 @@ module.exports =
   (method, pathname) =>
     method === 'GET' && assetPaths.includes( publicFolder + pathname )
       ? () => sendFile( publicFolder + pathname )
-      : path(
+      : pathOr(
+          handlers['GET']['/fourOhFour'],
           [ method, pathname ],
           handlers
-        ) || handlers['GET']['/fourOhFour']
+        )

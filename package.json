@@ -5,9 +5,9 @@
   "main": "./server/index.js",
   "scripts": {
     "start": "node ./server/index.js",
-    "test": "node ./test/index.js | tap-spec",
-    "watch:test": "nodemon --ignore test/scrap -x 'npm test'",
-    "watch:server": "NODE_ENV=development nodemon -x 'node --inspect server/index.js'",
+    "test": "ROOT=`pwd` jest",
+    "test:watch": "ROOT=`pwd` jest --watch",
+    "server:watch": "NODE_ENV=development nodemon -x 'node --inspect server/index.js'",
     "build": "node ./client/main/BUILD.js",
     "postinstall": "npm run build",
     "watch:main": "nodemon -e css -e html -x 'npm run build:main'",
@@ -50,11 +50,9 @@
   "devDependencies": {
     "dotenv": "^4.0.0",
     "istanbul": "^0.4.5",
-    "nock": "^9.0.2",
+    "jest": "^19.0.2",
     "nodemon": "^1.11.0",
-    "shot": "^3.4.0",
-    "tap-spec": "^4.1.1",
-    "tape": "^4.6.2"
+    "shot": "^3.4.0"
   },
   "engines": {
     "node": "6.10.2"

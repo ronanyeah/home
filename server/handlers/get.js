@@ -4,7 +4,7 @@ const { of } = require('fluture')
 const { pipe, path } = require('ramda')
 const { parse } = require('url')
 
-const { sendFile } = require(`${ROOT}/server/helpers.js`)
+const { sendFile, urlBase64ToIntArray } = require(`${ROOT}/server/helpers.js`)
 const subscriptions = require(`${ROOT}/db/subscriptions.js`)
 
 const { VAPID_PUBLIC_KEY } = require(`${ROOT}/config.js`)
@@ -12,19 +12,19 @@ const { VAPID_PUBLIC_KEY } = require(`${ROOT}/config.js`)
 module.exports = {
 
   '/':
-    () =>
+    (_req, _res) =>
       sendFile(`${ROOT}/public/main/index.html`),
 
   '/pwa':
-    () =>
+    (_req, _res) =>
       sendFile(`${ROOT}/public/pwa/index.html`),
 
   '/toys':
-    () =>
+    (_req, _res) =>
       sendFile(`${ROOT}/public/toys/index.html`),
 
   '/subscription':
-    (req, res) =>
+    ({ url }, _res) =>
       pipe(
         url => parse(url, true),
         path(['query', 'endpoint']),
@@ -45,11 +45,11 @@ module.exports = {
               )
             : of({ statusCode: 404 })
       )(
-        req.url
+        url
       ),
 
   '/ping':
-    () =>
+    (_req, _res) =>
       of({
         payload: JSON.stringify({ alive: true }),
         contentType: 'application/json',
@@ -57,15 +57,15 @@ module.exports = {
       }),
 
   '/config':
-    () =>
+    (_req, _res) =>
       of({
-        payload: JSON.stringify({ applicationServerKey: VAPID_PUBLIC_KEY }),
+        payload: JSON.stringify(urlBase64ToIntArray(VAPID_PUBLIC_KEY)),
         contentType: 'application/json',
         statusCode: 200
       }),
 
   '/fourOhFour':
-    () =>
+    (_req, _res) =>
       of({
         payload: '<p style="font-size: 10vh; text-align: center;">404!</p>',
         contentType: 'text/html',
