@@ -10,9 +10,6 @@
     "server:watch": "NODE_ENV=development nodemon -x 'node --inspect server/index.js'",
     "build": "node ./client/main/BUILD.js",
     "postinstall": "npm run build",
-    "watch:main": "nodemon -e css -e html -x 'npm run build:main'",
-    "build:toys": "elm-make ./client/toys/Main.elm --warn --output ./public/toys/bundle.js",
-    "watch:toys": "nodemon -e elm -x 'npm run build:toys'",
     "cov": "istanbul cover ./test/index.js",
     "pwa": "ngrok http 3000"
   },

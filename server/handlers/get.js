@@ -19,10 +19,6 @@ module.exports = {
     (_req, _res) =>
       sendFile(`${PUBLIC_FOLDER}/pwa/index.html`),
 
-  '/toys':
-    (_req, _res) =>
-      sendFile(`${PUBLIC_FOLDER}/toys/index.html`),
-
   '/subscription':
     ({ url }, _res) =>
       pipe(
