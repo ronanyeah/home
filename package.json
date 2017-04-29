@@ -10,7 +10,6 @@
     "server:watch": "NODE_ENV=development nodemon -x 'node --inspect server/index.js'",
     "build": "node ./client/main/BUILD.js",
     "postinstall": "npm run build",
-    "cov": "istanbul cover ./test/index.js",
     "pwa": "ngrok http 3000"
   },
   "repository": {
@@ -46,7 +45,6 @@
   },
   "devDependencies": {
     "dotenv": "^4.0.0",
-    "istanbul": "^0.4.5",
     "jest": "^19.0.2",
     "nodemon": "^1.11.0",
     "shot": "^3.4.0"
