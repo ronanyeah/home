@@ -5,7 +5,6 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 const http = require('http')
-const https = require('https')
 const { resolve } = require('path')
 const { parse } = require('url')
 const { red, green, blue, yellow } = require('chalk')
@@ -14,24 +13,19 @@ const { red, green, blue, yellow } = require('chalk')
 global.ROOT = resolve(`${__dirname}/..`) // eslint-disable-line fp/no-mutation
 
 // CONFIG
-const { HTTPS, PORT } = require(`${ROOT}/config.js`)
+const { PORT } = require(`${ROOT}/config.js`)
 
 const router = require(`${ROOT}/server/router.js`)
 const logger = require(`${ROOT}/utils/logger.js`)
 
-const server =
-  HTTPS
-    ? https.createServer(HTTPS)
-    : http.createServer()
-
-server
+http.createServer()
 .listen(PORT)
 .on(
   'listening',
   () =>
     logger(
       'SERVER_START',
-      `${ red( HTTPS ? 'https' : 'http' ) } ${ blue('server listening on port') } ${ green(PORT) }\n`
+      `${ red('http') } ${ blue('server listening on port') } ${ green(PORT) }\n`
     )
 )
 .on(
