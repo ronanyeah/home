@@ -4,24 +4,24 @@ const { of } = require('fluture')
 const { pipe, path } = require('ramda')
 const { parse } = require('url')
 
-const { sendFile, urlBase64ToIntArray } = require(`${ROOT}/utils/helpers.js`)
-const subscriptions = require(`${ROOT}/db/subscriptions.js`)
+const { sendFile, urlBase64ToIntArray } = require('../utils/helpers.js')
+const subscriptions = require('../db/subscriptions.js')
 
-const { VAPID_PUBLIC_KEY } = require(`${ROOT}/config.js`)
+const { VAPID_PUBLIC_KEY, PUBLIC_FOLDER } = require('../config.js')
 
 module.exports = {
 
   '/':
     (_req, _res) =>
-      sendFile(`${ROOT}/public/main/index.html`),
+      sendFile(`${PUBLIC_FOLDER}/main/index.html`),
 
   '/pwa':
     (_req, _res) =>
-      sendFile(`${ROOT}/public/pwa/index.html`),
+      sendFile(`${PUBLIC_FOLDER}/pwa/index.html`),
 
   '/toys':
     (_req, _res) =>
-      sendFile(`${ROOT}/public/toys/index.html`),
+      sendFile(`${PUBLIC_FOLDER}/toys/index.html`),
 
   '/subscription':
     ({ url }, _res) =>

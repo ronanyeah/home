@@ -2,7 +2,7 @@
 
 const { node, of } = require('fluture')
 
-const client = require(`${ROOT}/db/redis.js`)
+const client = require('./redis.js')
 
 module.exports = {
   get:

@@ -3,12 +3,12 @@
 const { map, test, propSatisfies, pipe } = require('ramda')
 const { fromPromise3, parallel, of } = require('fluture')
 
-const subscriptions = require(`${ROOT}/db/subscriptions.js`)
-const logger = require(`${ROOT}/utils/logger.js`)
-const { validateSubscription } = require(`${ROOT}/utils/helpers.js`)
-const sendNotification = fromPromise3(require(`${ROOT}/utils/sendPushNotification.js`))
+const subscriptions = require('../db/subscriptions.js')
+const logger = require('./logger.js')
+const { validateSubscription } = require('./helpers.js')
+const sendNotification = fromPromise3(require('./sendPushNotification.js'))
 
-const { MY_EMAIL, VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY } = require(`${ROOT}/config.js`)
+const { MY_EMAIL, VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY } = require('../config.js')
 
 const vapidDetails = {
   subject: `mailto:${MY_EMAIL}`,

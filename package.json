@@ -5,8 +5,8 @@
   "main": "./server/index.js",
   "scripts": {
     "start": "node ./server/index.js",
-    "test": "ROOT=`pwd` jest",
-    "test:watch": "ROOT=`pwd` jest --watch",
+    "test": "jest",
+    "test:watch": "jest --watch",
     "server:watch": "NODE_ENV=development nodemon -x 'node --inspect server/index.js'",
     "build": "node ./client/main/BUILD.js",
     "postinstall": "npm run build",

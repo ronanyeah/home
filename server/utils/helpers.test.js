@@ -1,11 +1,8 @@
 'use strict'
 
-// eslint-disable-next-line fp/no-mutation
-global.ROOT = process.env.ROOT
-
 const shot = require('shot')
 
-const { range, urlBase64ToIntArray, getContentType, bodyReader, validateSubscription } = require(`${ROOT}/utils/helpers.js`)
+const { range, urlBase64ToIntArray, getContentType, bodyReader, validateSubscription } = require('./helpers.js')
 
 const BODY_PAYLOAD = 'TEST_PAYLOAD'
 

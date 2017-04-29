@@ -14,11 +14,14 @@ if (
   throw Error('Push environment variable missing!')
 }
 
+const { resolve } = require('path')
+
 module.exports = {
   MY_EMAIL: 'hey@ronanmccabe.me',
   VAPID_PUBLIC_KEY: process.env.VAPID_PUBLIC_KEY,
   VAPID_PRIVATE_KEY: process.env.VAPID_PRIVATE_KEY,
   PUSH_PASSWORD: process.env.PUSH_PASSWORD,
   REDIS_URL: process.env.REDIS_URL, // If undefined redis will use local connection.
-  PORT: process.env.PORT || 3000
+  PORT: process.env.PORT || 3000,
+  PUBLIC_FOLDER: resolve(`${__dirname}/../public`)
 }

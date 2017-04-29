@@ -2,6 +2,6 @@
 
 const redis = require('redis')
 
-const { REDIS_URL } = require(`${ROOT}/config.js`)
+const { REDIS_URL } = require('../config.js')
 
 module.exports = redis.createClient(REDIS_URL)

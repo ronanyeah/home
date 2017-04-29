@@ -3,18 +3,17 @@
 const { pathOr } = require('ramda')
 const { fileMapper } = require('rotools')
 
-const handlers = require(`${ROOT}/server/handlers/index.js`)
-const { sendFile } = require(`${ROOT}/utils/helpers.js`)
+const handlers = require('./handlers/index.js')
+const { sendFile } = require('./utils/helpers.js')
+const { PUBLIC_FOLDER } = require('./config.js')
 
-const publicFolder = `${ROOT}/public`
-
-const assetPaths = fileMapper(publicFolder)
+const assetPaths = fileMapper(PUBLIC_FOLDER)
 
 // String -> String -> Future Err Function
 module.exports =
   (method, pathname) =>
-    method === 'GET' && assetPaths.includes( publicFolder + pathname )
-      ? () => sendFile( publicFolder + pathname )
+    method === 'GET' && assetPaths.includes( PUBLIC_FOLDER + pathname )
+      ? () => sendFile( PUBLIC_FOLDER + pathname )
       : pathOr(
           handlers['GET']['/fourOhFour'],
           [ method, pathname ],

@@ -5,18 +5,14 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 const http = require('http')
-const { resolve } = require('path')
 const { parse } = require('url')
 const { red, green, blue, yellow } = require('chalk')
 
-// SET PROJECT ROOT
-global.ROOT = resolve(`${__dirname}/..`) // eslint-disable-line fp/no-mutation
-
 // CONFIG
-const { PORT } = require(`${ROOT}/config.js`)
+const { PORT } = require('./config.js')
 
-const router = require(`${ROOT}/server/router.js`)
-const logger = require(`${ROOT}/utils/logger.js`)
+const router = require('./router.js')
+const logger = require('./utils/logger.js')
 
 http.createServer()
 .listen(PORT)

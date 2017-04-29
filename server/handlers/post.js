@@ -2,8 +2,8 @@
 
 const { encase, of } = require('fluture')
 
-const { bodyReader } = require(`${ROOT}/utils/helpers.js`)
-const { send } = require(`${ROOT}/utils/pushManagement.js`)
+const { bodyReader } = require('../utils/helpers.js')
+const { send } = require('../utils/pushManagement.js')
 
 module.exports = {
 
