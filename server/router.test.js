@@ -5,10 +5,9 @@ global.ROOT = process.env.ROOT
 
 require('dotenv').config()
 
-const redis = require(`${ROOT}/db/redis.js`)
-const router = require(`${ROOT}/server/router.js`)
+jest.mock('redis', () => ({ createClient: _ => _ }))
 
-afterAll( () => redis.quit() )
+const router = require(`${ROOT}/server/router.js`)
 
 test('router', () =>
   expect(typeof router('GET', '/')).toBe('function'),
