@@ -4,7 +4,7 @@ const { pathOr } = require('ramda')
 const { fileMapper } = require('rotools')
 
 const handlers = require(`${ROOT}/server/handlers/index.js`)
-const { sendFile } = require(`${ROOT}/server/helpers.js`)
+const { sendFile } = require(`${ROOT}/utils/helpers.js`)
 
 const publicFolder = `${ROOT}/public`
 

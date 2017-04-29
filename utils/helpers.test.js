@@ -5,7 +5,7 @@ global.ROOT = process.env.ROOT
 
 const shot = require('shot')
 
-const { range, urlBase64ToIntArray, getContentType, bodyReader, validateSubscription } = require(`${ROOT}/server/helpers.js`)
+const { range, urlBase64ToIntArray, getContentType, bodyReader, validateSubscription } = require(`${ROOT}/utils/helpers.js`)
 
 const BODY_PAYLOAD = 'TEST_PAYLOAD'
 

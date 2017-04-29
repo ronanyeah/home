@@ -2,7 +2,7 @@
 
 const { encase, of } = require('fluture')
 
-const { bodyReader } = require(`${ROOT}/server/helpers.js`)
+const { bodyReader } = require(`${ROOT}/utils/helpers.js`)
 const { removeSubscription, addSubscription } = require(`${ROOT}/utils/pushManagement.js`)
 
 module.exports = {

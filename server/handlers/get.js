@@ -4,7 +4,7 @@ const { of } = require('fluture')
 const { pipe, path } = require('ramda')
 const { parse } = require('url')
 
-const { sendFile, urlBase64ToIntArray } = require(`${ROOT}/server/helpers.js`)
+const { sendFile, urlBase64ToIntArray } = require(`${ROOT}/utils/helpers.js`)
 const subscriptions = require(`${ROOT}/db/subscriptions.js`)
 
 const { VAPID_PUBLIC_KEY } = require(`${ROOT}/config.js`)
