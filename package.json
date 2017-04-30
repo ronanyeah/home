@@ -7,11 +7,11 @@
     "start": "node ./server/index.js",
     "test": "jest",
     "test:watch": "jest --watch",
-    "pwa:build": "~/dependencies/sysconfcpus/bin/sysconfcpus -n 2 webpack",
+    "pwa:build": "webpack",
     "pwa:watch": "webpack --watch",
     "server:watch": "NODE_ENV=development nodemon -x 'node --inspect server/index.js'",
     "build": "node ./client/main/BUILD.js",
-    "postinstall": "npm run build && npm run pwa:build",
+    "heroku-postbuild": "npm run build && npm run pwa:build",
     "pwa": "ngrok http 3000"
   },
   "repository": {
