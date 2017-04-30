@@ -7,9 +7,11 @@
     "start": "node ./server/index.js",
     "test": "jest",
     "test:watch": "jest --watch",
+    "pwa:build": "webpack",
+    "pwa:watch": "webpack --watch",
     "server:watch": "NODE_ENV=development nodemon -x 'node --inspect server/index.js'",
     "build": "node ./client/main/BUILD.js",
-    "postinstall": "npm run build",
+    "postinstall": "npm run build && npm run pwa:build",
     "pwa": "ngrok http 3000"
   },
   "repository": {
@@ -27,6 +29,7 @@
     "autoprefixer": "^6.5.1",
     "chalk": "^1.1.3",
     "cssnano": "^3.8.0",
+    "elm-webpack-loader": "^4.3.0",
     "fluture": "^5.0.0",
     "highland": "^2.10.1",
     "http_ece": "^0.7.2",

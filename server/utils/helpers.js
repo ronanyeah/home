@@ -88,11 +88,18 @@ const validateSubscription = sub =>
       )
   )
 
+const json = data => ({
+    payload: JSON.stringify(data),
+    statusCode: 200,
+    contentType: 'application/json'
+  })
+
 module.exports = {
   validateSubscription,
   getContentType,
   sendFile,
   bodyReader,
   range,
+  json,
   urlBase64ToIntArray
 }

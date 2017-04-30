@@ -1,4 +1,4 @@
-const cacheName = 'tux-cache-3'
+const cacheName = 'tux-cache-4'
 
 self.addEventListener(
   'install',
@@ -12,7 +12,7 @@ self.addEventListener(
             '/pwa',
             '/pwa/tux.png',
             '/pwa/index.html',
-            '/pwa/src.js',
+            '/pwa/bundle.js',
             '/manifest.json'
           ])
       )

@@ -4,10 +4,12 @@ const { of } = require('fluture')
 const { pipe, path } = require('ramda')
 const { parse } = require('url')
 
-const { sendFile, urlBase64ToIntArray } = require('../utils/helpers.js')
+const { sendFile, urlBase64ToIntArray, json } = require('../utils/helpers.js')
 const subscriptions = require('../db/subscriptions.js')
 
 const { VAPID_PUBLIC_KEY, PUBLIC_FOLDER } = require('../config.js')
+
+const pushKey = urlBase64ToIntArray(VAPID_PUBLIC_KEY)
 
 module.exports = {
 
@@ -32,11 +34,7 @@ module.exports = {
               .map(
                 data =>
                   data
-                    ? {
-                        payload: JSON.stringify(data),
-                        contentType: 'application/json',
-                        statusCode: 200
-                      }
+                    ? json(data)
                     : { statusCode: 404 }
               )
             : of({ statusCode: 404 })
@@ -46,19 +44,11 @@ module.exports = {
 
   '/ping':
     (_req, _res) =>
-      of({
-        payload: JSON.stringify({ alive: true }),
-        contentType: 'application/json',
-        statusCode: 200
-      }),
+      of(json({ alive: true })),
 
   '/config':
     (_req, _res) =>
-      of({
-        payload: JSON.stringify(urlBase64ToIntArray(VAPID_PUBLIC_KEY)),
-        contentType: 'application/json',
-        statusCode: 200
-      }),
+      of(json(pushKey)),
 
   '/fourOhFour':
     (_req, _res) =>
