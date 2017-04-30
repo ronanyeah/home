@@ -1,3 +1,16 @@
 machine:
   node:
     version: 6.10.2
+cache:
+  directories:
+    - sysconfcpus
+install:
+  - |
+    if [ ! -d sysconfcpus/bin ];
+    then
+      git clone https://github.com/obmarg/libsysconfcpus.git; 
+      cd libsysconfcpus;
+      ./configure --prefix=$CIRCLE_BUILD_DIR/sysconfcpus;
+      make && make install;
+      cd ..;
+    fi

@@ -7,7 +7,7 @@
     "start": "node ./server/index.js",
     "test": "jest",
     "test:watch": "jest --watch",
-    "pwa:build": "webpack",
+    "pwa:build": "$CIRCLE_BUILD_DIR/sysconfcpus/bin/sysconfcpus -n 2 webpack",
     "pwa:watch": "webpack --watch",
     "server:watch": "NODE_ENV=development nodemon -x 'node --inspect server/index.js'",
     "build": "node ./client/main/BUILD.js",
