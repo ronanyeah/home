@@ -5,4 +5,4 @@ machine:
 
 dependencies:
   pre:
-    - sh circle-deps.sh
+    - sh circle_deps.sh
