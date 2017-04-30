@@ -4,4 +4,4 @@
 
 Node.js server using [Futures](https://github.com/fluture-js/Fluture) for async, and lots of [Ramda](http://ramdajs.com/).
 
-Now with added [background push notifications](https://github.com/ronanyeah/home/blob/master/server/utils/pushManagement.js)!
+Featuring an [Elm app](https://github.com/ronanyeah/home/blob/master/client/pwa/Tux.elm) with added [background](https://github.com/ronanyeah/home/blob/master/public/sw.js) [push notifications](https://github.com/ronanyeah/home/blob/master/server/utils/sendPushNotification.js)!
