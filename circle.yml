@@ -3,8 +3,6 @@ machine:
   node:
     version: 6.10.2
 
-test:
+dependencies:
   pre:
     - sh circle-deps.sh
-  override:
-    - ~/dependencies/sysconfcpus/bin/sysconfcpus -n 2 npm test
