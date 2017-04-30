@@ -1,4 +1,4 @@
-// From https://github.com/dwyl/learn-elm/blob/master/circle.yml.
+# From https://github.com/dwyl/learn-elm/blob/master/circle.yml.
 machine:
   node:
     version: 6.10.2
