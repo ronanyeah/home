@@ -15,8 +15,7 @@ module.exports = {
       use: {
         loader: 'elm-webpack-loader',
         options: {
-          cwd: __dirname,
-          pathToMake: 'node_modules/.bin/elm-make'
+          cwd: __dirname
         }
       }
     }]

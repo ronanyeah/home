@@ -11,7 +11,7 @@
     "pwa:watch": "webpack --watch",
     "server:watch": "NODE_ENV=development nodemon -x 'node --inspect server/index.js'",
     "build": "node ./client/main/BUILD.js",
-    "heroku-postbuild": "npm run build && npm run pwa:build",
+    "heroku-postbuild": "npm i -g elm && npm run build && npm run pwa:build",
     "pwa": "ngrok http 3000"
   },
   "repository": {
@@ -29,7 +29,6 @@
     "autoprefixer": "^6.5.1",
     "chalk": "^1.1.3",
     "cssnano": "^3.8.0",
-    "elm": "^0.18.0",
     "elm-webpack-loader": "^4.3.0",
     "fluture": "^5.0.0",
     "highland": "^2.10.1",
