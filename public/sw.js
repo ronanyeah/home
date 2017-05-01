@@ -1,4 +1,4 @@
-const cacheName = 'tux-cache-4'
+const cacheName = 'tux-cache-5'
 
 self.addEventListener(
   'install',
