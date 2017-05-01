@@ -1,4 +1,4 @@
-port module Tux exposing (..)
+port module Tux exposing (main)
 
 import Html exposing (Html, button, div, text, img)
 import Html.Attributes exposing (src, class)
@@ -24,7 +24,7 @@ main =
 
 
 subscriptions : Model -> Sub Msg
-subscriptions model =
+subscriptions _ =
     pushSubscription SubscriptionCb
 
 
@@ -95,8 +95,7 @@ init savedModel =
 
 
 type Msg
-    = Update String
-    | SubscriptionCb (Maybe Subscription)
+    = SubscriptionCb (Maybe Subscription)
     | ValidateSubscriptionCb (Result Http.Error Bool)
     | Push
     | Subscribe
@@ -123,9 +122,6 @@ updateWithStorage msg model =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        Update value ->
-            ( model, Cmd.none )
-
         ValidateSubscriptionCb res ->
             case res of
                 Ok valid ->
@@ -135,19 +131,19 @@ update msg model =
                         ( { model | serverKey = [] }, pushUnsubscribe "foo" )
 
                 Err err ->
-                    ( model, log "ERROR" err )
+                    ( { model | message = "Error!" }, log "ERROR" err )
 
-        SubscriptionCb sub ->
+        SubscriptionCb maybeSub ->
             let
                 cmd =
-                    case sub of
+                    case maybeSub of
                         Just sub ->
                             saveSub sub
 
                         Nothing ->
                             Cmd.none
             in
-                ( { model | subscription = sub }, cmd )
+                ( { model | subscription = maybeSub }, cmd )
 
         ServerKeyCb res ->
             case res of
@@ -155,7 +151,7 @@ update msg model =
                     ( { model | serverKey = key }, pushSubscribe key )
 
                 Err err ->
-                    ( model, log "ERROR" err )
+                    ( { model | message = "Error!" }, log "ERROR" err )
 
         Push ->
             ( model, push )
@@ -168,11 +164,11 @@ update msg model =
 
         RequestCb res ->
             case res of
-                Ok msg ->
-                    ( { model | message = msg }, Cmd.none )
+                Ok status ->
+                    ( { model | message = status }, Cmd.none )
 
                 Err err ->
-                    ( model, log "ERROR" err )
+                    ( { model | message = "Error!" }, log "ERROR" err )
 
 
 
@@ -270,7 +266,7 @@ statusDecoder =
 
 serverKeyDecoder : Decoder (List Int)
 serverKeyDecoder =
-    (list int)
+    list int
 
 
 
@@ -279,7 +275,7 @@ serverKeyDecoder =
 
 encodeSubscription : Subscription -> Value
 encodeSubscription sub =
-    (object
+    object
         [ ( "endpoint", Json.Encode.string sub.endpoint )
         , ( "keys"
           , object
@@ -288,4 +284,3 @@ encodeSubscription sub =
                 ]
           )
         ]
-    )
