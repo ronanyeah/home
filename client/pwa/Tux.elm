@@ -201,7 +201,7 @@ update msg model =
             model ! [ subscribe ]
 
         Unsubscribe ->
-            { model | message = "Unsubscribed!" } ![ pushUnsubscribe "foo" ]
+            { model | message = "Unsubscribed!" } ! [ pushUnsubscribe "foo" ]
 
         RequestCb res ->
             case res of
@@ -218,18 +218,20 @@ update msg model =
 
                 Err err ->
                     case err of
-                      Http.BadStatus res ->
-                        if res.status.code == 401 then
-                          { model | message = "Unauthorised!" } ! [ log "ERROR" err ]
-                        else
-                          { model | message = "Error!" } ! [ log "ERROR" err ]
-                      _ ->
-                        { model | message = "Error!" } ! [ log "ERROR" err ]
+                        Http.BadStatus res ->
+                            if res.status.code == 401 then
+                                { model | message = "Unauthorised!" } ! [ log "ERROR" err ]
+                            else
+                                { model | message = "Error!" } ! [ log "ERROR" err ]
+
+                        _ ->
+                            { model | message = "Error!" } ! [ log "ERROR" err ]
 
         FocusCb result ->
             case result of
                 Ok _ ->
                     model ! []
+
                 Err err ->
                     { model | message = "Error!" } ! [ log "ERROR" err ]
 
@@ -242,13 +244,16 @@ buttonClasses : String
 buttonClasses =
     "db center f-5 w-80 pa2 pt4 pb4 ma3"
 
+
 smallButtonClasses : String
 smallButtonClasses =
     "center f-5 w-40 pt4 pb4 ma3"
 
+
 inputClasses : String
 inputClasses =
     buttonClasses ++ " ba b--dotted bw3"
+
 
 view : Model -> Html Msg
 view model =
@@ -264,26 +269,24 @@ view model =
         , case model.pushField of
             Just str ->
                 div []
-                  [ input [ id "input1", type_ "text", onInput UpdatePush, class inputClasses ] []
-                  , div [ class "flex" ]
-                      [ button [ class smallButtonClasses, onClick CancelPush ] [ text "cancel" ]
-                      , button [ class smallButtonClasses, onClick (SendPush str) ] [ text "send" ]
-                      ]
-                  ]
+                    [ input [ id "input1", type_ "text", onInput UpdatePush, class inputClasses ] []
+                    , div [ class "flex" ]
+                        [ button [ class smallButtonClasses, onClick CancelPush ] [ text "cancel" ]
+                        , button [ class smallButtonClasses, onClick (SendPush str) ] [ text "send" ]
+                        ]
+                    ]
 
             Nothing ->
                 button [ class buttonClasses, onClick EditPush ] [ text "push" ]
-
-
         , case model.passwordField of
             Just str ->
                 div []
-                  [ input [ id "input2", type_ "password", onInput UpdatePw, class inputClasses ] []
-                  , div [ class "flex" ]
-                      [ button [ class smallButtonClasses, onClick CancelPw ] [ text "cancel" ]
-                      , button [ class smallButtonClasses, onClick (SetPw str) ] [ text "set" ]
-                      ]
-                  ]
+                    [ input [ id "input2", type_ "password", onInput UpdatePw, class inputClasses ] []
+                    , div [ class "flex" ]
+                        [ button [ class smallButtonClasses, onClick CancelPw ] [ text "cancel" ]
+                        , button [ class smallButtonClasses, onClick (SetPw str) ] [ text "set" ]
+                        ]
+                    ]
 
             Nothing ->
                 button [ class buttonClasses, onClick EditPw ] [ text "set password" ]
@@ -292,6 +295,7 @@ view model =
 
 
 -- COMMANDS
+
 
 focusOn : String -> Cmd Msg
 focusOn i =
