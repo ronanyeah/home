@@ -13,7 +13,8 @@ const assetPaths = fileMapper(PUBLIC_FOLDER)
 module.exports =
   (method, pathname) =>
     method === 'GET' && assetPaths.includes( PUBLIC_FOLDER + pathname )
-      ? () => sendFile( PUBLIC_FOLDER + pathname )
+      ? (_req, _res) =>
+          sendFile( PUBLIC_FOLDER + pathname )
       : pathOr(
           handlers['GET']['/fourOhFour'],
           [ method, pathname ],
