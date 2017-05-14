@@ -3,7 +3,7 @@ port module Tux exposing (main)
 import Html exposing (Html, button, div, text, img, input, p)
 import Html.Attributes exposing (src, class, type_, id)
 import Html.Events exposing (onClick, onInput)
-import Json.Decode exposing (Decoder, at, list, string, int, bool)
+import Json.Decode exposing (Decoder, field, list, string, int, bool, map6, map2, nullable, decodeValue)
 import Json.Encode exposing (Value, object)
 import Http
 import Maybe
@@ -11,7 +11,7 @@ import Dom
 import Task
 
 
-main : Program (Maybe Model) Model Msg
+main : Program Value Model Msg
 main =
     Html.programWithFlags
         { init = init
@@ -62,11 +62,35 @@ type alias Model =
 
 type alias Subscription =
     { endpoint : String
-    , keys :
-        { auth : String
-        , p256dh : String
-        }
+    , keys : Keys
     }
+
+
+type alias Keys =
+    { auth : String
+    , p256dh : String
+    }
+
+
+
+-- INIT
+
+
+init : Value -> ( Model, Cmd Msg )
+init savedModel =
+    let
+        model =
+            decodeModel savedModel
+
+        cmd =
+            case model.subscription of
+                Nothing ->
+                    Cmd.none
+
+                Just sub ->
+                    validateSubscription model.serverKey sub
+    in
+        model ! [ cmd ]
 
 
 emptyModel : Model
@@ -78,27 +102,6 @@ emptyModel =
     , passwordField = Nothing
     , pushField = Nothing
     }
-
-
-
--- INIT
-
-
-init : Maybe Model -> ( Model, Cmd Msg )
-init savedModel =
-    let
-        model =
-            Maybe.withDefault emptyModel savedModel
-
-        cmd =
-            case model.subscription of
-                Nothing ->
-                    Cmd.none
-
-                Just sub ->
-                    validateSubscription model.serverKey sub
-    in
-        model ! [ cmd ]
 
 
 
@@ -218,8 +221,8 @@ update msg model =
 
                 Err err ->
                     case err of
-                        Http.BadStatus res ->
-                            if res.status.code == 401 then
+                        Http.BadStatus statusErr ->
+                            if statusErr.status.code == 401 then
                                 { model | message = "Unauthorised!" } ! [ log "ERROR" err ]
                             else
                                 { model | message = "Error!" } ! [ log "ERROR" err ]
@@ -345,7 +348,7 @@ validateSubscription key sub =
                     ]
                 )
             )
-            (at [ "valid" ] bool)
+            (field "valid" bool)
         )
 
 
@@ -364,12 +367,43 @@ log tag a =
 
 statusDecoder : Decoder String
 statusDecoder =
-    at [ "status" ] string
+    field "status" string
 
 
 serverKeyDecoder : Decoder (List Int)
 serverKeyDecoder =
     list int
+
+
+subscriptionDecoder : Decoder Subscription
+subscriptionDecoder =
+    map2 Subscription
+        (field "endpoint" string)
+        (field "keys"
+            (map2 Keys
+                (field "auth" string)
+                (field "p256dh" string)
+            )
+        )
+
+
+modelDecoder : Decoder Model
+modelDecoder =
+    map6 Model
+        (field "message" string)
+        (field "subscription" (nullable subscriptionDecoder))
+        (field "serverKey" (list int))
+        (field "pushPassword" string)
+        (field "passwordField" (nullable string))
+        (field "pushField" (nullable string))
+
+
+decodeModel : Value -> Model
+decodeModel json =
+    json
+        |> decodeValue modelDecoder
+        |> Result.toMaybe
+        |> Maybe.withDefault emptyModel
 
 
 
