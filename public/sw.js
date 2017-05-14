@@ -1,4 +1,4 @@
-const cacheName = 'tux-cache-6'
+const cacheName = 'tux-cache-7'
 
 self.addEventListener(
   'install',
@@ -69,10 +69,10 @@ self.addEventListener(
   'fetch',
   e =>
     e.respondWith(
-      caches.match(e.request)
-      .then(
-        cachedResponse =>
-          cachedResponse || fetch(e.request)
+      fetch(e.request)
+      .catch(
+        _err =>
+          caches.match(e.request)
       )
     )
 )

@@ -1,5 +1,6 @@
-if (navigator.serviceWorker && !navigator.serviceWorker.controller) {
+if (navigator.serviceWorker) {
   navigator.serviceWorker.register('/sw.js')
+  .then(console.log)
   .catch(alert)
 }
 
