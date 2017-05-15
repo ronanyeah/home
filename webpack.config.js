@@ -1,3 +1,4 @@
+const webpack = require('webpack')
 const { resolve } = require( 'path' )
 
 const outputPath = resolve('./public/pwa/')
@@ -19,5 +20,9 @@ module.exports = {
         }
       }
     }]
-  }
+  },
+  plugins:
+    process.env === 'production'
+      ? [ new webpack.optimize.UglifyJsPlugin() ]
+      : []
 }
