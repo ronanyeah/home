@@ -9,45 +9,43 @@ const storedState = localStorage.getItem('tux-model')
 const startingState =
   storedState
     ? JSON.parse(storedState)
-    : null
+    : {}
 
 const app = Elm.Tux.fullscreen(startingState)
 
-app.ports.pushUnsubscribe.subscribe(
-  _ =>
-    navigator.serviceWorker.ready
-    .then(
-      reg =>
-        reg.pushManager.getSubscription()
-    )
-    .then(
-      subscription =>
-        subscription.unsubscribe()
-        .then( _ => app.ports.pushSubscription.send(null) )
-    )
-    .catch(alert)
-)
+// PUSH SUBSCRIBE
+app.ports.pushSubscribe.subscribe(function (key) {
+  return navigator.serviceWorker.ready
+    .then(function (reg) {
+      return reg.pushManager.subscribe(
+        {
+          userVisibleOnly: true,
+          applicationServerKey: new Uint8Array(key)
+        }
+      )
+    })
+})
+.then(function (subscription) {
+  return app.ports.pushSubscription.send(subscription.toJSON())
+})
+.catch(alert)
 
-app.ports.pushSubscribe.subscribe(
-  key =>
-    navigator.serviceWorker.ready
-    .then(
-      reg =>
-        reg.pushManager.subscribe(
-          {
-            userVisibleOnly: true,
-            applicationServerKey: new Uint8Array(key)
-          }
-        )
-    )
-    .then(
-      subscription =>
-        app.ports.pushSubscription.send(subscription.toJSON())
-    )
-    .catch(alert)
-)
+// PUSH UNSUBSCRIBE
+app.ports.pushUnsubscribe.subscribe(function (_) {
+  return navigator.serviceWorker.ready
+})
+.then(function (reg) {
+  return reg.pushManager.getSubscription()
+})
+.then(function (subscription) {
+  return subscription.unsubscribe()
+})
+.then(function () {
+  return app.ports.pushSubscription.send(null)
+})
+.catch(alert)
 
-app.ports.setStorage.subscribe(
-  state =>
-    localStorage.setItem('tux-model', JSON.stringify(state))
-)
+// SAVE STATE
+app.ports.setStorage.subscribe(function (state) {
+  return localStorage.setItem('tux-model', JSON.stringify(state))
+})
