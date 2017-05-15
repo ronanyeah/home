@@ -22,7 +22,7 @@ module.exports = {
     }]
   },
   plugins:
-    process.env === 'production'
+    process.env.NODE_ENV === 'production'
       ? [ new webpack.optimize.UglifyJsPlugin() ]
       : []
 }
