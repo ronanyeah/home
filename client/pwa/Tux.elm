@@ -3,10 +3,9 @@ port module Tux exposing (main)
 import Html exposing (Html, button, div, text, img, input, p)
 import Html.Attributes exposing (src, class, type_, id)
 import Html.Events exposing (onClick, onInput)
-import Json.Decode exposing (Decoder, field, list, string, int, bool, map6, map2, nullable, decodeValue)
+import Json.Decode exposing (Decoder, field, list, string, int, bool, map3, map2, nullable, decodeValue)
 import Json.Encode exposing (Value, object)
 import Http
-import Maybe
 import Dom
 import Task
 
@@ -43,11 +42,18 @@ port pushSubscribe : List Int -> Cmd msg
 port pushUnsubscribe : String -> Cmd msg
 
 
-port pushSubscription : (Maybe Subscription -> msg) -> Sub msg
+port pushSubscription : (Value -> msg) -> Sub msg
 
 
 
 -- MODEL
+
+
+type alias Saved =
+    { subscription : Maybe Subscription
+    , serverKey : List Int
+    , pushPassword : String
+    }
 
 
 type alias Model =
@@ -77,30 +83,38 @@ type alias Keys =
 
 
 init : Value -> ( Model, Cmd Msg )
-init savedModel =
+init json =
     let
-        model =
-            decodeModel savedModel
+        { serverKey, subscription, pushPassword } =
+            json
+                |> decodeValue savedDataDecoder
+                |> Result.withDefault initSavedData
 
         cmd =
-            case model.subscription of
+            case subscription of
                 Nothing ->
                     Cmd.none
 
                 Just sub ->
-                    validateSubscription model.serverKey sub
+                    validateSubscription serverKey sub
+
+        model =
+            { message = "Waiting..."
+            , subscription = subscription
+            , serverKey = serverKey
+            , pushPassword = pushPassword
+            , passwordField = Nothing
+            , pushField = Nothing
+            }
     in
         model ! [ cmd ]
 
 
-emptyModel : Model
-emptyModel =
-    { message = "Waiting..."
-    , serverKey = []
+initSavedData : Saved
+initSavedData =
+    { serverKey = []
     , subscription = Nothing
     , pushPassword = ""
-    , passwordField = Nothing
-    , pushField = Nothing
     }
 
 
@@ -109,7 +123,7 @@ emptyModel =
 
 
 type Msg
-    = SubscriptionCb (Maybe Subscription)
+    = SubscriptionCb Value
     | ValidateSubscriptionCb (Result Http.Error Bool)
     | EditPush
     | UpdatePush String
@@ -156,17 +170,22 @@ update msg model =
                 Err err ->
                     { model | message = "Error!" } ! [ log "ERROR" err ]
 
-        SubscriptionCb maybeSub ->
+        SubscriptionCb value ->
             let
+                subscription =
+                    value
+                        |> decodeValue (nullable subscriptionDecoder)
+                        |> Result.withDefault Nothing
+
                 cmd =
-                    case maybeSub of
+                    case subscription of
                         Just sub ->
                             saveSub sub
 
                         Nothing ->
                             Cmd.none
             in
-                { model | subscription = maybeSub } ! [ cmd ]
+                { model | subscription = subscription } ! [ cmd ]
 
         ServerKeyCb res ->
             case res of
@@ -221,8 +240,8 @@ update msg model =
 
                 Err err ->
                     case err of
-                        Http.BadStatus statusErr ->
-                            if statusErr.status.code == 401 then
+                        Http.BadStatus { status } ->
+                            if status.code == 401 then
                                 { model | message = "Unauthorised!" } ! [ log "ERROR" err ]
                             else
                                 { model | message = "Error!" } ! [ log "ERROR" err ]
@@ -387,23 +406,12 @@ subscriptionDecoder =
         )
 
 
-modelDecoder : Decoder Model
-modelDecoder =
-    map6 Model
-        (field "message" string)
+savedDataDecoder : Decoder Saved
+savedDataDecoder =
+    map3 Saved
         (field "subscription" (nullable subscriptionDecoder))
         (field "serverKey" (list int))
         (field "pushPassword" string)
-        (field "passwordField" (nullable string))
-        (field "pushField" (nullable string))
-
-
-decodeModel : Value -> Model
-decodeModel json =
-    json
-        |> decodeValue modelDecoder
-        |> Result.toMaybe
-        |> Maybe.withDefault emptyModel
 
 
 
