@@ -24,26 +24,26 @@ app.ports.pushSubscribe.subscribe(function (key) {
         }
       )
     })
+    .then(function (subscription) {
+      return app.ports.pushSubscription.send(subscription.toJSON())
+    })
+    .catch(alert)
 })
-.then(function (subscription) {
-  return app.ports.pushSubscription.send(subscription.toJSON())
-})
-.catch(alert)
 
 // PUSH UNSUBSCRIBE
 app.ports.pushUnsubscribe.subscribe(function (_) {
   return navigator.serviceWorker.ready
+    .then(function (reg) {
+      return reg.pushManager.getSubscription()
+    })
+    .then(function (subscription) {
+      return subscription.unsubscribe()
+    })
+    .then(function () {
+      return app.ports.pushSubscription.send(null)
+    })
+    .catch(alert)
 })
-.then(function (reg) {
-  return reg.pushManager.getSubscription()
-})
-.then(function (subscription) {
-  return subscription.unsubscribe()
-})
-.then(function () {
-  return app.ports.pushSubscription.send(null)
-})
-.catch(alert)
 
 // SAVE STATE
 app.ports.setStorage.subscribe(function (state) {
