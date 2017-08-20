@@ -15,7 +15,7 @@ module.exports = {
 
   '/':
     (_req, _res) =>
-      sendFile(`${PUBLIC_FOLDER}/main/index.html`),
+      sendFile(`${PUBLIC_FOLDER}/index.html`),
 
   '/pwa':
     (_req, _res) =>

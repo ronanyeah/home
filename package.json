@@ -8,7 +8,7 @@
     "dev": "NODE_ENV=development nodemon -x 'node --inspect server/index.js'",
     "test": "jest",
     "test:watch": "jest --watch",
-    "main:build": "elm-static-html -f ./client/main/Main.elm -o ./public/main/index.html && sed -i '1s/^/<!DOCTYPE html>\\n/' ./public/main/index.html",
+    "main:build": "elm-static-html -f ./client/main/Main.elm -o ./public/index.html && sed -i '1s/^/<!DOCTYPE html>\\n/' ./public/index.html",
     "main:watch": "nodemon -e ./client/main/Main.elm -x 'npm run build'",
     "pwa:build": "NODE_ENV=production webpack",
     "pwa:watch": "webpack --watch",
