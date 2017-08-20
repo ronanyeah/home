@@ -1,12 +1,12 @@
 'use strict'
 
 const { map, test, propSatisfies, pipe } = require('ramda')
-const { fromPromise3, parallel, of } = require('fluture')
+const { encaseP3, parallel, of } = require('fluture')
 
 const subscriptions = require('../db/subscriptions.js')
 const logger = require('./logger.js')
 const { validateSubscription } = require('./helpers.js')
-const sendNotification = fromPromise3(require('./sendPushNotification.js'))
+const sendNotification = encaseP3(require('./sendPushNotification.js'))
 
 const { MY_EMAIL, VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY } = require('../config.js')
 

@@ -82,17 +82,11 @@ module.exports =
     const salt = urlBase64.encode(crypto.randomBytes(16))
 
     const cipherText = ece.encrypt(bufferPayload, {
-      keyid: 'foo',
-      keymap: {
-        foo: localCurve
-      },
-      keylabels: {
-        foo: 'P-256'
-      },
+      version: 'aesgcm',
+      privateKey: localCurve,
       dh: subscription.keys.p256dh,
       authSecret: subscription.keys.auth,
-      padSize: 2,
-      salt
+      salt: salt
     })
 
     const jwt = createWebPushJwt(
