@@ -5,14 +5,14 @@
   "main": "./server/index.js",
   "scripts": {
     "start": "node ./server/index.js",
+    "dev": "NODE_ENV=development nodemon -x 'node --inspect server/index.js'",
     "test": "jest",
     "test:watch": "jest --watch",
+    "main:build": "elm-static-html -f ./client/main/Main.elm -o ./public/main/index.html && sed -i '1s/^/<!DOCTYPE html>\\n/' ./public/main/index.html",
+    "main:watch": "nodemon -e ./client/main/Main.elm -x 'npm run build'",
     "pwa:build": "NODE_ENV=production webpack",
     "pwa:watch": "webpack --watch",
-    "server:watch": "NODE_ENV=development nodemon -x 'node --inspect server/index.js'",
-    "build": "node ./client/main/BUILD.js",
-    "heroku-postbuild": "npm i -g elm && npm run build && npm run pwa:build",
-    "pwa": "ngrok http 3000"
+    "heroku-postbuild": "npm i -g elm && npm run main:build && npm run pwa:build"
   },
   "repository": {
     "type": "git",
@@ -26,9 +26,8 @@
   "homepage": "https://ronanmccabe.me/",
   "dependencies": {
     "asn1.js": "^4.9.1",
-    "autoprefixer": "^7.1.2",
     "chalk": "^2.1.0",
-    "cssnano": "^3.8.0",
+    "elm-static-html": "^1.3.2",
     "elm-webpack-loader": "^4.3.0",
     "fluture": "^7.1.1",
     "highland": "^2.10.1",
@@ -37,8 +36,6 @@
     "jws": "^3.1.4",
     "newrelic": "^2.1.0",
     "node-fetch": "^1.7.2",
-    "postcss-import": "^10.0.0",
-    "precss": "^2.0.0",
     "ramda": "^0.24.1",
     "redis": "^2.8.0",
     "rotools": "^1.3.0",
@@ -52,6 +49,6 @@
     "shot": "^3.4.0"
   },
   "engines": {
-    "node": "6.10.2"
+    "node": "8.3.0"
   }
 }

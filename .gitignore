@@ -47,3 +47,4 @@ coverage
 public/**/bundle.*
 error_log.txt
 .env
+.elm-static-html
