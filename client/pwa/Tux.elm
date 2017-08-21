@@ -1,12 +1,17 @@
 port module Tux exposing (main)
 
-import Html exposing (Html, button, div, text, img, input, p)
-import Html.Attributes exposing (src, class, type_, id)
-import Html.Events exposing (onClick, onInput)
+import Color
+import Dom
+import Element exposing (Element, button, column, el, empty, image, inputText, link, text, row, screen, viewport)
+import Element.Attributes exposing (alignBottom, alignLeft, attribute, center, class, id, padding, px, spacing, target, type_, verticalCenter, width)
+import Element.Events exposing (onClick, onInput)
+import Html exposing (Html)
+import Http
 import Json.Decode exposing (Decoder, field, list, string, int, bool, map3, map2, nullable, decodeValue)
 import Json.Encode exposing (Value, object)
-import Http
-import Dom
+import Style exposing (StyleSheet, style, stylesheet)
+import Style.Color
+import Style.Font as Font
 import Task
 
 
@@ -168,7 +173,8 @@ update msg model =
                         { model | serverKey = [] } ! [ pushUnsubscribe "foo" ]
 
                 Err err ->
-                    { model | message = "Error!" } ! [ log "ERROR" err ]
+                    { model | message = "Subscription Validation Error" }
+                        ! [ log "Subscription Validation Error:" err ]
 
         SubscriptionCb value ->
             let
@@ -193,7 +199,7 @@ update msg model =
                     { model | serverKey = key } ! [ pushSubscribe key ]
 
                 Err err ->
-                    { model | message = "Error!" } ! [ log "ERROR" err ]
+                    { model | message = "Server Key Error" } ! [ log "Server Key Error:" err ]
 
         EditPush ->
             { model | pushField = Just "" } ! [ focusOn "input1" ]
@@ -262,57 +268,62 @@ update msg model =
 -- VIEW
 
 
-buttonClasses : String
-buttonClasses =
-    "db center f-5 w-80 pa2 pt4 pb4 ma3"
+type Styles
+    = CornerLink
+    | Description
+    | Header
+    | Link
+    | None
 
 
-smallButtonClasses : String
-smallButtonClasses =
-    "center f-5 w-40 pt4 pb4 ma3"
-
-
-inputClasses : String
-inputClasses =
-    buttonClasses ++ " ba b--dotted bw3"
+styling : StyleSheet Styles variation
+styling =
+    stylesheet
+        []
 
 
 view : Model -> Html Msg
 view model =
-    div []
-        [ img [ class "db center w-40 mw6 ma5", src "/pwa/tux.png" ] []
-        , p [ class inputClasses ] [ text ("> " ++ model.message) ]
-        , case model.subscription of
-            Just _ ->
-                button [ class buttonClasses, onClick Unsubscribe ] [ text "unsubscribe" ]
+    viewport styling <|
+        column None
+            [ center ]
+            [ el None [] <| image "/pwa/tux.png" None [] empty
+            , el None [] <| text <| "> " ++ model.message
+            , case model.subscription of
+                Just _ ->
+                    button <| el None [ onClick Unsubscribe ] <| text "unsubscribe"
 
-            Nothing ->
-                button [ class buttonClasses, onClick Subscribe ] [ text "subscribe" ]
-        , case model.pushField of
-            Just str ->
-                div []
-                    [ input [ id "input1", type_ "text", onInput UpdatePush, class inputClasses ] []
-                    , div [ class "flex" ]
-                        [ button [ class smallButtonClasses, onClick CancelPush ] [ text "cancel" ]
-                        , button [ class smallButtonClasses, onClick (SendPush str) ] [ text "send" ]
+                Nothing ->
+                    button <| el None [ onClick Subscribe ] <| text "subscribe"
+            , case model.pushField of
+                Just str ->
+                    column None
+                        []
+                        [ inputText None [ id "input1", type_ "text", onInput UpdatePush ] str
+                        , row None
+                            []
+                            [ button <| el None [ onClick CancelPush ] <| text "cancel"
+                            , button <| el None [ onClick <| SendPush str ] <| text "send"
+                            ]
                         ]
-                    ]
 
-            Nothing ->
-                button [ class buttonClasses, onClick EditPush ] [ text "push" ]
-        , case model.passwordField of
-            Just str ->
-                div []
-                    [ input [ id "input2", type_ "password", onInput UpdatePw, class inputClasses ] []
-                    , div [ class "flex" ]
-                        [ button [ class smallButtonClasses, onClick CancelPw ] [ text "cancel" ]
-                        , button [ class smallButtonClasses, onClick (SetPw str) ] [ text "set" ]
+                Nothing ->
+                    button <| el None [ onClick EditPush ] <| text "push"
+            , case model.passwordField of
+                Just str ->
+                    column None
+                        []
+                        [ inputText None [ id "input2", type_ "password", onInput UpdatePw ] str
+                        , row None
+                            []
+                            [ button <| el None [ onClick CancelPw ] <| text "cancel"
+                            , button <| el None [ onClick <| SetPw str ] <| text "set"
+                            ]
                         ]
-                    ]
 
-            Nothing ->
-                button [ class buttonClasses, onClick EditPw ] [ text "set password" ]
-        ]
+                Nothing ->
+                    button <| el None [ onClick EditPw ] <| text "set password"
+            ]
 
 
 
