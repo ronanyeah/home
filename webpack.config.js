@@ -3,6 +3,8 @@ const { resolve } = require( 'path' )
 
 const outputPath = resolve('./public/pwa/')
 
+const PROD = process.env.NODE_ENV === 'production'
+
 module.exports = {
   entry: './client/pwa/index.js',
   output: {
@@ -16,13 +18,15 @@ module.exports = {
       use: {
         loader: 'elm-webpack-loader',
         options: {
-          cwd: __dirname
+          cwd: __dirname,
+          debug: !PROD,
+          warn: !PROD
         }
       }
     }]
   },
   plugins:
-    process.env.NODE_ENV === 'production'
+    PROD
       ? [ new webpack.optimize.UglifyJsPlugin() ]
       : []
 }
