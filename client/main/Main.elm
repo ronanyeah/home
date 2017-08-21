@@ -1,10 +1,12 @@
 module Main exposing (view)
 
+import Color
 import Element exposing (Element, column, el, empty, image, link, text, row, screen, viewport)
 import Element.Attributes exposing (alignBottom, alignLeft, attribute, center, class, padding, px, spacing, target, verticalCenter, width)
 import Html
 import Html.Attributes
 import Style exposing (StyleSheet, style, stylesheet)
+import Style.Color
 import Style.Font as Font
 
 
@@ -24,7 +26,7 @@ font =
 styling : StyleSheet Styles variation
 styling =
     stylesheet
-        [ style CornerLink [ font, Font.size 20 ]
+        [ style CornerLink [ font, Font.size 20, Style.Color.text Color.black ]
         , style Description [ font, Font.size 30 ]
         , style Header [ font, Font.bold, Font.size 50 ]
         , style Link [ font, Font.size 20 ]
@@ -51,8 +53,8 @@ content =
     viewport styling <|
         column None
             [ center, verticalCenter ]
-            [ row Header [ center, class "tooltip", attribute "data-tip" "☘️" ] [ text "ronan mccabe" ]
-            , row Description [ center, padding 30 ] [ text "full stack developer" ]
+            [ el Header [ center, class "tooltip", attribute "data-tip" "☘️" ] <| text "ronan mccabe"
+            , el Description [ center, padding 30 ] <| text "full stack developer"
             , row None [ center, spacing 10 ] links
             , cornerLink
             ]
