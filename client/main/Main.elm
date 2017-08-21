@@ -1,7 +1,7 @@
 module Main exposing (view)
 
-import Element exposing (Element, column, el, link, text, row, screen, viewport)
-import Element.Attributes exposing (alignBottom, alignLeft, attribute, center, class, padding, target, verticalCenter)
+import Element exposing (Element, column, el, empty, image, link, text, row, screen, viewport)
+import Element.Attributes exposing (alignBottom, alignLeft, attribute, center, class, padding, px, spacing, target, verticalCenter, width)
 import Html
 import Html.Attributes
 import Style exposing (StyleSheet, style, stylesheet)
@@ -12,9 +12,8 @@ type Styles
     = CornerLink
     | Description
     | Header
-    | Main
     | Link
-    | Links
+    | None
 
 
 font : Style.Property class variation
@@ -25,37 +24,38 @@ font =
 styling : StyleSheet Styles variation
 styling =
     stylesheet
-        [ style Main []
-        , style CornerLink [ font, Font.size 15 ]
-        , style Description [ font, Font.size 35 ]
+        [ style CornerLink [ font, Font.size 20 ]
+        , style Description [ font, Font.size 30 ]
         , style Header [ font, Font.bold, Font.size 50 ]
         , style Link [ font, Font.size 20 ]
-        , style Links []
+        , style None []
         ]
 
 
 view : Html.Html msg
 view =
     Html.node "html"
-        []
+        [ Html.Attributes.style
+            [ ( "background-color", "#95AFBA" )
+            , ( "cursor", "crosshair" )
+            ]
+        ]
         [ head
-        , Html.body
-            [ Html.Attributes.style
-                [ ( "background-color", "#95AFBA" )
-                , ( "cursor", "crosshair" )
-                ]
-            ]
-            [ viewport styling <|
-                column Main
-                    [ center, verticalCenter ]
-                    [ row Header [ center, class "tooltip", attribute "data-tip" "☘️" ] [ text "ronan mccabe" ]
-                    , row Description [ center, padding 30 ] [ text "full stack web developer" ]
-                    , column Links [ center ] links
-                    , cornerLink
-                    ]
-            ]
+        , content
         , ga
         ]
+
+
+content : Html.Html msg
+content =
+    viewport styling <|
+        column None
+            [ center, verticalCenter ]
+            [ row Header [ center, class "tooltip", attribute "data-tip" "☘️" ] [ text "ronan mccabe" ]
+            , row Description [ center, padding 30 ] [ text "full stack developer" ]
+            , row None [ center, spacing 10 ] links
+            , cornerLink
+            ]
 
 
 head : Html.Html msg
@@ -76,62 +76,26 @@ head =
             []
         , Html.node "style"
             []
-            [ Html.text """
-                /* https://github.com/harrygfox/css-tooltip */
-
-                .tooltip {
-                  cursor: help;
-                  position: relative;
-                }
-
-                .tooltip::before,
-                .tooltip::after {
-                  position: absolute;
-                  left: 50%;
-                  opacity: 0;
-                  z-index: -999;
-                }
-
-                .tooltip:hover::before,
-                .tooltip:hover::after {
-                  opacity: 1;
-                  z-index: 999;
-                }
-
-                .tooltip::before {
-                  content: "";
-                  border-style: solid;
-                  border-width: 1em 0.75em 0 0.75em;
-                  border-color: #8EA8C3 transparent transparent transparent;
-                  bottom: 100%;
-                  margin-left: -0.5em;
-                }
-
-                .tooltip:after {
-                  content: attr(data-tip);
-                  background-color: #8EA8C3;
-                  border-radius: 0.25em;
-                  bottom: 170%;
-                  width: 2.5em;
-                  padding: 1em 0.5em;
-                  margin-left: -1.5em;
-                  color: green;
-                  text-align: center;
-                  font-size: 0.75em;
-                }
-              """
+            [ Html.text tooltipCss
             ]
         ]
 
 
 links : List (Element Styles variation msg)
 links =
-    [ link "https://stackoverflow.com/users/story/4224679" <| el Link [ target "_blank" ] <| text "cv"
-    , link "mailto:hey@ronanmccabe.me" <| el Link [] <| text "email"
-    , link "https://www.github.com/ronanyeah" <| el Link [ target "_blank" ] <| text "github"
-    , link "https://www.twitter.com/ronanyeah" <| el Link [ target "_blank" ] <| text "twitter"
-    , link "https://uk.linkedin.com/in/ronanemccabe" <| el Link [ target "_blank" ] <| text "linkedin"
-    ]
+    let
+        logoHeight =
+            width <| px 35
+
+        img src =
+            image src None [ logoHeight ] empty
+    in
+        [ link "https://stackoverflow.com/users/story/4224679" <| el Link [ target "_blank" ] <| img "/logos/cv.svg"
+        , link "mailto:hey@ronanmccabe.me" <| el Link [] <| img "/logos/mail.svg"
+        , link "https://www.github.com/ronanyeah" <| el Link [ target "_blank" ] <| img "/logos/gh.svg"
+        , link "https://www.twitter.com/ronanyeah" <| el Link [ target "_blank" ] <| img "/logos/twitter.svg"
+        , link "https://uk.linkedin.com/in/ronanemccabe" <| el Link [ target "_blank" ] <| img "/logos/linkedin.svg"
+        ]
 
 
 cornerLink : Element Styles variation msg
@@ -155,3 +119,51 @@ ga =
             ga('send', 'pageview');
           """
         ]
+
+
+tooltipCss : String
+tooltipCss =
+    """
+      /* https://github.com/harrygfox/css-tooltip */
+
+      .tooltip {
+        cursor: help;
+        position: relative;
+      }
+
+      .tooltip::before,
+      .tooltip::after {
+        position: absolute;
+        left: 45%;
+        opacity: 0;
+        z-index: -999;
+      }
+
+      .tooltip:hover::before,
+      .tooltip:hover::after {
+        opacity: 1;
+        z-index: 999;
+      }
+
+      .tooltip::before {
+        content: "";
+        border-style: solid;
+        border-width: 1em 0.75em 0 0.75em;
+        border-color: #8EA8C3 transparent transparent transparent;
+        bottom: 100%;
+        margin-left: -0.5em;
+      }
+
+      .tooltip:after {
+        content: attr(data-tip);
+        background-color: #8EA8C3;
+        border-radius: 0.25em;
+        bottom: 170%;
+        width: 2.5em;
+        padding: 1em 0.5em;
+        margin-left: -1.5em;
+        color: green;
+        text-align: center;
+        font-size: 0.75em;
+      }
+    """

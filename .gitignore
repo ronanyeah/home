@@ -45,6 +45,7 @@ repl-temp-*
 private
 coverage
 public/**/bundle.*
+public/index.html
 error_log.txt
 .env
 .elm-static-html

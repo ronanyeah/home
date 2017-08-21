@@ -23,7 +23,8 @@ const getContentType =
         '.css': 'text/css',
         '.ico': 'image/x-icon',
         '.png': 'image/png',
-        '.jpg': 'image/jpg'
+        '.jpg': 'image/jpg',
+        '.svg': 'image/svg+xml'
       }
     )
   )
