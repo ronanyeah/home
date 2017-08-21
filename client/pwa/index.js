@@ -4,14 +4,14 @@ if (navigator.serviceWorker) {
   .catch(alert)
 }
 
-const Elm = require('./Tux.elm')
-const storedState = localStorage.getItem('tux-model')
-const startingState =
+var Elm = require('./Tux.elm')
+var storedState = localStorage.getItem('tux-model')
+var startingState =
   storedState
     ? JSON.parse(storedState)
     : {}
 
-const app = Elm.Tux.fullscreen(startingState)
+var app = Elm.Tux.fullscreen(startingState)
 
 // PUSH SUBSCRIBE
 app.ports.pushSubscribe.subscribe(function (key) {
