@@ -9,7 +9,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "main:build": "elm-static-html -f ./client/main/Main.elm -o ./public/index.html && sed -i '1s/^/<!DOCTYPE html>\\n/' ./public/index.html",
-    "main:watch": "nodemon -e ./client/main/Main.elm -x 'npm run build'",
+    "main:watch": "nodemon -e ./client/main/Main.elm -x 'npm run main:build'",
     "pwa:build": "NODE_ENV=production webpack",
     "pwa:watch": "webpack --watch",
     "heroku-postbuild": "npm i -g elm && npm run main:build && npm run pwa:build"
