@@ -31,7 +31,7 @@ app.ports.pushSubscribe.subscribe(function (key) {
 })
 
 // PUSH UNSUBSCRIBE
-app.ports.pushUnsubscribe.subscribe(function (_) {
+app.ports.pushUnsubscribe.subscribe(function () {
   return navigator.serviceWorker.ready
     .then(function (reg) {
       return reg.pushManager.getSubscription()

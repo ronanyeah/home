@@ -1,4 +1,4 @@
-const cacheName = 'tux-cache-11'
+const cacheName = 'tux-cache-12'
 
 self.addEventListener(
   'install',
@@ -8,7 +8,6 @@ self.addEventListener(
       .then(
         cache =>
           cache.addAll([
-            '/tachyons.min.css',
             '/pwa',
             '/pwa/tux.png',
             '/pwa/index.html',

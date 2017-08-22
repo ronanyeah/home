@@ -1,17 +1,15 @@
 port module Tux exposing (main)
 
-import Color
 import Dom
-import Element exposing (Element, button, column, el, empty, image, inputText, link, text, row, screen, viewport)
-import Element.Attributes exposing (alignBottom, alignLeft, attribute, center, class, id, padding, px, spacing, target, type_, verticalCenter, width)
-import Element.Events exposing (onClick, onInput)
+import Element exposing (Attribute, Element, button, column, el, empty, image, inputText, text, row, viewport)
+import Element.Attributes exposing (attribute, center, class, id, padding, px, spacing, target, type_, verticalCenter, width)
+import Element.Events exposing (keyCode, on, onClick, onInput)
 import Html exposing (Html)
 import Http
-import Json.Decode exposing (Decoder, field, list, string, int, bool, map3, map2, nullable, decodeValue)
+import Json.Decode exposing (Decoder, field, list, string, int, bool, map3, map2, map, nullable, decodeValue)
 import Json.Encode exposing (Value, object)
 import Style exposing (StyleSheet, style, stylesheet)
-import Style.Color
-import Style.Font as Font
+import Style.Border as Border
 import Task
 
 
@@ -44,7 +42,7 @@ port setStorage : Model -> Cmd msg
 port pushSubscribe : List Int -> Cmd msg
 
 
-port pushUnsubscribe : String -> Cmd msg
+port pushUnsubscribe : () -> Cmd msg
 
 
 port pushSubscription : (Value -> msg) -> Sub msg
@@ -54,10 +52,15 @@ port pushSubscription : (Value -> msg) -> Sub msg
 -- MODEL
 
 
+type Field
+    = Pw
+    | Push
+
+
 type alias Saved =
     { subscription : Maybe Subscription
     , serverKey : List Int
-    , pushPassword : String
+    , pushPassword : Maybe String
     }
 
 
@@ -65,7 +68,7 @@ type alias Model =
     { message : String
     , subscription : Maybe Subscription
     , serverKey : List Int
-    , pushPassword : String
+    , pushPassword : Maybe String
     , passwordField : Maybe String
     , pushField : Maybe String
     }
@@ -104,7 +107,7 @@ init json =
                     validateSubscription serverKey sub
 
         model =
-            { message = "Waiting..."
+            { message = "..."
             , subscription = subscription
             , serverKey = serverKey
             , pushPassword = pushPassword
@@ -119,7 +122,7 @@ initSavedData : Saved
 initSavedData =
     { serverKey = []
     , subscription = Nothing
-    , pushPassword = ""
+    , pushPassword = Nothing
     }
 
 
@@ -130,20 +133,18 @@ initSavedData =
 type Msg
     = SubscriptionCb Value
     | ValidateSubscriptionCb (Result Http.Error Bool)
-    | EditPush
-    | UpdatePush String
-    | CancelPush
-    | SendPush String
-    | EditPw
-    | UpdatePw String
-    | CancelPw
-    | SetPw String
-    | Subscribe
-    | Unsubscribe
-    | RequestCb (Result Http.Error String)
-    | PushCb (Result Http.Error String)
+    | Update Field String
+    | Edit Field
     | FocusCb (Result Dom.Error ())
+    | Cancel Field
+    | Keydown Field Int
+    | SetPw
+    | Subscribe
+    | SubscribeCb (Result Http.Error String)
+    | SendPush
+    | SendPushCb (Result Http.Error String)
     | ServerKeyCb (Result Http.Error (List Int))
+    | Unsubscribe
 
 
 
@@ -170,7 +171,7 @@ update msg model =
                     if valid then
                         model ! []
                     else
-                        { model | serverKey = [] } ! [ pushUnsubscribe "foo" ]
+                        { model | serverKey = [] } ! [ pushUnsubscribe () ]
 
                 Err err ->
                     { model | message = "Subscription Validation Error" }
@@ -201,37 +202,56 @@ update msg model =
                 Err err ->
                     { model | message = "Server Key Error" } ! [ log "Server Key Error:" err ]
 
-        EditPush ->
-            { model | pushField = Just "" } ! [ focusOn "input1" ]
-
-        UpdatePush val ->
-            { model | pushField = Just val } ! []
-
-        CancelPush ->
+        Cancel Push ->
             { model | pushField = Nothing } ! []
 
-        SendPush str ->
-            { model | pushField = Nothing } ! [ push str model.pushPassword ]
-
-        EditPw ->
-            { model | passwordField = Just "" } ! [ focusOn "input2" ]
-
-        UpdatePw val ->
-            { model | passwordField = Just val } ! []
-
-        CancelPw ->
+        Cancel Pw ->
             { model | passwordField = Nothing } ! []
 
-        SetPw str ->
-            { model | passwordField = Nothing, pushPassword = str } ! []
+        Edit Push ->
+            { model | pushField = Just "" } ! [ focusOn "input1" ]
+
+        Edit Pw ->
+            { model | passwordField = Just "" } ! [ focusOn "input2" ]
+
+        Keydown Push key ->
+            case ( key, model.pushPassword, model.pushField ) of
+                ( 13, Just pw, Just txt ) ->
+                    { model | pushField = Nothing } ! [ push txt pw ]
+
+                _ ->
+                    model ! []
+
+        Keydown Pw key ->
+            if key == 13 then
+                { model | passwordField = Nothing, pushPassword = model.passwordField } ! []
+            else
+                model ! []
+
+        Update Push val ->
+            { model | pushField = Just val } ! []
+
+        Update Pw val ->
+            { model | passwordField = Just val } ! []
+
+        SendPush ->
+            case ( model.pushPassword, model.pushField ) of
+                ( Just pw, Just txt ) ->
+                    { model | pushField = Nothing } ! [ push txt pw ]
+
+                _ ->
+                    model ! []
+
+        SetPw ->
+            { model | passwordField = Nothing, pushPassword = model.passwordField } ! []
 
         Subscribe ->
             model ! [ subscribe ]
 
         Unsubscribe ->
-            { model | message = "Unsubscribed!" } ! [ pushUnsubscribe "foo" ]
+            { model | message = "Unsubscribed!" } ! [ pushUnsubscribe () ]
 
-        RequestCb res ->
+        SubscribeCb res ->
             case res of
                 Ok status ->
                     { model | message = status } ! []
@@ -239,21 +259,25 @@ update msg model =
                 Err err ->
                     { model | message = "Error!" } ! [ log "ERROR" err ]
 
-        PushCb res ->
+        SendPushCb res ->
             case res of
                 Ok status ->
                     { model | message = status } ! []
 
                 Err err ->
-                    case err of
-                        Http.BadStatus { status } ->
-                            if status.code == 401 then
-                                { model | message = "Unauthorised!" } ! [ log "ERROR" err ]
-                            else
-                                { model | message = "Error!" } ! [ log "ERROR" err ]
+                    let
+                        pushErr err =
+                            { model | message = "Push error!" } ! [ log "Push error:" err ]
+                    in
+                        case err of
+                            Http.BadStatus { status } ->
+                                if status.code == 401 then
+                                    { model | message = "Incorrect password!" } ! []
+                                else
+                                    pushErr err
 
-                        _ ->
-                            { model | message = "Error!" } ! [ log "ERROR" err ]
+                            _ ->
+                                pushErr err
 
         FocusCb result ->
             case result of
@@ -261,7 +285,7 @@ update msg model =
                     model ! []
 
                 Err err ->
-                    { model | message = "Error!" } ! [ log "ERROR" err ]
+                    model ! [ log "Focus error:" err ]
 
 
 
@@ -269,61 +293,67 @@ update msg model =
 
 
 type Styles
-    = CornerLink
-    | Description
-    | Header
-    | Link
+    = Message
     | None
 
 
 styling : StyleSheet Styles variation
 styling =
     stylesheet
-        []
+        [ style None [] ]
 
 
 view : Model -> Html Msg
-view model =
+view { message, pushField, passwordField, subscription } =
     viewport styling <|
         column None
-            [ center ]
+            [ center, verticalCenter ]
             [ el None [] <| image "/pwa/tux.png" None [] empty
-            , el None [] <| text <| "> " ++ model.message
-            , case model.subscription of
+            , el None [] <| text <| "> " ++ message
+            , case subscription of
                 Just _ ->
                     button <| el None [ onClick Unsubscribe ] <| text "unsubscribe"
 
                 Nothing ->
                     button <| el None [ onClick Subscribe ] <| text "subscribe"
-            , case model.pushField of
+            , case pushField of
                 Just str ->
                     column None
                         []
-                        [ inputText None [ id "input1", type_ "text", onInput UpdatePush ] str
+                        [ inputText None [ id "input1", type_ "text", onKeyDown <| Keydown Push, onInput <| Update Push ] str
                         , row None
-                            []
-                            [ button <| el None [ onClick CancelPush ] <| text "cancel"
-                            , button <| el None [ onClick <| SendPush str ] <| text "send"
+                            [ center ]
+                            [ button <| el None [ onClick <| Cancel Push ] <| text "cancel"
+                            , button <| el None [ onClick SendPush ] <| text "send"
                             ]
                         ]
 
                 Nothing ->
-                    button <| el None [ onClick EditPush ] <| text "push"
-            , case model.passwordField of
+                    button <| el None [ onClick <| Edit Push ] <| text "push"
+            , case passwordField of
                 Just str ->
                     column None
                         []
-                        [ inputText None [ id "input2", type_ "password", onInput UpdatePw ] str
+                        [ inputText None [ id "input2", type_ "password", onKeyDown <| Keydown Pw, onInput <| Update Pw ] str
                         , row None
-                            []
-                            [ button <| el None [ onClick CancelPw ] <| text "cancel"
-                            , button <| el None [ onClick <| SetPw str ] <| text "set"
+                            [ center ]
+                            [ button <| el None [ onClick <| Cancel Pw ] <| text "cancel"
+                            , button <| el None [ onClick SetPw ] <| text "set"
                             ]
                         ]
 
                 Nothing ->
-                    button <| el None [ onClick EditPw ] <| text "set password"
+                    button <| el None [ onClick <| Edit Pw ] <| text "set password"
             ]
+
+
+
+-- HELPERS
+
+
+onKeyDown : (Int -> msg) -> Attribute variation msg
+onKeyDown tagger =
+    on "keyup" (map tagger keyCode)
 
 
 
@@ -331,13 +361,13 @@ view model =
 
 
 focusOn : String -> Cmd Msg
-focusOn i =
-    Dom.focus i |> Task.attempt FocusCb
+focusOn =
+    Dom.focus >> Task.attempt FocusCb
 
 
 push : String -> String -> Cmd Msg
 push str pw =
-    Http.send PushCb
+    Http.send SendPushCb
         (Http.post "/push"
             (Http.jsonBody
                 (object
@@ -352,7 +382,7 @@ push str pw =
 
 saveSub : Subscription -> Cmd Msg
 saveSub sub =
-    Http.send RequestCb
+    Http.send SubscribeCb
         (Http.post "/subscribe"
             (Http.jsonBody
                 (encodeSubscription sub)
@@ -422,7 +452,7 @@ savedDataDecoder =
     map3 Saved
         (field "subscription" (nullable subscriptionDecoder))
         (field "serverKey" (list int))
-        (field "pushPassword" string)
+        (field "pushPassword" (nullable string))
 
 
 
