@@ -1,14 +1,16 @@
 port module Tux exposing (main)
 
+import Color exposing (black)
 import Dom
-import Element exposing (Attribute, Element, button, column, el, empty, image, inputText, text, row, viewport)
-import Element.Attributes exposing (attribute, center, class, id, padding, px, spacing, target, type_, verticalCenter, width)
+import Element exposing (Attribute, button, column, el, empty, image, inputText, text, row, viewport)
+import Element.Attributes exposing (center, height, id, padding, px, spacing, type_, verticalCenter, width)
 import Element.Events exposing (keyCode, on, onClick, onInput)
 import Html exposing (Html)
 import Http
 import Json.Decode exposing (Decoder, field, list, string, int, bool, map3, map2, map, nullable, decodeValue)
 import Json.Encode exposing (Value, object)
 import Style exposing (StyleSheet, style, stylesheet)
+import Style.Color as Color
 import Style.Border as Border
 import Task
 
@@ -266,8 +268,8 @@ update msg model =
 
                 Err err ->
                     let
-                        pushErr err =
-                            { model | message = "Push error!" } ! [ log "Push error:" err ]
+                        pushErr e =
+                            { model | message = "Push error!" } ! [ log "Push error:" e ]
                     in
                         case err of
                             Http.BadStatus { status } ->
@@ -293,58 +295,79 @@ update msg model =
 
 
 type Styles
-    = Message
+    = Button
     | None
 
 
 styling : StyleSheet Styles variation
 styling =
     stylesheet
-        [ style None [] ]
+        [ style None []
+        , style Button [ Border.dashed, Color.border black ]
+        ]
 
 
 view : Model -> Html Msg
 view { message, pushField, passwordField, subscription } =
-    viewport styling <|
-        column None
-            [ center, verticalCenter ]
-            [ el None [] <| image "/pwa/tux.png" None [] empty
-            , el None [] <| text <| "> " ++ message
-            , case subscription of
-                Just _ ->
-                    button <| el None [ onClick Unsubscribe ] <| text "unsubscribe"
+    let
+        buttonSizes msg =
+            [ onClick msg, width <| px 200, height <| px 30 ]
 
-                Nothing ->
-                    button <| el None [ onClick Subscribe ] <| text "subscribe"
-            , case pushField of
-                Just str ->
-                    column None
-                        []
-                        [ inputText None [ id "input1", type_ "text", onKeyDown <| Keydown Push, onInput <| Update Push ] str
-                        , row None
-                            [ center ]
-                            [ button <| el None [ onClick <| Cancel Push ] <| text "cancel"
-                            , button <| el None [ onClick SendPush ] <| text "send"
+        smallButton msg =
+            [ onClick msg, width <| px 100, height <| px 30 ]
+    in
+        viewport styling <|
+            column None
+                [ center, verticalCenter, spacing 7 ]
+                [ el None [] <| image "/pwa/tux.png" None [] empty
+                , el None [] <| text <| "> " ++ message
+                , case subscription of
+                    Just _ ->
+                        button <| el Button (buttonSizes Unsubscribe) <| text "unsubscribe"
+
+                    Nothing ->
+                        button <| el Button (buttonSizes Subscribe) <| text "subscribe"
+                , case pushField of
+                    Just str ->
+                        column None
+                            []
+                            [ inputText None
+                                [ id "input1"
+                                , type_ "text"
+                                , onKeyDown <| Keydown Push
+                                , onInput <| Update Push
+                                ]
+                                str
+                            , row None
+                                [ center, spacing 5, padding 4 ]
+                                [ button <| el Button (smallButton <| Cancel Push) <| text "cancel"
+                                , button <| el Button (smallButton SendPush) <| text "send"
+                                ]
                             ]
-                        ]
 
-                Nothing ->
-                    button <| el None [ onClick <| Edit Push ] <| text "push"
-            , case passwordField of
-                Just str ->
-                    column None
-                        []
-                        [ inputText None [ id "input2", type_ "password", onKeyDown <| Keydown Pw, onInput <| Update Pw ] str
-                        , row None
-                            [ center ]
-                            [ button <| el None [ onClick <| Cancel Pw ] <| text "cancel"
-                            , button <| el None [ onClick SetPw ] <| text "set"
+                    Nothing ->
+                        button <| el Button (buttonSizes <| Edit Push) <| text "push"
+                , case passwordField of
+                    Just str ->
+                        column None
+                            []
+                            [ inputText None
+                                [ id "input2"
+                                , type_ "password"
+                                , onKeyDown <| Keydown Pw
+                                , onInput <| Update Pw
+                                ]
+                                str
+                            , row None
+                                [ center, spacing 5, padding 4 ]
+                                [ button <| el Button (smallButton <| Cancel Pw) <| text "cancel"
+                                , button <| el Button (smallButton SetPw) <| text "set"
+                                ]
                             ]
-                        ]
 
-                Nothing ->
-                    button <| el None [ onClick <| Edit Pw ] <| text "set password"
-            ]
+                    Nothing ->
+                        button <| el Button (buttonSizes <| Edit Pw) <| text "set password"
+                ]
 
 
 
