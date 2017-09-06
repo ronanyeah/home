@@ -7,13 +7,13 @@ if (navigator.serviceWorker) {
 var Elm = require('./Tux.elm')
 var storedState = localStorage.getItem('tux-model')
 
-var startingState
-
-try {
-  startingState = JSON.parse(storedState)
-} catch(_) {
-  startingState = {}
-}
+var startingState = (function () {
+  try {
+    return JSON.parse(storedState)
+  } catch (e) {
+    return {}
+  }
+})()
 
 var app = Elm.Tux.fullscreen(startingState)
 
