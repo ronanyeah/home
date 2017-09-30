@@ -53,7 +53,7 @@ content =
     viewport styling <|
         column None
             [ center, verticalCenter ]
-            [ el Header [ center, class "tooltip", attribute "data-tip" "☘️" ] <| text "ronan mccabe"
+            [ el Header [ center, class "tooltip", attribute "data-tip" "☘️" ] <| text "rónán mccabe"
             , el Description [ center, padding 30 ] <| text "full stack developer"
             , row None [ center, spacing 10 ] links
             , cornerLink
