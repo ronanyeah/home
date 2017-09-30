@@ -64,7 +64,7 @@ head : Html.Html msg
 head =
     Html.node "head"
         []
-        [ Html.node "title" [] [ Html.text "ronan mccabe" ]
+        [ Html.node "title" [] [ Html.text "rónán mccabe" ]
         , Html.node "meta" [ Html.Attributes.charset "UTF-8" ] []
         , Html.node "meta"
             [ Html.Attributes.name "viewport"
