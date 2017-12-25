@@ -44,8 +44,7 @@
   },
   "devDependencies": {
     "jest": "^22.0.4",
-    "nodemon": "^1.14.3",
-    "shot": "^4.0.4"
+    "nodemon": "^1.14.3"
   },
   "engines": {
     "node": "8.3.0"

@@ -1,5 +1,3 @@
-const shot = require("shot");
-
 const {
   range,
   urlBase64ToIntArray,
@@ -119,18 +117,5 @@ describe(
   test("range", () => expect(range(3)).toEqual([0, 1, 2])),
 
   test("urlBase64ToIntArray", () =>
-    expect(urlBase64ToIntArray(vapidPublicKey)).toEqual(vapidIntArray)),
-
-  test("body parse", () =>
-    shot.inject(
-      (req, _res) =>
-        bodyReader(req)
-          .promise()
-          .then(data => expect(String(data)).toBe(BODY_PAYLOAD))
-          .catch(fail),
-      {
-        url: "/foo",
-        payload: BODY_PAYLOAD
-      }
-    ))
+    expect(urlBase64ToIntArray(vapidPublicKey)).toEqual(vapidIntArray))
 );
