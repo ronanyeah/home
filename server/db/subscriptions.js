@@ -1,44 +1,20 @@
-'use strict'
+const { node, of } = require("fluture");
 
-const { node, of } = require('fluture')
-
-const client = require('./redis.js')
+const client = require("./redis.js");
 
 module.exports = {
   get:
     // String -> Future Err String
-    key =>
-      node(
-        done =>
-          client.get(key, done)
-      ),
+    key => node(done => client.get(key, done)),
   set:
     // (String, a) -> Future Err _
-    (key, value) =>
-      node(
-        done =>
-          client.set(key, value, done)
-      ),
+    (key, value) => node(done => client.set(key, value, done)),
   delete:
     // String -> Future Err _
-    key =>
-      node(
-        done =>
-          client.del(key, done)
-      ),
+    key => node(done => client.del(key, done)),
   all:
     // Future Err [String]
-    node(
-      done =>
-        client.keys('*', done)
+    node(done => client.keys("*", done)).chain(
+      keys => (keys.length ? node(done => client.mget(keys, done)) : of([]))
     )
-    .chain(
-      keys =>
-        keys.length
-          ? node(
-              done =>
-                client.mget(keys, done)
-            )
-          : of([])
-    )
-}
+};
