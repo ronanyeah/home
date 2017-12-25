@@ -1,7 +1,7 @@
 module Main exposing (view)
 
 import Color
-import Element exposing (Element, column, el, empty, image, link, text, row, screen, viewport)
+import Element exposing (Element, column, el, empty, image, link, row, screen, text, viewport)
 import Element.Attributes exposing (alignBottom, alignLeft, attribute, center, class, padding, px, spacing, target, verticalCenter, width)
 import Html
 import Html.Attributes
@@ -92,12 +92,12 @@ links =
         img src =
             image src None [ logoHeight ] empty
     in
-        [ link "https://stackoverflow.com/users/story/4224679" <| el Link [ target "_blank" ] <| img "/logos/cv.svg"
-        , link "mailto:hey@ronanmccabe.me" <| el Link [] <| img "/logos/mail.svg"
-        , link "https://www.github.com/ronanyeah" <| el Link [ target "_blank" ] <| img "/logos/gh.svg"
-        , link "https://www.twitter.com/ronanyeah" <| el Link [ target "_blank" ] <| img "/logos/twitter.svg"
-        , link "https://uk.linkedin.com/in/ronanemccabe" <| el Link [ target "_blank" ] <| img "/logos/linkedin.svg"
-        ]
+    [ link "https://stackoverflow.com/users/story/4224679" <| el Link [ target "_blank" ] <| img "/logos/cv.svg"
+    , link "mailto:hey@ronanmccabe.me" <| el Link [] <| img "/logos/mail.svg"
+    , link "https://www.github.com/ronanyeah" <| el Link [ target "_blank" ] <| img "/logos/gh.svg"
+    , link "https://www.twitter.com/ronanyeah" <| el Link [ target "_blank" ] <| img "/logos/twitter.svg"
+    , link "https://uk.linkedin.com/in/ronanemccabe" <| el Link [ target "_blank" ] <| img "/logos/linkedin.svg"
+    ]
 
 
 cornerLink : Element Styles variation msg

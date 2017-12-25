@@ -2,16 +2,16 @@ port module Tux exposing (main)
 
 import Color exposing (black)
 import Dom
-import Element exposing (Attribute, button, column, el, empty, image, inputText, text, row, viewport)
+import Element exposing (Attribute, button, column, el, empty, image, inputText, row, text, viewport)
 import Element.Attributes exposing (center, height, id, padding, px, spacing, type_, verticalCenter, width)
 import Element.Events exposing (keyCode, on, onClick, onInput)
 import Html exposing (Html)
 import Http
-import Json.Decode exposing (Decoder, field, list, string, int, bool, map3, map2, map, nullable, decodeValue)
+import Json.Decode exposing (Decoder, bool, decodeValue, field, int, list, map, map2, map3, nullable, string)
 import Json.Encode exposing (Value, object)
 import Style exposing (StyleSheet, style, stylesheet)
-import Style.Color as Color
 import Style.Border as Border
+import Style.Color as Color
 import Task
 
 
@@ -117,7 +117,7 @@ init json =
             , pushField = Nothing
             }
     in
-        model ! [ cmd ]
+    model ! [ cmd ]
 
 
 initSavedData : Saved
@@ -159,9 +159,9 @@ updateWithStorage msg model =
         ( newModel, cmds ) =
             update msg model
     in
-        ( newModel
-        , Cmd.batch [ setStorage newModel, cmds ]
-        )
+    ( newModel
+    , Cmd.batch [ setStorage newModel, cmds ]
+    )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -194,7 +194,7 @@ update msg model =
                         Nothing ->
                             Cmd.none
             in
-                { model | subscription = subscription } ! [ cmd ]
+            { model | subscription = subscription } ! [ cmd ]
 
         ServerKeyCb res ->
             case res of
@@ -271,15 +271,15 @@ update msg model =
                         pushErr e =
                             { model | message = "Push error!" } ! [ log "Push error:" e ]
                     in
-                        case err of
-                            Http.BadStatus { status } ->
-                                if status.code == 401 then
-                                    { model | message = "Incorrect password!" } ! []
-                                else
-                                    pushErr err
-
-                            _ ->
+                    case err of
+                        Http.BadStatus { status } ->
+                            if status.code == 401 then
+                                { model | message = "Incorrect password!" } ! []
+                            else
                                 pushErr err
+
+                        _ ->
+                            pushErr err
 
         FocusCb result ->
             case result of
@@ -316,58 +316,58 @@ view { message, pushField, passwordField, subscription } =
         smallButton msg =
             [ onClick msg, width <| px 100, height <| px 30 ]
     in
-        viewport styling <|
-            column None
-                [ center, verticalCenter, spacing 7 ]
-                [ el None [] <| image "/pwa/tux.png" None [] empty
-                , el None [] <| text <| "> " ++ message
-                , case subscription of
-                    Just _ ->
-                        button <| el Button (buttonSizes Unsubscribe) <| text "unsubscribe"
+    viewport styling <|
+        column None
+            [ center, verticalCenter, spacing 7 ]
+            [ el None [] <| image "/pwa/tux.png" None [] empty
+            , el None [] <| text <| "> " ++ message
+            , case subscription of
+                Just _ ->
+                    button <| el Button (buttonSizes Unsubscribe) <| text "unsubscribe"
 
-                    Nothing ->
-                        button <| el Button (buttonSizes Subscribe) <| text "subscribe"
-                , case pushField of
-                    Just str ->
-                        column None
-                            []
-                            [ inputText None
-                                [ id "input1"
-                                , type_ "text"
-                                , onKeyDown <| Keydown Push
-                                , onInput <| Update Push
-                                ]
-                                str
-                            , row None
-                                [ center, spacing 5, padding 4 ]
-                                [ button <| el Button (smallButton <| Cancel Push) <| text "cancel"
-                                , button <| el Button (smallButton SendPush) <| text "send"
-                                ]
+                Nothing ->
+                    button <| el Button (buttonSizes Subscribe) <| text "subscribe"
+            , case pushField of
+                Just str ->
+                    column None
+                        []
+                        [ inputText None
+                            [ id "input1"
+                            , type_ "text"
+                            , onKeyDown <| Keydown Push
+                            , onInput <| Update Push
                             ]
-
-                    Nothing ->
-                        button <| el Button (buttonSizes <| Edit Push) <| text "push"
-                , case passwordField of
-                    Just str ->
-                        column None
-                            []
-                            [ inputText None
-                                [ id "input2"
-                                , type_ "password"
-                                , onKeyDown <| Keydown Pw
-                                , onInput <| Update Pw
-                                ]
-                                str
-                            , row None
-                                [ center, spacing 5, padding 4 ]
-                                [ button <| el Button (smallButton <| Cancel Pw) <| text "cancel"
-                                , button <| el Button (smallButton SetPw) <| text "set"
-                                ]
+                            str
+                        , row None
+                            [ center, spacing 5, padding 4 ]
+                            [ button <| el Button (smallButton <| Cancel Push) <| text "cancel"
+                            , button <| el Button (smallButton SendPush) <| text "send"
                             ]
+                        ]
 
-                    Nothing ->
-                        button <| el Button (buttonSizes <| Edit Pw) <| text "set password"
-                ]
+                Nothing ->
+                    button <| el Button (buttonSizes <| Edit Push) <| text "push"
+            , case passwordField of
+                Just str ->
+                    column None
+                        []
+                        [ inputText None
+                            [ id "input2"
+                            , type_ "password"
+                            , onKeyDown <| Keydown Pw
+                            , onInput <| Update Pw
+                            ]
+                            str
+                        , row None
+                            [ center, spacing 5, padding 4 ]
+                            [ button <| el Button (smallButton <| Cancel Pw) <| text "cancel"
+                            , button <| el Button (smallButton SetPw) <| text "set"
+                            ]
+                        ]
+
+                Nothing ->
+                    button <| el Button (buttonSizes <| Edit Pw) <| text "set password"
+            ]
 
 
 
@@ -441,7 +441,7 @@ log tag a =
         _ =
             Debug.log tag a
     in
-        Cmd.none
+    Cmd.none
 
 
 
