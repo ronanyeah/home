@@ -42,10 +42,6 @@ elm-stuff
 repl-temp-*
 
 # my stuff
-private
-coverage
-public/**/bundle.*
 public/index.html
-error_log.txt
 dev.env
 .elm-static-html
