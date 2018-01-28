@@ -11,7 +11,10 @@ const { GA_TOKEN } = process.env;
   );
 
   // process.cwd() is not ideal but can't get __dirname in an .mjs file.
-  const html = await lib.elmStaticHtml(process.cwd(), "Main.view", {});
+  const html = await lib.elmStaticHtml(process.cwd(), "Main.view", {
+    newLines: false,
+    indent: 0
+  });
 
   await util.promisify(fs.writeFile)(
     "./public/index.html",
