@@ -1,10 +1,10 @@
 module Main exposing (view)
 
 import Color exposing (black, rgb)
-import Element exposing (Attribute, Element, alignBottom, alignLeft, attribute, center, centerY, column, el, html, layout, link, newTabLink, padding, px, row, spacing, text, width)
-import Element.Area as Area
+import Element exposing (Attribute, Element, alignBottom, alignLeft, centerX, centerY, column, el, html, layout, link, newTabLink, padding, px, row, spacing, text, width)
 import Element.Background as Background
 import Element.Font as Font
+import Element.Region as Region
 import Html exposing (Html)
 import Html.Attributes
 
@@ -22,18 +22,18 @@ font =
 attr : String -> String -> Attribute msg
 attr a b =
     Html.Attributes.attribute a b
-        |> attribute
+        |> Element.htmlAttribute
 
 
 view : Html msg
 view =
-    layout [ Area.mainContent, Background.color <| rgb 149 175 186 ] <|
+    layout [ Region.mainContent, Background.color <| rgb 149 175 186 ] <|
         column
             []
             [ el [ centerY ] <|
                 column [ spacing 80 ]
-                    [ el [ Area.heading 1, font, Font.bold, Font.size 50, Font.color black, attr "title" "☘️" ] <| text "rónán mccabe"
-                    , el [ Area.heading 2, font, Font.size 30, Font.color black ] <| text "full stack developer"
+                    [ el [ Region.heading 1, font, Font.bold, Font.size 50, Font.color black, attr "title" "☘️", centerX ] <| text "rónán mccabe"
+                    , el [ Region.heading 2, font, Font.size 30, Font.color black, centerX ] <| text "full stack developer"
                     , links
                     ]
             , cornerLink
@@ -48,30 +48,30 @@ links =
                 [ Font.color black
                 , width <| px 35
                 , Font.size 30
-                , Font.mouseOverColor Color.darkGreen
+                , Element.mouseOver [ Font.color Color.darkBlue ]
                 ]
             <|
                 html <|
                     Html.span [ Html.Attributes.class str ] []
     in
     row [ spacing 20 ]
-        [ newTabLink [ center ]
+        [ newTabLink [ centerX ]
             { url = "https://stackoverflow.com/users/story/4224679"
-            , label = faIcon "fab fa-stack-overflow"
+            , label = faIcon "fas fa-user"
             }
-        , link [ center ]
+        , link [ centerX ]
             { url = "mailto:hey@ronanmccabe.me"
             , label = faIcon "fas fa-envelope"
             }
-        , newTabLink [ center ]
+        , newTabLink [ centerX ]
             { url = "https://www.github.com/ronanyeah"
             , label = faIcon "fab fa-github"
             }
-        , newTabLink [ center ]
+        , newTabLink [ centerX ]
             { url = "https://www.twitter.com/ronanyeah"
             , label = faIcon "fab fa-twitter"
             }
-        , newTabLink [ center ]
+        , newTabLink [ centerX ]
             { url = "https://uk.linkedin.com/in/ronanemccabe"
             , label = faIcon "fab fa-linkedin"
             }
@@ -92,7 +92,7 @@ cornerLink =
                 [ Font.size 20
                 , Font.color Color.black
                 , font
-                , Font.mouseOverColor Color.darkGreen
+                , Element.mouseOver [ Font.color Color.darkBlue ]
                 ]
             <|
                 text "&lt;script&gt;&lt;/script&gt;"

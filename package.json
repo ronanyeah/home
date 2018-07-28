@@ -19,8 +19,9 @@
   "homepage": "https://ronanmccabe.me/",
   "dependencies": {
     "elm": "^0.18.0",
-    "elm-static-html-lib": "^0.1.0",
-    "nodemon": "^1.14.11"
+    "elm-static-html-lib": "^0.1.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "nodemon": "^1.18.3"
+  }
 }
