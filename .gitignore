@@ -43,5 +43,3 @@ repl-temp-*
 
 # my stuff
 public/index.html
-dev.env
-.elm-static-html

@@ -4,8 +4,8 @@
   "description": "home",
   "main": "./build.mjs",
   "scripts": {
-    "build": "node --experimental-modules build.mjs",
-    "watch": "nodemon -e elm -x 'npm run build'"
+    "build": "elm make src/Main.elm --optimize --output=index.js && node build.js",
+    "watch": "elm-live --dir public src/Main.elm -- --output=public/index.html"
   },
   "repository": {
     "type": "git",
@@ -18,10 +18,10 @@
   },
   "homepage": "https://ronanmccabe.me/",
   "dependencies": {
-    "elm": "^0.18.0",
-    "elm-static-html-lib": "^0.1.0"
+    "elm": "^0.19.0-bugfix2",
+    "jsdom": "^12.0.0"
   },
   "devDependencies": {
-    "nodemon": "^1.18.3"
+    "elm-live": "^3.0.5"
   }
 }
