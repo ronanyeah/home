@@ -42,4 +42,4 @@ elm-stuff
 repl-temp-*
 
 # my stuff
-public/index.html
+public/index.js

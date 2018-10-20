@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>rónán mccabe</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#1b4fa7">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <style>
+      @keyframes moveLeft {
+        0% {
+          transform: translate(0px, 0px);;
+        }
+        100% {
+          transform: translate(-45vw, 0px);;
+        }
+      }
+      @keyframes moveRight {
+        0% {
+          transform: translate(0px, 0px);;
+        }
+        100% {
+          transform: translate(45vw, 0px);;
+        }
+      }
+      @keyframes draw {
+        0% {
+          stroke-dasharray: 140 540;
+          stroke-dashoffset: -474;
+          stroke-width: 8px;
+        }
+        100% {
+          stroke-dasharray: 760;
+          stroke-dashoffset: 0;
+          stroke-width: 2px;
+        }
+      }
+      #name {
+        fill: transparent;
+        stroke-dasharray: 140 540;
+        stroke-dashoffset: -474;
+        stroke-width: 8px;
+        stroke: #19f6e8;
+      }
+      #name:hover {
+        animation: 0.5s draw linear forwards;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script src="/index.js"></script>
+    <script>
+      Elm.Main.init({ node: document.getElementById("app") });
+    </script>
+  </body>
+</html>
