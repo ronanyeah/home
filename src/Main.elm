@@ -107,10 +107,8 @@ red =
 font : Attribute msg
 font =
     Font.family
-        [ Font.external
-            { url = "https://fonts.googleapis.com/css?family=Lato"
-            , name = "Lato"
-            }
+        [ Font.typeface "Lato"
+        , Font.sansSerif
         ]
 
 
