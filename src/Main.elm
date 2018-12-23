@@ -4,16 +4,14 @@ import Array exposing (Array)
 import Browser
 import Browser.Dom
 import Browser.Events
-import Browser.Navigation
-import Dict exposing (Dict)
-import Element exposing (Attribute, Color, Element, alignBottom, alignLeft, alignRight, centerX, centerY, column, el, fill, height, html, htmlAttribute, layout, layoutWith, link, moveLeft, moveRight, moveUp, newTabLink, none, padding, px, rgb255, rgba255, row, spacing, text, width)
+import Element exposing (Attribute, Color, Element, centerX, centerY, column, el, fill, height, htmlAttribute, layout, layoutWith, moveDown, moveLeft, newTabLink, none, px, rgb255, rgba255, row, spacing, text, width)
 import Element.Background as Bg
 import Element.Border as Border
 import Element.Font as Font
 import Element.Region as Region
 import Html exposing (Html)
 import Html.Attributes
-import Json.Decode
+import Image
 import Process
 import Random exposing (Generator)
 import Task exposing (Task)
@@ -61,26 +59,36 @@ main =
                     ]
                 )
         , subscriptions =
-            \model ->
-                Sub.batch
-                    [ Browser.Events.onResize
-                        (\width height ->
-                            Resize
-                                { height = height
-                                , width = width
-                                }
-                        )
-                    ]
+            \_ ->
+                Browser.Events.onResize
+                    (\width height ->
+                        Resize
+                            { height = height
+                            , width = width
+                            }
+                    )
         , update = update
-        , view = view
+        , view =
+            \model ->
+                case model.size of
+                    Just size ->
+                        view size model
+
+                    Nothing ->
+                        pane
         }
 
 
 type alias Model =
-    { w : Int
-    , h : Int
+    { size : Maybe Size
     , colors : Array (Float -> Color)
     , hack : Bool
+    }
+
+
+type alias Size =
+    { width : Int
+    , height : Int
     }
 
 
@@ -118,8 +126,15 @@ title =
         >> Element.htmlAttribute
 
 
-view : Model -> Html msg
-view model =
+pane : Html msg
+pane =
+    text "💥"
+        |> el [ centerX, centerY ]
+        |> layout [ Bg.color blue, width fill, height fill ]
+
+
+view : Size -> Model -> Html msg
+view size model =
     column
         [ spacing 80
         , centerX
@@ -168,108 +183,21 @@ view model =
             }
             ([ Region.mainContent
              , Bg.color blue
-
-             --, Element.inFront cornerLink
-             --background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/World_map_-_low_resolution.svg/950px-World_map_-_low_resolution.svg.png);
-             --background-size: cover;
-             --background-position: center;
-             --, Element.behindContent <| el [ height fill, width fill ] <| html <| World.img2
              , Font.color green
              , height fill
              , width fill
              ]
-                ++ (List.map2 Tuple.pair
-                        (List.range 0 10
-                            |> List.map
-                                (\i ->
-                                    let
-                                        h_ =
-                                            model.h
-                                                // 20
-                                                |> clamp 90 100
+                ++ (if size.width >= 800 then
+                        pencils model.colors size
 
-                                        tw =
-                                            round (toFloat h_ * 1.12)
-
-                                        pw =
-                                            (model.w // 2) - tw
-
-                                        c =
-                                            model.colors
-                                                |> Array.get (i + 10)
-                                                |> Maybe.withDefault tan
-                                    in
-                                    pencil model c i
-                                        |> el
-                                            [ Element.moveDown <| toFloat <| (h_ * i)
-                                            ]
-                                        |> el
-                                            ([ ( "animation-name", "moveLeft" )
-                                             , ( "animation-duration", "2s" )
-                                             , ( "animation-fill-mode", "forwards" )
-                                             ]
-                                                |> List.map
-                                                    (\( rule, val ) ->
-                                                        Html.Attributes.style rule val
-                                                            |> Element.htmlAttribute
-                                                    )
-                                            )
-                                        |> Element.inFront
-                                )
-                        )
-                        (List.range 0 10
-                            |> List.map
-                                (\i ->
-                                    let
-                                        h =
-                                            model.h
-                                                // 20
-                                                |> clamp 90 100
-
-                                        tw =
-                                            round (toFloat h * 1.12)
-
-                                        pw =
-                                            (model.w - tw) // 2
-
-                                        bf =
-                                            h // 2
-
-                                        c =
-                                            model.colors
-                                                |> Array.get i
-                                                |> Maybe.withDefault tan
-                                    in
-                                    pencil model c i
-                                        |> el
-                                            [ Element.moveDown <| toFloat ((h * i) + (h // 2))
-                                            , Element.moveLeft <| toFloat pw
-                                            ]
-                                        |> el
-                                            [ Html.Attributes.style "transform" "scale(-1, 1)" |> htmlAttribute
-                                            ]
-                                        |> el
-                                            ([ ( "animation-name", "moveRight" )
-                                             , ( "animation-duration", "2s" )
-                                             , ( "animation-fill-mode", "forwards" )
-                                             ]
-                                                |> List.map
-                                                    (\( rule, val ) ->
-                                                        Html.Attributes.style rule val
-                                                            |> Element.htmlAttribute
-                                                    )
-                                            )
-                                        |> Element.inFront
-                                )
-                        )
-                        |> List.map (\( a, b ) -> [ a, b ])
-                        |> List.concat
+                    else
+                        []
                    )
             )
 
 
 type Msg
-    = Resize { width : Int, height : Int }
+    = Resize Size
     | ColorsCb (Array (Float -> Color))
     | Hack (Maybe Float)
 
@@ -280,8 +208,8 @@ update msg model =
         ColorsCb cs ->
             ( { model | colors = cs }, Cmd.none )
 
-        Resize { width, height } ->
-            ( { model | w = width, h = height }, Cmd.none )
+        Resize size ->
+            ( { model | size = Just size }, Cmd.none )
 
         Hack mn ->
             case mn of
@@ -308,6 +236,89 @@ randomFloat =
                 >> Random.step (Random.float 2 6)
                 >> Tuple.first
             )
+
+
+pencils : Array (Float -> Color) -> Size -> List (Attribute msg)
+pencils colors size =
+    List.map2 Tuple.pair
+        (List.range 0 10
+            |> List.map
+                (\i ->
+                    let
+                        h_ =
+                            size.height
+                                // 20
+                                |> clamp 90 100
+
+                        c =
+                            colors
+                                |> Array.get (i + 10)
+                                |> Maybe.withDefault tan
+                    in
+                    pencil size c
+                        |> el
+                            [ Element.moveDown <| toFloat <| (h_ * i)
+                            ]
+                        |> el
+                            ([ ( "animation-name", "moveLeft" )
+                             , ( "animation-duration", "2s" )
+                             , ( "animation-fill-mode", "forwards" )
+                             , ( "animation-delay", String.fromInt (i * 100) ++ "ms" )
+                             ]
+                                |> List.map
+                                    (\( rule, val ) ->
+                                        Html.Attributes.style rule val
+                                            |> Element.htmlAttribute
+                                    )
+                            )
+                        |> Element.inFront
+                )
+        )
+        (List.range 0 10
+            |> List.map
+                (\i ->
+                    let
+                        h =
+                            size.height
+                                // 20
+                                |> clamp 90 100
+
+                        tw =
+                            round (toFloat h * 1.12)
+
+                        pw =
+                            (size.width - tw) // 2
+
+                        c =
+                            colors
+                                |> Array.get i
+                                |> Maybe.withDefault tan
+                    in
+                    pencil size c
+                        |> el
+                            [ moveDown <| toFloat ((h * i) + (h // 2))
+                            , moveLeft <| toFloat pw
+                            ]
+                        |> el
+                            [ Html.Attributes.style "transform" "scale(-1, 1)" |> htmlAttribute
+                            ]
+                        |> el
+                            ([ ( "animation-name", "moveRight" )
+                             , ( "animation-duration", "2s" )
+                             , ( "animation-fill-mode", "forwards" )
+                             , ( "animation-delay", String.fromInt (i * 100) ++ "ms" )
+                             ]
+                                |> List.map
+                                    (\( rule, val ) ->
+                                        Html.Attributes.style rule val
+                                            |> Element.htmlAttribute
+                                    )
+                            )
+                        |> Element.inFront
+                )
+        )
+        |> List.map (\( a, b ) -> [ a, b ])
+        |> List.concat
 
 
 links : Element msg
@@ -343,40 +354,23 @@ links =
         ]
 
 
-cornerLink : Element msg
-cornerLink =
-    newTabLink
-        [ alignLeft
-        , alignBottom
-        , Element.moveRight 10
-        , Element.moveUp 10
-        , font
-        , Element.mouseOver
-            [ Font.shadow { offset = ( 5, 5 ), blur = 0, color = black }
-            , Font.size 40
-            ]
-        , Font.size 25
-        ]
-        { url =
-            "https://github.com/ronanyeah/home"
-        , label =
-            -- row is a hack because a script tag was breaking elm
-            row [] [ text "<script src=\"💥\"><", text "/script>" ]
-        }
-
-
 emptyModel : Model
 emptyModel =
-    { w = 0
-    , h = 0
+    { size = Nothing
     , colors = Array.empty
     , hack = False
     }
 
 
-pencil : Model -> (Float -> Color) -> Int -> Element msg
-pencil { w, h } c i =
+pencil : Size -> (Float -> Color) -> Element msg
+pencil size c =
     let
+        w =
+            size.width
+
+        h =
+            size.height
+
         h_ =
             h
                 // 20
@@ -422,8 +416,7 @@ pencil { w, h } c i =
         , el
             [ centerY
             , height fill
-            , Bg.image "/pencil.svg"
             , width <| px tw
             ]
-            none
+            Image.tip
         ]
