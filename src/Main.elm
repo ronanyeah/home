@@ -4,7 +4,7 @@ import Array exposing (Array)
 import Browser
 import Browser.Dom
 import Browser.Events
-import Element exposing (Attribute, Color, Element, centerX, centerY, column, el, fill, height, htmlAttribute, layout, layoutWith, moveDown, moveLeft, newTabLink, none, px, rgb255, rgba255, row, spacing, text, width)
+import Element exposing (Attribute, Color, Element, centerX, centerY, column, el, fill, height, htmlAttribute, layout, layoutWith, moveDown, moveLeft, newTabLink, none, padding, px, rgb255, rgba255, row, spacing, text, width)
 import Element.Background as Bg
 import Element.Border as Border
 import Element.Font as Font
@@ -21,6 +21,11 @@ import Time
 tan : Float -> Color
 tan =
     rgba255 255 159 28
+
+
+off : Color
+off =
+    rgb255 225 245 235
 
 
 genColor : Generator (Float -> Color)
@@ -92,11 +97,6 @@ type alias Size =
     }
 
 
-green : Color
-green =
-    rgb255 114 223 145
-
-
 black : Color
 black =
     rgb255 0 0 0
@@ -107,23 +107,12 @@ blue =
     rgb255 27 79 167
 
 
-red : Color
-red =
-    rgb255 229 81 75
-
-
 font : Attribute msg
 font =
     Font.family
-        [ Font.typeface "Lato"
+        [ Font.typeface "Courier"
         , Font.sansSerif
         ]
-
-
-title : String -> Attribute msg
-title =
-    Html.Attributes.title
-        >> Element.htmlAttribute
 
 
 pane : Html msg
@@ -135,6 +124,10 @@ pane =
 
 view : Size -> Model -> Html msg
 view size model =
+    let
+        big =
+            size.width >= 800
+    in
     column
         [ spacing 80
         , centerX
@@ -142,52 +135,47 @@ view size model =
         ]
         [ el
             [ Region.heading 1
-            , font
             , Font.bold
-            , Font.size 50
-            , Font.shadow { offset = ( 5, 5 ), blur = 0, color = black }
-            , title "☘️"
+            , Font.size 40
+            , Html.Attributes.style "cursor" "url(\"/pic.svg\"), auto"
+                |> Element.htmlAttribute
             , centerX
-            , Html.Attributes.id "name" |> Element.htmlAttribute
+            , font
             ]
           <|
-            text "rónán mccabe"
-        , row
-            [ "full stack developer"
-                |> text
-                |> el
-                    [ Bg.color blue
-                    , Element.mouseOver [ Element.transparent True ]
-                    , Element.transparent model.hack
-                    ]
-                |> Element.inFront
-            , Region.heading 2
-            , font
-            , Font.size 30
-            , centerX
-            ]
-            [ text "full"
-            , el [ Font.color red, Font.letterSpacing 1.25 ] <| text " hack "
-            , text "developer"
-            ]
+            text "Rónán McCabe"
         , links
         ]
         |> layoutWith
             { options =
-                [ Element.focusStyle
+                Element.focusStyle
                     { borderColor = Nothing
                     , backgroundColor = Nothing
                     , shadow = Nothing
                     }
-                ]
+                    :: (if big then
+                            []
+
+                        else
+                            [ Element.noHover ]
+                       )
             }
             ([ Region.mainContent
-             , Bg.color blue
-             , Font.color green
+
+             --, Bg.gradient
+             --{ angle = 0
+             --, steps =
+             --[ Element.rgb255 150 208 255
+             --, Element.rgb255 13 50 77
+             --]
+             --}
+             , Bg.color off
+
+             --, Font.color green
              , height fill
              , width fill
              ]
-                ++ (if size.width >= 800 then
+                ++ (if big then
                         pencils model.colors size
 
                     else
@@ -325,33 +313,48 @@ links : Element msg
 links =
     let
         icon =
-            text
+            String.fromChar
+                >> text
                 >> el
                     [ Element.mouseOver
-                        [ Font.shadow { offset = ( 5, 5 ), blur = 0, color = black }
-                        , Element.rotate 0.3
+                        [ Element.rotate 0.3
                         ]
+                    , Font.shadow { offset = ( 5, 5 ), blur = 0, color = black }
                     , Font.size 40
                     ]
     in
-    row [ spacing 30, centerX ]
-        [ newTabLink [ title "resume" ]
-            { url = "https://stackoverflow.com/users/story/4224679"
-            , label = icon "📜"
-            }
-        , newTabLink [ title "github" ]
-            { url = "https://www.github.com/ronanyeah"
-            , label = icon "💻"
-            }
-        , newTabLink [ title "twitter" ]
-            { url = "https://www.twitter.com/ronanyeah"
-            , label = icon "🐦"
-            }
-        , newTabLink [ title "spotify playlist" ]
-            { url = "https://open.spotify.com/playlist/4Z2VDX4fr5ciYnc6cTSir9"
-            , label = icon "🎧"
-            }
-        ]
+    [ ( "background", "https://stackoverflow.com/users/story/4224679", '📜' )
+    , ( "code", "https://www.github.com/ronanyeah", '💻' )
+    , ( "twitter", "https://www.twitter.com/ronanyeah", '🐦' )
+    , ( "instagram", "https://www.instagram.com/ronanyeah", '📸' )
+    , ( "work", "https://tarbh.engineering/", '🔧' )
+    ]
+        |> List.map
+            (\( title_, url, icon_ ) ->
+                newTabLink [ width fill ]
+                    { url = url
+                    , label =
+                        [ icon icon_
+                        , text title_
+                        ]
+                            |> row
+                                [ Element.spaceEvenly
+                                , width fill
+                                , Border.width 2
+                                , Border.color off
+                                , Border.dashed
+                                , Element.mouseOver
+                                    [ Border.color <| rgb255 0 0 0
+                                    ]
+                                , padding 10
+                                ]
+                    }
+            )
+        |> column
+            [ spacing 30
+            , font
+            , width fill
+            ]
 
 
 emptyModel : Model
@@ -387,6 +390,9 @@ pencil size c =
         [ column
             [ height <| px h_
             , width <| px pw
+            , none
+                |> el [ width fill, height fill, Bg.color <| rgb255 255 255 255 ]
+                |> Element.behindContent
             ]
             [ el
                 [ height fill
