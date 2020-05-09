@@ -4,7 +4,7 @@ import Array exposing (Array)
 import Browser
 import Browser.Dom
 import Browser.Events
-import Element exposing (Attribute, Color, Element, centerX, centerY, column, el, fill, height, htmlAttribute, layout, layoutWith, moveDown, moveLeft, newTabLink, none, padding, px, rgb255, rgba255, row, spacing, text, width)
+import Element exposing (Attribute, Color, Element, centerX, centerY, column, el, fill, height, htmlAttribute, layout, layoutWith, moveDown, moveLeft, newTabLink, none, padding, paragraph, px, rgb255, rgba255, row, spacing, text, width)
 import Element.Background as Bg
 import Element.Border as Border
 import Element.Font as Font
@@ -128,24 +128,42 @@ view size model =
         big =
             size.width >= 800
     in
-    column
-        [ spacing 80
-        , centerX
-        , centerY
-        ]
-        [ el
+    [ [ text "Rónán McCabe"
+      ]
+        |> paragraph
             [ Region.heading 1
             , Font.bold
+            , Font.center
             , Font.size 40
             , Html.Attributes.style "cursor" "url(\"/pic.svg\"), auto"
                 |> Element.htmlAttribute
-            , centerX
             , font
             ]
-          <|
-            text "Rónán McCabe"
-        , links
+    , Element.newTabLink
+        [ Border.dashed
+        , Border.width 5
+        , padding 20
         ]
+        { url = "https://www.reddit.com/r/movies/comments/g39o5x/i_noticed_youtube_has_a_lot_of_free_movies_so_i/"
+        , label =
+            [ '🏆'
+                |> String.fromChar
+                |> text
+                |> el [ Font.size 50, Font.shadow { offset = ( 2, 2 ), blur = 0, color = black } ]
+            , [ text "Voted #1 Best Programmer on Reddit"
+              ]
+                |> paragraph [ font ]
+            ]
+                |> row [ spacing 20 ]
+        }
+    , links
+    ]
+        |> column
+            [ spacing 30
+            , padding 20
+            , centerX
+            , centerY
+            ]
         |> layoutWith
             { options =
                 Element.focusStyle
@@ -161,19 +179,16 @@ view size model =
                        )
             }
             ([ Region.mainContent
-
-             --, Bg.gradient
-             --{ angle = 0
-             --, steps =
-             --[ Element.rgb255 150 208 255
-             --, Element.rgb255 13 50 77
-             --]
-             --}
-             , Bg.color off
-
-             --, Font.color green
+             , Bg.gradient
+                { angle = 0
+                , steps =
+                    [ Element.rgb255 150 208 255
+                    , off
+                    ]
+                }
              , height fill
              , width fill
+             , Element.scrollbarY
              ]
                 ++ (if big then
                         pencils model.colors size
@@ -316,17 +331,13 @@ links =
             String.fromChar
                 >> text
                 >> el
-                    [ Element.mouseOver
-                        [ Element.rotate 0.3
-                        ]
-                    , Font.shadow { offset = ( 5, 5 ), blur = 0, color = black }
+                    [ Font.shadow { offset = ( 3, 3 ), blur = 0, color = black }
                     , Font.size 40
                     ]
     in
     [ ( "background", "https://stackoverflow.com/users/story/4224679", '📜' )
     , ( "code", "https://www.github.com/ronanyeah", '💻' )
     , ( "twitter", "https://www.twitter.com/ronanyeah", '🐦' )
-    , ( "instagram", "https://www.instagram.com/ronanyeah", '📸' )
     , ( "work", "https://tarbh.engineering/", '🔧' )
     ]
         |> List.map
@@ -351,9 +362,10 @@ links =
                     }
             )
         |> column
-            [ spacing 30
+            [ spacing 20
             , font
-            , width fill
+            , fill |> Element.maximum 350 |> width
+            , centerX
             ]
 
 
