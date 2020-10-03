@@ -2,16 +2,17 @@ module Main exposing (main)
 
 import Array exposing (Array)
 import Browser
-import Browser.Dom
-import Browser.Events
-import Element exposing (Attribute, Color, Element, centerX, centerY, column, el, fill, height, htmlAttribute, layout, layoutWith, moveDown, moveLeft, newTabLink, none, padding, paragraph, px, rgb255, rgba255, row, spacing, text, width)
+import Element exposing (Attribute, Color, Element, centerX, centerY, column, el, fill, height, htmlAttribute, layoutWith, moveDown, moveLeft, newTabLink, none, padding, paragraph, px, rgb255, rgba255, row, spaceEvenly, spacing, text, width)
 import Element.Background as Bg
 import Element.Border as Border
 import Element.Font as Font
+import Element.Input as Input
 import Element.Region as Region
+import Helpers.View exposing (cappedHeight, cappedWidth, style, when)
 import Html exposing (Html)
 import Html.Attributes
 import Image
+import Maybe.Extra exposing (unwrap)
 import Process
 import Random exposing (Generator)
 import Task exposing (Task)
@@ -23,9 +24,9 @@ tan =
     rgba255 255 159 28
 
 
-off : Color
-off =
-    rgb255 225 245 235
+white : Color
+white =
+    rgb255 248 248 255
 
 
 genColor : Generator (Float -> Color)
@@ -42,52 +43,30 @@ genColor =
         (Random.float 0 1)
 
 
-main : Program () Model Msg
+main : Program Size Model Msg
 main =
     Browser.element
         { init =
-            \_ ->
-                ( emptyModel
+            \size ->
+                ( { emptyModel | size = size }
                 , Cmd.batch
-                    [ Browser.Dom.getViewport
-                        |> Task.perform
-                            (\{ viewport } ->
-                                Resize
-                                    { height = round viewport.height
-                                    , width = round viewport.width
-                                    }
-                            )
-                    , Random.list 40 genColor
+                    [ Random.list 40 genColor
                         |> Random.generate (Array.fromList >> ColorsCb)
                     , randomFloat
                         |> Task.perform (Just >> Hack)
                     ]
                 )
-        , subscriptions =
-            \_ ->
-                Browser.Events.onResize
-                    (\width height ->
-                        Resize
-                            { height = height
-                            , width = width
-                            }
-                    )
+        , subscriptions = always Sub.none
         , update = update
-        , view =
-            \model ->
-                case model.size of
-                    Just size ->
-                        view size model
-
-                    Nothing ->
-                        pane
+        , view = view
         }
 
 
 type alias Model =
-    { size : Maybe Size
+    { size : Size
     , colors : Array (Float -> Color)
     , hack : Bool
+    , detail : Maybe Detail
     }
 
 
@@ -97,14 +76,15 @@ type alias Size =
     }
 
 
+type Detail
+    = Proj
+    | Redd
+    | Talk
+
+
 black : Color
 black =
     rgb255 0 0 0
-
-
-blue : Color
-blue =
-    rgb255 27 79 167
 
 
 font : Attribute msg
@@ -115,54 +95,87 @@ font =
         ]
 
 
-pane : Html msg
-pane =
-    text "💥"
-        |> el [ centerX, centerY ]
-        |> layout [ Bg.color blue, width fill, height fill ]
-
-
-view : Size -> Model -> Html msg
-view size model =
+view : Model -> Html Msg
+view model =
     let
         big =
-            size.width >= 800
+            model.size.width >= 800
+
+        small =
+            model.size.width < 375
+
+        adj =
+            if small then
+                5
+
+            else
+                0
+
+        img =
+            if small then
+                50
+
+            else
+                75
+
+        sp =
+            if small then
+                10
+
+            else
+                20
     in
-    [ [ text "Rónán McCabe"
-      ]
-        |> paragraph
-            [ Region.heading 1
-            , Font.bold
-            , Font.center
-            , Font.size 40
-            , Html.Attributes.style "cursor" "url(\"/pic.svg\"), auto"
-                |> Element.htmlAttribute
-            , font
+    [ [ [ text "Rónán McCabe"
+            |> el
+                [ Region.heading 1
+                , Font.bold
+                , Font.size
+                    (if small then
+                        25
+
+                     else
+                        35
+                    )
+                ]
+        , Element.image
+            [ height <| px img
+            , width <| px img
+            , shadow
             ]
-    , Element.newTabLink
-        [ Border.dashed
-        , Border.width 5
-        , padding 20
+            { src = "/me.png", description = "" }
         ]
-        { url = "https://www.reddit.com/r/movies/comments/g39o5x/i_noticed_youtube_has_a_lot_of_free_movies_so_i/"
-        , label =
-            [ '🏆'
-                |> String.fromChar
-                |> text
-                |> el [ Font.size 50, Font.shadow { offset = ( 2, 2 ), blur = 0, color = black } ]
-            , [ text "Voted #1 Best Programmer on Reddit"
-              ]
-                |> paragraph [ font ]
-            ]
-                |> row [ spacing 20 ]
-        }
-    , links
+            |> row [ width fill, spaceEvenly ]
+      , [ text "Highlights"
+            |> el [ Font.bold, Font.size (25 - adj) ]
+        , model.detail
+            |> unwrap
+                ([ viewBtn adj Proj
+                 , viewBtn adj Talk
+                 , viewBtn adj Redd
+                 ]
+                    |> column [ spacing 20 ]
+                )
+                (viewDetail small)
+        ]
+            |> column
+                [ spacing 20
+                , width fill
+                , padding 20
+                , Bg.color white
+                , shadow
+                ]
+      ]
+        |> column [ spacing sp, width fill ]
+    , links small
+        |> when (model.detail == Nothing)
     ]
         |> column
-            [ spacing 30
+            [ cappedHeight 750
+            , cappedWidth 450
             , padding 20
+            , spacing sp
             , centerX
-            , centerY
+            , style "animation" "fadeIn 1.2s"
             ]
         |> layoutWith
             { options =
@@ -183,15 +196,15 @@ view size model =
                 { angle = 0
                 , steps =
                     [ Element.rgb255 150 208 255
-                    , off
+                    , white
                     ]
                 }
              , height fill
              , width fill
-             , Element.scrollbarY
+             , font
              ]
                 ++ (if big then
-                        pencils model.colors size
+                        pencils model.colors model.size
 
                     else
                         []
@@ -199,10 +212,161 @@ view size model =
             )
 
 
+shadow : Attribute msg
+shadow =
+    Border.shadow
+        { offset = ( 3, 3 )
+        , blur = 0
+        , size = 0
+        , color = black
+        }
+
+
+viewDetail : Bool -> Detail -> Element Msg
+viewDetail small d =
+    let
+        txt =
+            case d of
+                Redd ->
+                    "Free Movies"
+
+                Proj ->
+                    "Bolster"
+
+                Talk ->
+                    "Follow the Types"
+
+        img =
+            case d of
+                Redd ->
+                    "/freemov.png"
+
+                Proj ->
+                    "/bolster.png"
+
+                Talk ->
+                    "/talk.png"
+
+        lnk =
+            case d of
+                Redd ->
+                    "https://www.reddit.com/r/movies/comments/g39o5x/i_noticed_youtube_has_a_lot_of_free_movies_so_i/"
+
+                Proj ->
+                    "https://bolster.pro/"
+
+                Talk ->
+                    "https://www.youtube.com/watch?v=ly05IV5isf4"
+
+        body =
+            case d of
+                Redd ->
+                    [ [ text "A responsive web app presenting the free-to-watch movies on YouTube. It received ~200k impressions in the first few days of release."
+                      ]
+                        |> paragraph []
+                    ]
+
+                Proj ->
+                    [ [ text "An end-to-end encrypted journal, currently in active development."
+                      ]
+                        |> paragraph []
+                    ]
+
+                Talk ->
+                    [ [ text "A HasuraCon 2020 talk on statically typed programming languages and how they can be used alongside GraphQL and Hasura."
+                      ]
+                        |> paragraph []
+                    ]
+    in
+    [ newTabLink
+        [ Element.mouseOver [ Font.color <| Element.rgb255 255 140 0 ]
+        , width fill
+        ]
+        { url = lnk
+        , label =
+            [ [ [ text txt ] |> paragraph [ Font.bold, Font.center ] ]
+                |> row [ spacing 10, width fill ]
+            , Element.image
+                [ centerX
+                , shadow
+                , (if small then
+                    px 100
+
+                   else
+                    fill
+                  )
+                    |> height
+                ]
+                { src = img, description = "" }
+            ]
+                |> column [ spacing 10, width fill ]
+        }
+
+    --, [ text title ]
+    --|> paragraph [ Font.bold, Font.center ]
+    , body
+        |> Element.textColumn [ width fill, spacing 10, Font.size 17 ]
+    , Input.button
+        [ Element.mouseOver [ Font.color <| Element.rgb255 255 140 0 ]
+        , Element.alignRight
+        ]
+        { onPress = Just <| SetDetail d
+        , label =
+            text "Back"
+                |> el [ Font.underline ]
+        }
+    ]
+        |> column
+            [ spacing
+                (if small then
+                    10
+
+                 else
+                    20
+                )
+            , width fill
+            ]
+
+
+viewBtn : Int -> Detail -> Element Msg
+viewBtn adj d =
+    let
+        txt =
+            case d of
+                Redd ->
+                    "Reddit front page"
+
+                Proj ->
+                    "Current project"
+
+                Talk ->
+                    "Conference talk"
+
+        emoj =
+            case d of
+                Redd ->
+                    "👽"
+
+                Proj ->
+                    "🛠️"
+
+                Talk ->
+                    "📽️"
+    in
+    Input.button
+        [ Element.mouseOver [ Font.color <| Element.rgb255 255 140 0 ]
+        ]
+        { onPress = Just <| SetDetail d
+        , label =
+            [ text emoj, text txt ]
+                |> row [ spacing 20, Font.size (20 - adj) ]
+        }
+
+
 type Msg
-    = Resize Size
-    | ColorsCb (Array (Float -> Color))
+    = ColorsCb (Array (Float -> Color))
     | Hack (Maybe Float)
+    | SetDetail Detail
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -211,8 +375,17 @@ update msg model =
         ColorsCb cs ->
             ( { model | colors = cs }, Cmd.none )
 
-        Resize size ->
-            ( { model | size = Just size }, Cmd.none )
+        SetDetail d ->
+            ( { model
+                | detail =
+                    if model.detail == Just d then
+                        Nothing
+
+                    else
+                        Just d
+              }
+            , Cmd.none
+            )
 
         Hack mn ->
             case mn of
@@ -324,56 +497,86 @@ pencils colors size =
         |> List.concat
 
 
-links : Element msg
-links =
+links : Bool -> Element msg
+links small =
     let
         icon =
             String.fromChar
                 >> text
                 >> el
                     [ Font.shadow { offset = ( 3, 3 ), blur = 0, color = black }
-                    , Font.size 40
+                    , Font.size
+                        (40
+                            - (if small then
+                                10
+
+                               else
+                                0
+                              )
+                        )
                     ]
     in
-    [ ( "background", "https://stackoverflow.com/users/story/4224679", '📜' )
+    [ ( "bio", "https://stackoverflow.com/users/story/4224679", '📜' )
     , ( "code", "https://www.github.com/ronanyeah", '💻' )
     , ( "twitter", "https://www.twitter.com/ronanyeah", '🐦' )
-    , ( "work", "https://tarbh.engineering/", '🔧' )
+    , ( "more projects", "https://tarbh.engineering/", '📦' )
     ]
         |> List.map
             (\( title_, url, icon_ ) ->
-                newTabLink [ width fill ]
+                newTabLink
+                    [ width fill
+                    , shadow
+                    , Bg.color white
+                    , padding 10
+                    , Element.mouseOver
+                        [ Bg.color black
+                        , Font.color white
+                        , Border.shadow
+                            { offset = ( 3, 3 )
+                            , blur = 0
+                            , size = 0
+                            , color = Element.rgb255 200 0 0
+                            }
+                        ]
+                    ]
                     { url = url
                     , label =
                         [ icon icon_
-                        , text title_
+                        , text <| title_ ++ " ↗️"
                         ]
                             |> row
                                 [ Element.spaceEvenly
                                 , width fill
-                                , Border.width 2
-                                , Border.color off
-                                , Border.dashed
-                                , Element.mouseOver
-                                    [ Border.color <| rgb255 0 0 0
-                                    ]
-                                , padding 10
+                                , Font.size
+                                    (20
+                                        - (if small then
+                                            5
+
+                                           else
+                                            0
+                                          )
+                                    )
                                 ]
                     }
             )
         |> column
-            [ spacing 20
-            , font
-            , fill |> Element.maximum 350 |> width
-            , centerX
+            [ spacing
+                (if small then
+                    10
+
+                 else
+                    20
+                )
+            , width fill
             ]
 
 
 emptyModel : Model
 emptyModel =
-    { size = Nothing
+    { size = { height = 0, width = 0 }
     , colors = Array.empty
     , hack = False
+    , detail = Nothing
     }
 
 
