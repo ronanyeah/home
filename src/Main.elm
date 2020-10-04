@@ -288,6 +288,7 @@ viewDetail small d =
                 |> row [ spacing 10, width fill ]
             , Element.image
                 [ centerX
+                , style "animation" "fadeIn 0.7s"
                 , shadow
                 , (if small then
                     px 100
