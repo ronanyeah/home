@@ -577,7 +577,7 @@ links flip small =
                                 ]
                                 { onPress = Just Flip
                                 , label =
-                                    icon '📧'
+                                    icon '📬'
                                         |> el [ centerX ]
                                 }
                          )
