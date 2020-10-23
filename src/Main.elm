@@ -8,20 +8,22 @@ import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
 import Element.Region as Region
-import Helpers.View exposing (cappedHeight, cappedWidth, style, when)
+import Helpers.View exposing (cappedHeight, cappedWidth, style, when, whenAttr)
 import Html exposing (Html)
 import Html.Attributes
 import Image
 import Maybe.Extra exposing (unwrap)
-import Process
 import Random exposing (Generator)
-import Task exposing (Task)
-import Time
 
 
 tan : Float -> Color
 tan =
     rgba255 255 159 28
+
+
+orange : Color
+orange =
+    Element.rgb255 255 140 0
 
 
 white : Color
@@ -52,8 +54,6 @@ main =
                 , Cmd.batch
                     [ Random.list 40 genColor
                         |> Random.generate (Array.fromList >> ColorsCb)
-                    , randomFloat
-                        |> Task.perform (Just >> Hack)
                     ]
                 )
         , subscriptions = always Sub.none
@@ -65,7 +65,7 @@ main =
 type alias Model =
     { size : Size
     , colors : Array (Float -> Color)
-    , hack : Bool
+    , flip : Bool
     , detail : Maybe Detail
     }
 
@@ -102,7 +102,7 @@ view model =
             model.size.width >= 800
 
         small =
-            model.size.width < 375
+            model.size.width < 375 || model.size.height < 800
 
         adj =
             if small then
@@ -153,20 +153,22 @@ view model =
                  , viewBtn adj Talk
                  , viewBtn adj Redd
                  ]
-                    |> column [ spacing 20 ]
+                    |> column
+                        [ spacing sp
+                        ]
                 )
                 (viewDetail small)
         ]
             |> column
-                [ spacing 20
+                [ spacing sp
                 , width fill
-                , padding 20
+                , padding sp
                 , Bg.color white
                 , shadow
                 ]
       ]
         |> column [ spacing sp, width fill ]
-    , links small
+    , links model.flip small
         |> when (model.detail == Nothing)
     ]
         |> column
@@ -279,7 +281,7 @@ viewDetail small d =
                     ]
     in
     [ newTabLink
-        [ Element.mouseOver [ Font.color <| Element.rgb255 255 140 0 ]
+        [ Element.mouseOver [ Font.color orange ]
         , width fill
         ]
         { url = lnk
@@ -308,7 +310,7 @@ viewDetail small d =
     , body
         |> Element.textColumn [ width fill, spacing 10, Font.size 17 ]
     , Input.button
-        [ Element.mouseOver [ Font.color <| Element.rgb255 255 140 0 ]
+        [ Element.mouseOver [ Font.color orange ]
         , Element.alignRight
         ]
         { onPress = Just <| SetDetail d
@@ -355,7 +357,7 @@ viewBtn adj d =
                     "📽️"
     in
     Input.button
-        [ Element.mouseOver [ Font.color <| Element.rgb255 255 140 0 ]
+        [ Element.mouseOver [ Font.color orange ]
         ]
         { onPress = Just <| SetDetail d
         , label =
@@ -366,8 +368,8 @@ viewBtn adj d =
 
 type Msg
     = ColorsCb (Array (Float -> Color))
-    | Hack (Maybe Float)
     | SetDetail Detail
+    | Flip
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -375,6 +377,9 @@ update msg model =
     case msg of
         ColorsCb cs ->
             ( { model | colors = cs }, Cmd.none )
+
+        Flip ->
+            ( { model | flip = True }, Cmd.none )
 
         SetDetail d ->
             ( { model
@@ -386,32 +391,6 @@ update msg model =
                         Just d
               }
             , Cmd.none
-            )
-
-        Hack mn ->
-            case mn of
-                Just n ->
-                    ( { model | hack = False }
-                    , Process.sleep (1000 * n)
-                        |> Task.perform (always (Hack Nothing))
-                    )
-
-                Nothing ->
-                    ( { model | hack = True }
-                    , Process.sleep 250
-                        |> Task.andThen (always randomFloat)
-                        |> Task.perform (Just >> Hack)
-                    )
-
-
-randomFloat : Task Never Float
-randomFloat =
-    Time.now
-        |> Task.map
-            (Time.posixToMillis
-                >> Random.initialSeed
-                >> Random.step (Random.float 2 6)
-                >> Tuple.first
             )
 
 
@@ -498,16 +477,23 @@ pencils colors size =
         |> List.concat
 
 
-links : Bool -> Element msg
-links small =
+links : Bool -> Bool -> Element Msg
+links flip small =
     let
+        sp =
+            if small then
+                10
+
+            else
+                20
+
         icon =
             String.fromChar
                 >> text
                 >> el
                     [ Font.shadow { offset = ( 3, 3 ), blur = 0, color = black }
                     , Font.size
-                        (40
+                        (30
                             - (if small then
                                 10
 
@@ -526,9 +512,10 @@ links small =
             (\( title_, url, icon_ ) ->
                 newTabLink
                     [ width fill
+                    , cappedHeight 60
                     , shadow
                     , Bg.color white
-                    , padding 10
+                    , Element.paddingXY 10 0
                     , Element.mouseOver
                         [ Bg.color black
                         , Font.color white
@@ -560,15 +547,63 @@ links small =
                                 ]
                     }
             )
-        |> column
-            [ spacing
-                (if small then
-                    10
+        |> (\xs ->
+                let
+                    em =
+                        [ [ 'r', 'o', 'n', 'a', 'n', 'y', 'e', 'a', 'h' ]
+                        , [ 'p', 'm', '.', 'm', 'e' ]
+                        ]
+                            |> List.map String.fromList
+                            |> String.join "@"
+                in
+                xs
+                    ++ [ (if flip then
+                            Element.link
+                                [ centerX
+                                , height fill
+                                , Element.mouseOver
+                                    [ Font.color orange ]
+                                ]
+                                { url = "mailto:" ++ em
+                                , label =
+                                    text em
+                                        |> el [ centerY ]
+                                }
 
-                 else
-                    20
-                )
+                          else
+                            Input.button
+                                [ width fill
+                                , height fill
+                                ]
+                                { onPress = Just Flip
+                                , label =
+                                    icon '📧'
+                                        |> el [ centerX ]
+                                }
+                         )
+                            |> el
+                                [ width fill
+                                , cappedHeight 60
+                                , shadow
+                                , Bg.color white
+                                , Element.mouseOver
+                                    [ Bg.color black
+                                    , Font.color white
+                                    , Border.shadow
+                                        { offset = ( 3, 3 )
+                                        , blur = 0
+                                        , size = 0
+                                        , color = Element.rgb255 200 0 0
+                                        }
+                                    ]
+                                    |> whenAttr (not flip)
+                                ]
+                       ]
+           )
+        |> column
+            [ spacing sp
             , width fill
+            , height fill
             ]
 
 
@@ -576,8 +611,8 @@ emptyModel : Model
 emptyModel =
     { size = { height = 0, width = 0 }
     , colors = Array.empty
-    , hack = False
     , detail = Nothing
+    , flip = False
     }
 
 
