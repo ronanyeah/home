@@ -13,11 +13,11 @@
             "elm/svg": "1.0.1",
             "elm-community/maybe-extra": "5.2.0",
             "mdgriffith/elm-ui": "1.1.8",
-            "ronanyeah/helpers": "3.0.0"
+            "ronanyeah/helpers": "4.0.1"
         },
         "indirect": {
             "danyx23/elm-uuid": "2.1.2",
-            "dillonkearns/elm-graphql": "5.0.2",
+            "dillonkearns/elm-graphql": "5.0.5",
             "elm/bytes": "1.0.8",
             "elm/file": "1.0.5",
             "elm/http": "2.0.0",
@@ -26,7 +26,7 @@
             "elm/time": "1.0.0",
             "elm/url": "1.0.0",
             "elm/virtual-dom": "1.0.2",
-            "elm-community/list-extra": "8.2.4",
+            "elm-community/list-extra": "8.3.0",
             "lukewestby/elm-string-interpolate": "1.0.4"
         }
     },

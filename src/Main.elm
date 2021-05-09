@@ -3,7 +3,7 @@ module Main exposing (main)
 import Array exposing (Array)
 import Browser
 import Element exposing (Attribute, Color, Element, centerX, centerY, column, el, fill, height, htmlAttribute, layoutWith, moveDown, moveLeft, newTabLink, none, padding, paragraph, px, rgb255, rgba255, row, spaceEvenly, spacing, text, width)
-import Element.Background as Bg
+import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
@@ -163,7 +163,7 @@ view model =
                 [ spacing sp
                 , width fill
                 , padding sp
-                , Bg.color white
+                , Background.color white
                 , shadow
                 ]
       ]
@@ -193,25 +193,18 @@ view model =
                             [ Element.noHover ]
                        )
             }
-            ([ Region.mainContent
-             , Bg.gradient
+            [ Region.mainContent
+            , Background.gradient
                 { angle = 0
                 , steps =
                     [ Element.rgb255 150 208 255
                     , white
                     ]
                 }
-             , height fill
-             , width fill
-             , font
-             ]
-                ++ (if big then
-                        pencils model.colors model.size
-
-                    else
-                        []
-                   )
-            )
+            , height fill
+            , width fill
+            , font
+            ]
 
 
 shadow : Attribute msg
@@ -292,15 +285,16 @@ viewDetail small d =
                 [ centerX
                 , style "animation" "fadeIn 0.7s"
                 , shadow
-                , (if small then
-                    px 100
-
-                   else
-                    fill
-                  )
-                    |> height
+                , height fill
+                , width fill
                 ]
                 { src = img, description = "" }
+                |> el
+                    [ height <| px 169
+                    , width <| px 300
+                    , Background.color <| tan 0.5
+                    , centerX
+                    ]
             ]
                 |> column [ spacing 10, width fill ]
         }
@@ -514,10 +508,10 @@ links flip small =
                     [ width fill
                     , cappedHeight 60
                     , shadow
-                    , Bg.color white
+                    , Background.color white
                     , Element.paddingXY 10 0
                     , Element.mouseOver
-                        [ Bg.color black
+                        [ Background.color black
                         , Font.color white
                         , Border.shadow
                             { offset = ( 3, 3 )
@@ -585,9 +579,9 @@ links flip small =
                                 [ width fill
                                 , cappedHeight 60
                                 , shadow
-                                , Bg.color white
+                                , Background.color white
                                 , Element.mouseOver
-                                    [ Bg.color black
+                                    [ Background.color black
                                     , Font.color white
                                     , Border.shadow
                                         { offset = ( 3, 3 )
@@ -642,13 +636,13 @@ pencil size c =
             [ height <| px h_
             , width <| px pw
             , none
-                |> el [ width fill, height fill, Bg.color <| rgb255 255 255 255 ]
+                |> el [ width fill, height fill, Background.color <| rgb255 255 255 255 ]
                 |> Element.behindContent
             ]
             [ el
                 [ height fill
                 , width fill
-                , Bg.color <| c 0.6
+                , Background.color <| c 0.6
                 , Border.width 1
                 , Border.color <| rgb255 0 0 0
                 ]
@@ -656,7 +650,7 @@ pencil size c =
             , el
                 [ height fill
                 , width fill
-                , Bg.color <| c 0.8
+                , Background.color <| c 0.8
                 , Border.width 1
                 , Border.color <| rgb255 0 0 0
                 ]
@@ -664,7 +658,7 @@ pencil size c =
             , el
                 [ height fill
                 , width fill
-                , Bg.color <| c 1
+                , Background.color <| c 1
                 , Border.width 1
                 , Border.color <| rgb255 0 0 0
                 ]
