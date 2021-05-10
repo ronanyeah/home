@@ -145,7 +145,34 @@ view model =
             { src = "/me.png", description = "" }
         ]
             |> row [ width fill, spaceEvenly ]
-      , [ text "Highlights"
+      , [ [ text "Currently building with" ]
+            |> paragraph [ Font.bold, Font.size (22 - adj) ]
+        , [ "Elm", "Rust", "GraphQL", "Hasura", "DApp", "PWA", "Web Crypto", "Smart Contracts", "MetaMask", "Arweave", "IPFS", "Ethereum", "Polkadot", "NFT", "Cardano" ]
+            |> List.map
+                (text
+                    >> el
+                        [ Font.italic
+                        , Font.size
+                            (if big then
+                                17
+
+                             else
+                                15
+                            )
+                        , Border.width 1
+                        , padding 5
+                        ]
+                )
+            |> Element.wrappedRow [ spacing 10 ]
+        ]
+            |> column
+                [ spacing sp
+                , width fill
+                , padding sp
+                , Background.color white
+                , shadow
+                ]
+      , [ text "Projects"
             |> el [ Font.bold, Font.size (25 - adj) ]
         , model.detail
             |> unwrap
@@ -166,10 +193,12 @@ view model =
                 , Background.color white
                 , shadow
                 ]
+            |> when False
       ]
         |> column [ spacing sp, width fill ]
     , links model.flip small
-        |> when (model.detail == Nothing)
+
+    --|> when (model.detail == Nothing)
     ]
         |> column
             [ cappedHeight 750
@@ -262,13 +291,23 @@ viewDetail small d =
                     ]
 
                 Proj ->
-                    [ [ text "An end-to-end encrypted journal, currently in active development."
+                    [ [ text "An end-to-end encrypted journal built on an "
+                      , Element.newTabLink [ Font.underline ]
+                            { url = "https://github.com/tarbh-engineering/journal"
+                            , label = text "open source codebase"
+                            }
+                      , text "."
                       ]
                         |> paragraph []
                     ]
 
                 Talk ->
-                    [ [ text "A HasuraCon 2020 talk on statically typed programming languages and how they can be used alongside GraphQL and Hasura."
+                    [ [ text "A talk I performed at "
+                      , Element.newTabLink [ Font.underline ]
+                            { url = "https://hasura.io/events/hasura-con-2020/"
+                            , label = text "Hasura Con 2020"
+                            }
+                      , text " talk on statically typed programming languages and how they can be used alongside GraphQL and Hasura."
                       ]
                         |> paragraph []
                     ]
@@ -334,7 +373,7 @@ viewBtn adj d =
                     "Reddit front page"
 
                 Proj ->
-                    "Current project"
+                    "Recent release"
 
                 Talk ->
                     "Conference talk"
@@ -500,7 +539,8 @@ links flip small =
     [ ( "bio", "https://stackoverflow.com/users/story/4224679", '📜' )
     , ( "code", "https://www.github.com/ronanyeah", '💻' )
     , ( "twitter", "https://www.twitter.com/ronanyeah", '🐦' )
-    , ( "more projects", "https://tarbh.engineering/", '📦' )
+
+    --, ( "more projects", "https://tarbh.engineering/", '📦' )
     ]
         |> List.map
             (\( title_, url, icon_ ) ->
@@ -571,8 +611,12 @@ links flip small =
                                 ]
                                 { onPress = Just Flip
                                 , label =
-                                    icon '📬'
-                                        |> el [ centerX ]
+                                    [ icon '📬', text "Get in touch" ]
+                                        |> row
+                                            [ centerX
+                                            , spacing 20
+                                            , Font.size 19
+                                            ]
                                 }
                          )
                             |> el
