@@ -1,18 +1,15 @@
-module Types exposing (Detail(..), Flags, Model, Msg(..), Size)
-
-import Array exposing (Array)
-import Element exposing (Color)
+module Types exposing (Detail(..), Flags, Model, Msg(..), Screen)
 
 
 type alias Model =
-    { size : Size
-    , colors : Array (Float -> Color)
+    { size : Screen
     , flip : Bool
     , detail : Maybe Detail
+    , isMobile : Bool
     }
 
 
-type alias Size =
+type alias Screen =
     { width : Int
     , height : Int
     }
@@ -25,11 +22,10 @@ type Detail
 
 
 type alias Flags =
-    { screen : Size
+    { screen : Screen
     }
 
 
 type Msg
-    = ColorsCb (Array (Float -> Color))
-    | SetDetail Detail
+    = SetDetail Detail
     | Flip

@@ -1,18 +1,16 @@
 module View exposing (view)
 
-import Array exposing (Array)
 import Element exposing (..)
 import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
 import Element.Region as Region
-import Helpers.View exposing (cappedHeight, cappedWidth, style, when, whenAttr)
+import Helpers.View exposing (cappedHeight, cappedWidth, style, when, whenAttr, whenJust)
 import Html exposing (Html)
-import Html.Attributes
-import Image
+import Img
 import Maybe.Extra exposing (unwrap)
-import Types exposing (Detail(..), Model, Msg(..), Size)
+import Types exposing (Detail(..), Model, Msg(..))
 
 
 tan : Float -> Color
@@ -27,7 +25,8 @@ orange =
 
 white : Color
 white =
-    rgb255 248 248 255
+    --rgb255 248 248 255
+    rgb255 255 255 255
 
 
 black : Color
@@ -64,7 +63,7 @@ view model =
                 50
 
             else
-                75
+                125
 
         sp =
             if small then
@@ -72,27 +71,114 @@ view model =
 
             else
                 20
-    in
-    [ [ [ text "Rónán McCabe"
-            |> el
-                [ Region.heading 1
-                , Font.bold
-                , Font.size
-                    (if small then
-                        25
 
-                     else
-                        35
-                    )
-                ]
-        , Element.image
-            [ height <| px img
-            , width <| px img
-            , shadow
+        fork =
+            forkFn model.isMobile
+    in
+    [ [ [ Element.image
+            [ --height <| px img
+              --width <| px img
+              --height <| px 120
+              shadow
+            , width <| px 140
+            , Background.color <| rgb255 170 170 170
+            , style "cursor" shamrock
             ]
+            --{ src = "/new2.svg", description = "" }
             { src = "/me.png", description = "" }
+            |> el
+                [ Border.width 2
+                , centerX
+                    |> whenAttr model.isMobile
+                ]
+        , [ [ text "Rónán McCabe"
+                |> el
+                    [ Region.heading 1
+
+                    --, Font.bold
+                    --, Font.family [ Font.typeface "Tiro Devanagari Marathi" ]
+                    , Font.bold
+                    , Font.size
+                        (if small then
+                            35
+
+                         else
+                            50
+                        )
+                    ]
+            , text "Software Engineer"
+                |> el
+                    [ Font.size 22
+                    , if model.isMobile then
+                        centerX
+
+                      else
+                        alignRight
+                    , Font.italic
+                    ]
+            ]
+                |> column
+                    [ spacing 5
+                    , alignTop
+                    , centerX
+                        |> whenAttr model.isMobile
+                    ]
+          , let
+                n =
+                    35
+            in
+            [ newTabLink [ hover ]
+                { url = "https://github.com/ronanyeah"
+                , label =
+                    [ Element.image
+                        [ height <| px n
+                        , width <| px n
+                        ]
+                        { src = "/github.png", description = "" }
+
+                    --, text "ronanyeah"
+                    --|> el [ centerY ]
+                    ]
+                        |> row [ alignRight, spacing 5 ]
+                }
+            , newTabLink [ hover ]
+                { url = "https://twitter.com/ronanyeah"
+                , label =
+                    [ Img.twitter n
+
+                    --, text "ronanyeah"
+                    --|> el [ centerY ]
+                    ]
+                        |> row [ spacing 5 ]
+                }
+            ]
+                |> row
+                    [ alignRight
+                    , spacing 20
+                    , Font.size 15
+                    , centerX
+                        |> whenAttr model.isMobile
+                    ]
+          ]
+            |> column
+                (fork
+                    [ spacing 20
+                    , width fill
+                    ]
+                    [ height fill
+                    , spaceEvenly
+                    ]
+                )
+
+        --, Element.image
+        --[ height <| px img
+        --, width <| px img
+        --, shadow
+        --]
+        --{ src = "/me.png", description = "" }
+        --|> when False
         ]
-            |> row [ width fill, spaceEvenly ]
+            |> fork (column [ spacing 20, width fill ]) (row [ width fill, spaceEvenly ])
       , [ [ text "Currently building with" ]
             |> paragraph [ Font.bold, Font.size (22 - adj) ]
         , [ "Elm", "Rust", "GraphQL", "Hasura", "DApp", "PWA", "Web Crypto", "Smart Contracts", "MetaMask", "Arweave", "IPFS", "Ethereum", "Polkadot", "NFT", "Cardano" ]
@@ -116,10 +202,10 @@ view model =
             |> column
                 [ spacing sp
                 , width fill
-                , padding sp
                 , Background.color white
                 , shadow
                 ]
+            |> when False
       , [ text "Projects"
             |> el [ Font.bold, Font.size (25 - adj) ]
         , model.detail
@@ -142,19 +228,124 @@ view model =
                 , shadow
                 ]
             |> when False
+      , [ [ text "Software Engineer"
+                |> el [ Font.size 20 ]
+          , text "more"
+                |> el [ Font.underline, Font.size 14, alignBottom ]
+          ]
+            |> row [ spacing 10 ]
+            |> when False
+        ]
+            |> column [ spacing 10 ]
       ]
         |> column [ spacing sp, width fill ]
+    , text "Technical Experience"
+        |> el [ Font.underline ]
+        |> when False
+    , [ [ parcelTag "Bagwatch" "https://bagwatch.app/" "A dashboard displaying social media analytics related to upcoming Solana NFT collections." (Just solIcon)
+        , parcelCore "NestQuest"
+            "https://nestquest.io/"
+            [ text "An NFT project I have been working on with "
+            , paraLink "GooseFX" "https://goosefx.io/"
+            , text ". It is an interactive tutorial and rewards program for the GooseFX "
+            , paraLink "DeFi platform" "https://app.goosefx.io/"
+            , text "."
+            ]
+            (Just solIcon)
+        , parcelTag "Rust Client Examples"
+            "https://github.com/ronanyeah/solana-scripts"
+            "A selection of scripts demonstrating how to use Rust to interact with the Solana blockchain."
+            (Just solIcon)
+        , parcelCore "Arena"
+            "https://arena.bond/"
+            [ text "An onchain Rock/Paper/Scissors game. It was "
+            , paraLink "demoed live" "https://twitter.com/hackerhouses/status/1494998129779027973"
+            , text " at Hacker House Dubai 2022."
+            ]
+            (Just solIcon)
+        , parcelCore "Terraloot"
+            "https://terraloot.dev/"
+            [ text "A Mars terraforming themed "
+            , paraLink "ERC-721"
+                "https://ethereum.org/en/developers/docs/standards/tokens/erc-721/"
+            , text " NFT, inspired by "
+            , paraLink "Loot" "https://www.lootproject.com/"
+            , text "."
+            ]
+            (Just ethIcon)
+        , parcelCore "Gascheck"
+            "https://gascheck.tools/"
+            [ text "An "
+            , paraLink "EIP-1559" "https://notes.ethereum.org/@vbuterin/eip-1559-faq"
+            , text " gas cost calculator for Ethereum transactions."
+            ]
+            (Just ethIcon)
+        ]
+            |> section "Web3"
+      , [ parcel "Follow the Types (2020)"
+            "https://hasura.io/events/hasura-con-2020/talks/bugs-cant-hide-a-full-stack-exploration-in-type-safety/"
+            "A talk I presented at HasuraCon 2020 about how strongly typed languages can be used alongside GraphQL to enforce full stack type safety."
+
+        -- https://www.meetup.com/MancJS/events/242088443/
+        , parcelCore
+            "Functional Programming in JavaScript (2017)"
+            "https://slides.com/ronanmccabe/fp-in-js"
+            [ text "A talk on functional programming techniques in JS I presented at "
+            , paraLink "MancJS" "https://www.meetup.com/MancJS/events/242088443/"
+            , text "."
+            ]
+            Nothing
+        , parcelCore "Elm + Webpack Example"
+            "https://github.com/ronanyeah/elm-webpack"
+            [ text "A template for starting an "
+            , paraLink "Elm" "https://elm-lang.org/"
+            , text " project. It supports live reload development, and production builds."
+            ]
+            Nothing
+        , parcelCore "Rust + Async + GraphQL Example"
+            "https://github.com/ronanyeah/rust-hasura"
+            [ text "An example of a Rust server that functions as a "
+            , paraLink "remote schema" "https://hasura.io/docs/latest/graphql/core/remote-schemas/index/"
+            , text " for "
+            , paraLink "Hasura" "https://hasura.io/"
+            , text "."
+            ]
+            Nothing
+        ]
+            |> section "Public Content"
+      , [ parcel "Free Movies" "https://freemovies.ltd/" "An aggregator for all the official free to watch movies on YouTube."
+        , parcel "Restaurant Week" "https://tarbh.net/restaurant-week" "An excuse to play around with interactive maps."
+        , parcel "Come to Gary" "https://tarbh.net/gary" "Gary is waiting."
+        ]
+            |> section "Nonsense"
+      ]
+        |> column [ spacing 80, width fill ]
     , links model.flip small
+        |> when False
 
     --|> when (model.detail == Nothing)
     ]
         |> column
-            [ cappedHeight 750
-            , cappedWidth 450
-            , padding 20
+            --[ fork (width fill) (cappedWidth 750)
+            [ width fill
+            , height fill
+
+            --, cappedHeight 750
             , spacing sp
+
+            --, style "animation" "fadeIn 1.2s"
+            ]
+        |> el
+            [ fork (width fill) (cappedWidth 750)
+            , height fill
             , centerX
-            , style "animation" "fadeIn 1.2s"
+                |> whenAttr (not model.isMobile)
+            , scrollbarY
+
+            --, style "flex-basis" "auto"
+            --, style "min-height" "auto"
+            , fork 20 80
+                |> padding
             ]
         |> layoutWith
             { options =
@@ -171,27 +362,34 @@ view model =
                        )
             }
             [ Region.mainContent
-            , Background.gradient
-                { angle = 0
-                , steps =
-                    [ Element.rgb255 150 208 255
-                    , white
-                    ]
-                }
+
+            --, Background.gradient
+            --{ angle = 0
+            --, steps =
+            --[ Element.rgb255 150 208 255
+            --, white
+            --]
+            --}
             , height fill
             , width fill
-            , font
+
+            --, font
+            , Font.family [ Font.typeface "Archivo" ]
+
+            --, Background.color <| rgb255 150 250 250
+            , Background.color <| rgb255 249 249 249
             ]
 
 
 shadow : Attribute msg
 shadow =
-    Border.shadow
-        { offset = ( 3, 3 )
-        , blur = 0
-        , size = 0
-        , color = black
-        }
+    --Border.shadow
+    --{ offset = ( 3, 3 )
+    --, blur = 0
+    --, size = 0
+    --, color = black
+    --}
+    inFront none
 
 
 viewDetail : Bool -> Detail -> Element Msg
@@ -347,89 +545,6 @@ viewBtn adj d =
         }
 
 
-pencils : Array (Float -> Color) -> Size -> List (Attribute msg)
-pencils colors size =
-    List.map2 Tuple.pair
-        (List.range 0 10
-            |> List.map
-                (\i ->
-                    let
-                        h_ =
-                            size.height
-                                // 20
-                                |> clamp 90 100
-
-                        c =
-                            colors
-                                |> Array.get (i + 10)
-                                |> Maybe.withDefault tan
-                    in
-                    pencil size c
-                        |> el
-                            [ Element.moveDown <| toFloat <| (h_ * i)
-                            ]
-                        |> el
-                            ([ ( "animation-name", "moveLeft" )
-                             , ( "animation-duration", "2s" )
-                             , ( "animation-fill-mode", "forwards" )
-                             , ( "animation-delay", String.fromInt (i * 100) ++ "ms" )
-                             ]
-                                |> List.map
-                                    (\( rule, val ) ->
-                                        Html.Attributes.style rule val
-                                            |> Element.htmlAttribute
-                                    )
-                            )
-                        |> Element.inFront
-                )
-        )
-        (List.range 0 10
-            |> List.map
-                (\i ->
-                    let
-                        h =
-                            size.height
-                                // 20
-                                |> clamp 90 100
-
-                        tw =
-                            round (toFloat h * 1.12)
-
-                        pw =
-                            (size.width - tw) // 2
-
-                        c =
-                            colors
-                                |> Array.get i
-                                |> Maybe.withDefault tan
-                    in
-                    pencil size c
-                        |> el
-                            [ moveDown <| toFloat ((h * i) + (h // 2))
-                            , moveLeft <| toFloat pw
-                            ]
-                        |> el
-                            [ Html.Attributes.style "transform" "scale(-1, 1)" |> htmlAttribute
-                            ]
-                        |> el
-                            ([ ( "animation-name", "moveRight" )
-                             , ( "animation-duration", "2s" )
-                             , ( "animation-fill-mode", "forwards" )
-                             , ( "animation-delay", String.fromInt (i * 100) ++ "ms" )
-                             ]
-                                |> List.map
-                                    (\( rule, val ) ->
-                                        Html.Attributes.style rule val
-                                            |> Element.htmlAttribute
-                                    )
-                            )
-                        |> Element.inFront
-                )
-        )
-        |> List.map (\( a, b ) -> [ a, b ])
-        |> List.concat
-
-
 links : Bool -> Bool -> Element Msg
 links flip small =
     let
@@ -565,64 +680,176 @@ links flip small =
             ]
 
 
-pencil : Size -> (Float -> Color) -> Element msg
-pencil size c =
-    let
-        w =
-            size.width
-
-        h =
-            size.height
-
-        h_ =
-            h
-                // 20
-                |> clamp 90 100
-
-        tw =
-            round (toFloat h_ * 1.12)
-
-        pw =
-            (w - tw) // 2
-    in
-    row
-        [ width fill ]
-        [ column
-            [ height <| px h_
-            , width <| px pw
-            , none
-                |> el [ width fill, height fill, Background.color <| rgb255 255 255 255 ]
-                |> Element.behindContent
-            ]
-            [ el
-                [ height fill
-                , width fill
-                , Background.color <| c 0.6
-                , Border.width 1
-                , Border.color <| rgb255 0 0 0
-                ]
-                none
-            , el
-                [ height fill
-                , width fill
-                , Background.color <| c 0.8
-                , Border.width 1
-                , Border.color <| rgb255 0 0 0
-                ]
-                none
-            , el
-                [ height fill
-                , width fill
-                , Background.color <| c 1
-                , Border.width 1
-                , Border.color <| rgb255 0 0 0
-                ]
-                none
-            ]
-        , el
-            [ centerY
-            , height fill
-            , width <| px tw
-            ]
-            Image.tip
+bounce txt url =
+    newTabLink
+        [ Font.underline
+        , hover
+        , Font.bold
         ]
+        { url = url, label = item txt }
+
+
+paraLink txt url =
+    newTabLink
+        [ Font.underline
+        , hover
+        ]
+        { url = url, label = text txt }
+
+
+header2 =
+    text >> el [ Font.size 45, Font.bold ]
+
+
+header =
+    text
+        >> el
+            [ Font.size 45
+            , Font.bold
+            , Font.color white
+            , Background.color black
+            , paddingEach { left = 20, right = 20, top = 10, bottom = 10 }
+            ]
+
+
+item =
+    text >> el [ Font.size 30 ]
+
+
+section title elems =
+    [ el [ Background.color black, height fill, width <| px 3 ] none
+    , [ header title
+      , [ --el [ height fill, width <| px 20 ] none
+          elems
+            |> List.map
+                (\g ->
+                    [ el [ height fill, width <| px 20 ] none
+                    , g
+
+                    --, el [ height fill, width <| px 20 ] none
+                    ]
+                        |> row [ width fill ]
+                )
+            |> List.intersperse
+                (el
+                    [ height <| px 3
+                    , width fill
+                    , Background.color black
+                    ]
+                    none
+                )
+            |> (\xs ->
+                    xs
+                        ++ [ el
+                                [ height <| px 3
+                                , width fill
+                                , Background.color black
+                                ]
+                                none
+                           ]
+               )
+            |> column [ spacing 30, width fill ]
+        ]
+            |> row [ width fill ]
+      ]
+        |> column [ spacing 20, width fill ]
+    ]
+        |> row [ width fill ]
+
+
+parcel title url txt =
+    parcelCore title url [ text txt ] Nothing
+
+
+parcelTag title url txt tag =
+    parcelCore title url [ text txt ] tag
+
+
+parcelCore title url elems tag =
+    [ [ [ bounce title url ]
+            |> paragraph []
+      , whenJust identity tag
+            |> el [ alignTop ]
+      ]
+        |> row [ spaceEvenly, width fill ]
+    , elems
+        |> paragraph
+            [ Font.family [ Font.typeface "Montserrat" ]
+            , Font.size 20
+            ]
+    ]
+        |> column [ spacing 20, width fill ]
+
+
+solIcon =
+    newTabLink [ hover ]
+        { url = "https://solana.com/"
+        , label =
+            [ Img.solana 20
+            , tagTxt "Solana"
+            ]
+                |> row
+                    [ spacing 10
+                    ]
+        }
+
+
+tagTxt =
+    text
+        >> el
+            [ Font.family [ Font.typeface "Montserrat" ]
+            , Font.bold
+            ]
+
+
+ethIcon =
+    newTabLink [ hover ]
+        { url = "https://ethereum.org/"
+        , label =
+            [ Img.ethereum 20
+            , text "Ethereum"
+            ]
+                |> row [ spacing 10 ]
+        }
+
+
+viewTag : String -> String -> Element msg
+viewTag txt lbl =
+    [ text txt
+        |> el
+            [ padding 10
+            , Font.bold
+            , Background.color white
+            , Font.color black
+            ]
+    , text lbl
+        |> el [ paddingXY 15 0, Font.color white, centerY ]
+        |> el [ height fill, Background.color black ]
+    ]
+        |> row [ Border.width 2, Border.color white ]
+
+
+forkFn bool a b =
+    if bool then
+        a
+
+    else
+        b
+
+
+fade : Element.Attr a b
+fade =
+    Element.alpha 0.7
+
+
+shamrock =
+    "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewport='0 0 100 100' style='font-size:24px;'><text y='50%'>" ++ String.fromChar emj ++ "</text></svg>\"), auto"
+
+
+emj =
+    '🚀'
+
+
+hover : Attribute msg
+hover =
+    Element.mouseOver [ fade ]

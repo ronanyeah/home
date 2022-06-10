@@ -6,9 +6,6 @@ import Types exposing (Model, Msg(..))
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        ColorsCb cs ->
-            ( { model | colors = cs }, Cmd.none )
-
         Flip ->
             ( { model | flip = True }, Cmd.none )
 
