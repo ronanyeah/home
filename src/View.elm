@@ -253,7 +253,7 @@ view model =
             ]
             (Just solIcon)
         , parcelTag "Rust Client Examples"
-            "https://github.com/ronanyeah/solana-scripts"
+            "https://github.com/ronanyeah/solana-rust-examples"
             "A selection of scripts demonstrating how to use Rust to interact with the Solana blockchain."
             (Just solIcon)
         , parcelCore "Arena"
