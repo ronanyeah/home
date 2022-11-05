@@ -264,7 +264,7 @@ view model =
             ]
             (Just solIcon)
         , parcelCore "Terraloot"
-            "https://terraloot.dev/"
+            "https://terraloot.netlify.app/"
             [ text "A Mars terraforming themed "
             , paraLink "ERC-721"
                 "https://ethereum.org/en/developers/docs/standards/tokens/erc-721/"
@@ -273,13 +273,14 @@ view model =
             , text "."
             ]
             (Just ethIcon)
-        , parcelCore "Gascheck"
-            "https://gascheck.tools/"
-            [ text "An "
-            , paraLink "EIP-1559" "https://notes.ethereum.org/@vbuterin/eip-1559-faq"
-            , text " gas cost calculator for Ethereum transactions."
-            ]
-            (Just ethIcon)
+
+        --, parcelCore "Gascheck"
+        --"https://gascheck.tools/"
+        --[ text "An "
+        --, paraLink "EIP-1559" "https://notes.ethereum.org/@vbuterin/eip-1559-faq"
+        --, text " gas cost calculator for Ethereum transactions."
+        --]
+        --(Just ethIcon)
         ]
             |> section "Web3"
       , [ parcel "Follow the Types (2020)"
