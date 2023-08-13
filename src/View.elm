@@ -85,6 +85,7 @@ view model =
               --height <| px 120
               shadow
             , width fill
+            , height fill
             , Background.color <| rgb255 170 170 170
             , style "cursor" shamrock
             ]
@@ -94,6 +95,7 @@ view model =
                 [ Border.width 2
                 , clip
                 , width <| px 140
+                , height <| px 140
                 , Border.rounded 10
                 , centerX
                     |> whenAttr model.isMobile
