@@ -34,12 +34,16 @@ black =
     rgb255 0 0 0
 
 
-font : Attribute msg
-font =
-    Font.family
-        [ Font.typeface "Courier"
-        , Font.sansSerif
-        ]
+textFont =
+    Font.family [ Font.typeface "Montserrat" ]
+
+
+mainFont =
+    Font.family [ Font.typeface "Archivo" ]
+
+
+titleFont =
+    Font.family [ Font.typeface "Tiro Devanagari Marathi" ]
 
 
 view : Model -> Html Msg
@@ -80,7 +84,7 @@ view model =
               --width <| px img
               --height <| px 120
               shadow
-            , width <| px 140
+            , width fill
             , Background.color <| rgb255 170 170 170
             , style "cursor" shamrock
             ]
@@ -88,6 +92,9 @@ view model =
             { src = "/me.png", description = "" }
             |> el
                 [ Border.width 2
+                , clip
+                , width <| px 140
+                , Border.rounded 10
                 , centerX
                     |> whenAttr model.isMobile
                 ]
@@ -96,8 +103,7 @@ view model =
                     [ Region.heading 1
 
                     --, Font.bold
-                    --, Font.family [ Font.typeface "Tiro Devanagari Marathi" ]
-                    , Font.bold
+                    , titleFont
                     , Font.size
                         (if small then
                             35
@@ -242,26 +248,42 @@ view model =
     , text "Technical Experience"
         |> el [ Font.underline ]
         |> when False
-    , [ [ parcelTag "Bagwatch" "https://bagwatch.app/" "A dashboard displaying social media analytics related to upcoming Solana NFT collections." (Just solIcon)
-        , parcelCore "NestQuest"
-            "https://nestquest.io/"
-            [ text "An NFT project I have been working on with "
-            , paraLink "GooseFX" "https://goosefx.io/"
-            , text ". It is an interactive tutorial and rewards program for the GooseFX "
-            , paraLink "DeFi platform" "https://app.goosefx.io/"
-            , text "."
-            ]
+    , let
+        category =
+            "product"
+
+        devCat =
+            "dev-content"
+
+        devToolCat =
+            "dev-tool"
+      in
+      [ [ --parcelTag "Bagwatch" "https://bagwatch.app/" "A dashboard displaying social media analytics related to upcoming Solana NFT collections." (Just solIcon)
+          parcelTag "Solana Connect"
+            "https://github.com/ronanyeah/solana-connect/"
+            "A wallet select menu for Solana dApps."
+            devToolCat
             (Just solIcon)
         , parcelTag "Rust Client Examples"
             "https://github.com/ronanyeah/solana-rust-examples"
             "A selection of scripts demonstrating how to use Rust to interact with the Solana blockchain."
+            devCat
             (Just solIcon)
         , parcelCore "Arena"
-            "https://arena.bond/"
+            "https://arena-staging.netlify.app/"
             [ text "An onchain Rock/Paper/Scissors game. It was "
             , paraLink "demoed live" "https://twitter.com/hackerhouses/status/1494998129779027973"
             , text " at Hacker House Dubai 2022."
             ]
+            category
+            (Just solIcon)
+        , parcelCore "NestQuest"
+            "https://nestquest.io/"
+            [ text "An interactive tutorial and rewards program for the "
+            , paraLink "GooseFX DeFi platform" "https://app.goosefx.io/"
+            , text "."
+            ]
+            category
             (Just solIcon)
         , parcelCore "Terraloot"
             "https://terraloot.netlify.app/"
@@ -272,6 +294,7 @@ view model =
             , paraLink "Loot" "https://www.lootproject.com/"
             , text "."
             ]
+            category
             (Just ethIcon)
 
         --, parcelCore "Gascheck"
@@ -286,6 +309,7 @@ view model =
       , [ parcel "Follow the Types (2020)"
             "https://hasura.io/events/hasura-con-2020/talks/bugs-cant-hide-a-full-stack-exploration-in-type-safety/"
             "A talk I presented at HasuraCon 2020 about how strongly typed languages can be used alongside GraphQL to enforce full stack type safety."
+            devCat
 
         -- https://www.meetup.com/MancJS/events/242088443/
         , parcelCore
@@ -295,6 +319,7 @@ view model =
             , paraLink "MancJS" "https://www.meetup.com/MancJS/events/242088443/"
             , text "."
             ]
+            devCat
             Nothing
         , parcelCore "Elm + Webpack Example"
             "https://github.com/ronanyeah/elm-webpack"
@@ -302,6 +327,7 @@ view model =
             , paraLink "Elm" "https://elm-lang.org/"
             , text " project. It supports live reload development, and production builds."
             ]
+            devCat
             Nothing
         , parcelCore "Rust + Async + GraphQL Example"
             "https://github.com/ronanyeah/rust-hasura"
@@ -311,12 +337,27 @@ view model =
             , paraLink "Hasura" "https://hasura.io/"
             , text "."
             ]
+            devCat
             Nothing
         ]
             |> section "Public Content"
-      , [ parcel "Free Movies" "https://freemovies.ltd/" "An aggregator for all the official free to watch movies on YouTube."
-        , parcel "Restaurant Week" "https://tarbh.net/restaurant-week" "An excuse to play around with interactive maps."
-        , parcel "Come to Gary" "https://tarbh.net/gary" "Gary is waiting."
+      , [ parcel "Free Movies"
+            "https://free-youtube-movies.netlify.app/"
+            "An aggregator of the official free to watch movies on YouTube."
+            category
+        , parcel "Restaurant Week"
+            "https://tarbh.net/restaurant-week"
+            "An excuse to play around with interactive maps."
+            category
+        , parcel "Come to Gary"
+            "https://tarbh.net/gary"
+            "Gary is waiting."
+            category
+
+        --, parcel "Bolster"
+        --"https://bolster.netlify.app/"
+        --"Cover every day."
+        --category
         ]
             |> section "Nonsense"
       ]
@@ -375,7 +416,7 @@ view model =
             , width fill
 
             --, font
-            , Font.family [ Font.typeface "Archivo" ]
+            , mainFont
 
             --, Background.color <| rgb255 150 250 250
             , Background.color <| rgb255 249 249 249
@@ -758,39 +799,55 @@ section title elems =
         |> row [ width fill ]
 
 
-parcel title url txt =
-    parcelCore title url [ text txt ] Nothing
+parcel title url txt category =
+    parcelCore title url [ text txt ] category Nothing
 
 
-parcelTag title url txt tag =
-    parcelCore title url [ text txt ] tag
+parcelTag title url txt category tag =
+    parcelCore title url [ text txt ] category tag
 
 
-parcelCore title url elems tag =
-    [ [ [ bounce title url ]
+parcelCore title url elems category tag =
+    [ [ [ [ bounce title url ]
             |> paragraph []
-      , whenJust identity tag
+        , whenJust identity tag
             |> el [ alignTop ]
+        ]
+            |> row [ spaceEvenly, width fill ]
+      , elems
+            |> paragraph
+                [ textFont
+                , Font.size 20
+                ]
       ]
-        |> row [ spaceEvenly, width fill ]
-    , elems
-        |> paragraph
-            [ Font.family [ Font.typeface "Montserrat" ]
-            , Font.size 20
-            ]
-    ]
         |> column [ spacing 20, width fill ]
+    , "--"
+        ++ category
+        |> text
+        |> el [ Font.italic, alignRight, Font.family [ Font.monospace ] ]
+    ]
+        |> column [ spacing 10, width fill ]
 
 
 solIcon =
-    newTabLink [ hover ]
-        { url = "https://solana.com/"
+    bubbleTag "https://solana.com/" "Solana" Img.solana 17
+
+
+bubbleTag url txt img size =
+    newTabLink
+        [ hover
+        , Background.color <| rgb255 220 220 220
+        , Border.rounded 20
+        , paddingXY 13 8
+        ]
+        { url = url
         , label =
-            [ Img.solana 20
-            , tagTxt "Solana"
+            [ img size
+            , tagTxt txt
             ]
                 |> row
-                    [ spacing 10
+                    [ spacing 7
+                    , Font.size size
                     ]
         }
 
@@ -798,20 +855,13 @@ solIcon =
 tagTxt =
     text
         >> el
-            [ Font.family [ Font.typeface "Montserrat" ]
+            [ textFont
             , Font.bold
             ]
 
 
 ethIcon =
-    newTabLink [ hover ]
-        { url = "https://ethereum.org/"
-        , label =
-            [ Img.ethereum 20
-            , text "Ethereum"
-            ]
-                |> row [ spacing 10 ]
-        }
+    bubbleTag "https://ethereum.org/" "Ethereum" Img.ethereum 17
 
 
 viewTag : String -> String -> Element msg
@@ -844,11 +894,15 @@ fade =
 
 
 shamrock =
-    "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewport='0 0 100 100' style='font-size:24px;'><text y='50%'>" ++ String.fromChar emj ++ "</text></svg>\"), auto"
+    "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewport='0 0 100 100' style='font-size:24px;'><text y='50%'>" ++ shm ++ "</text></svg>\"), auto"
 
 
 emj =
-    '🚀'
+    String.fromChar '🚀'
+
+
+shm =
+    "☘️"
 
 
 hover : Attribute msg
