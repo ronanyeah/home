@@ -9,13 +9,7 @@ import Element.Region as Region
 import Helpers.View exposing (cappedHeight, cappedWidth, style, when, whenAttr, whenJust)
 import Html exposing (Html)
 import Img
-import Maybe.Extra exposing (unwrap)
 import Types exposing (Detail(..), Model, Msg(..))
-
-
-tan : Float -> Color
-tan =
-    rgba255 255 159 28
 
 
 orange : Color
@@ -34,6 +28,10 @@ black =
     rgb255 0 0 0
 
 
+monospaceFont =
+    Font.family [ Font.monospace ]
+
+
 textFont =
     Font.family [ Font.typeface "Montserrat" ]
 
@@ -43,7 +41,7 @@ mainFont =
 
 
 titleFont =
-    Font.family [ Font.typeface "Tiro Devanagari Marathi" ]
+    Font.family [ Font.typeface "IBM" ]
 
 
 view : Model -> Html Msg
@@ -54,20 +52,6 @@ view model =
 
         small =
             model.size.width < 375 || model.size.height < 800
-
-        adj =
-            if small then
-                5
-
-            else
-                0
-
-        img =
-            if small then
-                50
-
-            else
-                125
 
         sp =
             if small then
@@ -103,8 +87,6 @@ view model =
         , [ [ text "Rónán McCabe"
                 |> el
                     [ Region.heading 1
-
-                    --, Font.bold
                     , titleFont
                     , Font.size
                         (if small then
@@ -144,25 +126,37 @@ view model =
                         ]
                         { src = "/github.png", description = "" }
 
+                    --, [ text "github.com/"
                     --, text "ronanyeah"
-                    --|> el [ centerY ]
+                    --]
+                    --|> column [ centerY, Font.size 17 ]
                     ]
                         |> row [ alignRight, spacing 5 ]
                 }
             , newTabLink [ hover ]
-                { url = "https://twitter.com/ronanyeah"
+                { url = "https://t.me/ronanyeah"
                 , label =
-                    [ Img.twitter n
+                    image [ width <| px (n + 10) ]
+                        { description = ""
+                        , src = Img.telegram
+                        }
+                }
+            , newTabLink [ hover ]
+                { url = "https://x.com/ronanyeah"
+                , label =
+                    [ Img.x (n - 5)
 
+                    --, [ text "x.com/"
                     --, text "ronanyeah"
-                    --|> el [ centerY ]
+                    --]
+                    --|> column [ centerY, Font.size 17 ]
                     ]
                         |> row [ spacing 5 ]
                 }
             ]
                 |> row
                     [ alignRight
-                    , spacing 20
+                    , spacing 15
                     , Font.size 15
                     , centerX
                         |> whenAttr model.isMobile
@@ -177,82 +171,16 @@ view model =
                     , spaceEvenly
                     ]
                 )
-
-        --, Element.image
-        --[ height <| px img
-        --, width <| px img
-        --, shadow
-        --]
-        --{ src = "/me.png", description = "" }
-        --|> when False
         ]
             |> fork (column [ spacing 20, width fill ]) (row [ width fill, spaceEvenly ])
-      , [ [ text "Currently building with" ]
-            |> paragraph [ Font.bold, Font.size (22 - adj) ]
-        , [ "Elm", "Rust", "GraphQL", "Hasura", "DApp", "PWA", "Web Crypto", "Smart Contracts", "MetaMask", "Arweave", "IPFS", "Ethereum", "Polkadot", "NFT", "Cardano" ]
-            |> List.map
-                (text
-                    >> el
-                        [ Font.italic
-                        , Font.size
-                            (if big then
-                                17
-
-                             else
-                                15
-                            )
-                        , Border.width 1
-                        , padding 5
-                        ]
-                )
-            |> Element.wrappedRow [ spacing 10 ]
-        ]
-            |> column
-                [ spacing sp
-                , width fill
-                , Background.color white
-                , shadow
-                ]
-            |> when False
-      , [ text "Projects"
-            |> el [ Font.bold, Font.size (25 - adj) ]
-        , model.detail
-            |> unwrap
-                ([ viewBtn adj Proj
-                 , viewBtn adj Talk
-                 , viewBtn adj Redd
-                 ]
-                    |> column
-                        [ spacing sp
-                        ]
-                )
-                (viewDetail small)
-        ]
-            |> column
-                [ spacing sp
-                , width fill
-                , padding sp
-                , Background.color white
-                , shadow
-                ]
-            |> when False
-      , [ [ text "Software Engineer"
-                |> el [ Font.size 20 ]
-          , text "more"
-                |> el [ Font.underline, Font.size 14, alignBottom ]
-          ]
-            |> row [ spacing 10 ]
-            |> when False
-        ]
-            |> column [ spacing 10 ]
       ]
         |> column [ spacing sp, width fill ]
-    , text "Technical Experience"
-        |> el [ Font.underline ]
-        |> when False
     , let
         category =
             "product"
+
+        demoCat =
+            "demo"
 
         devCat =
             "dev-content"
@@ -260,25 +188,39 @@ view model =
         devToolCat =
             "dev-tool"
       in
-      [ [ --parcelTag "Bagwatch" "https://bagwatch.app/" "A dashboard displaying social media analytics related to upcoming Solana NFT collections." (Just solIcon)
-          parcelTag "Solana Connect"
+      [ [ parcelTag "Sui ZK Wallet"
+            "https://sui-zk-wallet.netlify.app/"
+            "Use social media login to create and interact with a Sui wallet."
+            demoCat
+            (Just suiIcon)
+            (Just "https://github.com/ronanyeah/sui-zk-wallet")
+        , parcelTag "Bonkopoly"
+            "https://bonkopoly.com"
+            "A secret game."
+            category
+            (Just solIcon)
+            Nothing
+        , parcelTag "Solana Connect"
             "https://github.com/ronanyeah/solana-connect/"
             "A wallet select menu for Solana dApps."
             devToolCat
             (Just solIcon)
+            (Just "https://github.com/ronanyeah/solana-connect")
         , parcelTag "Rust Client Examples"
             "https://github.com/ronanyeah/solana-rust-examples"
             "A selection of scripts demonstrating how to use Rust to interact with the Solana blockchain."
             devCat
             (Just solIcon)
+            Nothing
         , parcelCore "Arena"
             "https://arena-staging.netlify.app/"
             [ text "An onchain Rock/Paper/Scissors game. It was "
-            , paraLink "demoed live" "https://twitter.com/hackerhouses/status/1494998129779027973"
+            , paraLink "demoed live" "https://x.com/hackerhouses/status/1494998129779027973"
             , text " at Hacker House Dubai 2022."
             ]
             category
             (Just solIcon)
+            Nothing
         , parcelCore "NestQuest"
             "https://nestquest.io/"
             [ text "An interactive tutorial and rewards program for the "
@@ -287,6 +229,7 @@ view model =
             ]
             category
             (Just solIcon)
+            (Just "https://github.com/GooseFX1/NestQuestWeb")
         , parcelCore "Terraloot"
             "https://terraloot.netlify.app/"
             [ text "A Mars terraforming themed "
@@ -298,30 +241,23 @@ view model =
             ]
             category
             (Just ethIcon)
-
-        --, parcelCore "Gascheck"
-        --"https://gascheck.tools/"
-        --[ text "An "
-        --, paraLink "EIP-1559" "https://notes.ethereum.org/@vbuterin/eip-1559-faq"
-        --, text " gas cost calculator for Ethereum transactions."
-        --]
-        --(Just ethIcon)
+            Nothing
         ]
             |> section "Web3"
       , [ parcel "Follow the Types (2020)"
             "https://hasura.io/events/hasura-con-2020/talks/bugs-cant-hide-a-full-stack-exploration-in-type-safety/"
             "A talk I presented at HasuraCon 2020 about how strongly typed languages can be used alongside GraphQL to enforce full stack type safety."
             devCat
-
-        -- https://www.meetup.com/MancJS/events/242088443/
         , parcelCore
             "Functional Programming in JavaScript (2017)"
+            -- https://www.meetup.com/MancJS/events/242088443/
             "https://slides.com/ronanmccabe/fp-in-js"
             [ text "A talk on functional programming techniques in JS I presented at "
-            , paraLink "MancJS" "https://www.meetup.com/MancJS/events/242088443/"
+            , paraLink "MancJS" "https://www.meetup.com/mancjs/"
             , text "."
             ]
             devCat
+            Nothing
             Nothing
         , parcelCore "Elm + Webpack Example"
             "https://github.com/ronanyeah/elm-webpack"
@@ -330,6 +266,7 @@ view model =
             , text " project. It supports live reload development, and production builds."
             ]
             devCat
+            Nothing
             Nothing
         , parcelCore "Rust + Async + GraphQL Example"
             "https://github.com/ronanyeah/rust-hasura"
@@ -340,6 +277,7 @@ view model =
             , text "."
             ]
             devCat
+            Nothing
             Nothing
         ]
             |> section "Public Content"
@@ -355,19 +293,10 @@ view model =
             "https://tarbh.net/gary"
             "Gary is waiting."
             category
-
-        --, parcel "Bolster"
-        --"https://bolster.netlify.app/"
-        --"Cover every day."
-        --category
         ]
             |> section "Nonsense"
       ]
         |> column [ spacing 80, width fill ]
-    , links model.flip small
-        |> when False
-
-    --|> when (model.detail == Nothing)
     ]
         |> column
             --[ fork (width fill) (cappedWidth 750)
@@ -436,168 +365,14 @@ shadow =
     inFront none
 
 
-viewDetail : Bool -> Detail -> Element Msg
-viewDetail small d =
+viewEmail flip small =
     let
-        txt =
-            case d of
-                Redd ->
-                    "Free Movies"
-
-                Proj ->
-                    "Bolster"
-
-                Talk ->
-                    "Follow the Types"
-
-        img =
-            case d of
-                Redd ->
-                    "/freemov.png"
-
-                Proj ->
-                    "/bolster.png"
-
-                Talk ->
-                    "/talk.png"
-
-        lnk =
-            case d of
-                Redd ->
-                    "https://www.reddit.com/r/movies/comments/g39o5x/i_noticed_youtube_has_a_lot_of_free_movies_so_i/"
-
-                Proj ->
-                    "https://bolster.pro/"
-
-                Talk ->
-                    "https://www.youtube.com/watch?v=ly05IV5isf4"
-
-        body =
-            case d of
-                Redd ->
-                    [ [ text "A responsive web app presenting the free-to-watch movies on YouTube. It received ~200k impressions in the first few days of release."
-                      ]
-                        |> paragraph []
-                    ]
-
-                Proj ->
-                    [ [ text "An end-to-end encrypted journal built on an "
-                      , Element.newTabLink [ Font.underline ]
-                            { url = "https://github.com/tarbh-engineering/journal"
-                            , label = text "open source codebase"
-                            }
-                      , text "."
-                      ]
-                        |> paragraph []
-                    ]
-
-                Talk ->
-                    [ [ text "A talk I performed at "
-                      , Element.newTabLink [ Font.underline ]
-                            { url = "https://hasura.io/events/hasura-con-2020/"
-                            , label = text "Hasura Con 2020"
-                            }
-                      , text " talk on statically typed programming languages and how they can be used alongside GraphQL and Hasura."
-                      ]
-                        |> paragraph []
-                    ]
-    in
-    [ newTabLink
-        [ Element.mouseOver [ Font.color orange ]
-        , width fill
-        ]
-        { url = lnk
-        , label =
-            [ [ [ text txt ] |> paragraph [ Font.bold, Font.center ] ]
-                |> row [ spacing 10, width fill ]
-            , Element.image
-                [ centerX
-                , style "animation" "fadeIn 0.7s"
-                , shadow
-                , height fill
-                , width fill
-                ]
-                { src = img, description = "" }
-                |> el
-                    [ height <| px 169
-                    , width <| px 300
-                    , Background.color <| tan 0.5
-                    , centerX
-                    ]
+        em =
+            [ [ 'r', 'o', 'n', 'a', 'n', '_', 'm', 'c', 'c', 'a', 'b', 'e' ]
+            , [ 'p', 'm', '.', 'm', 'e' ]
             ]
-                |> column [ spacing 10, width fill ]
-        }
-
-    --, [ text title ]
-    --|> paragraph [ Font.bold, Font.center ]
-    , body
-        |> Element.textColumn [ width fill, spacing 10, Font.size 17 ]
-    , Input.button
-        [ Element.mouseOver [ Font.color orange ]
-        , Element.alignRight
-        ]
-        { onPress = Just <| SetDetail d
-        , label =
-            text "Back"
-                |> el [ Font.underline ]
-        }
-    ]
-        |> column
-            [ spacing
-                (if small then
-                    10
-
-                 else
-                    20
-                )
-            , width fill
-            ]
-
-
-viewBtn : Int -> Detail -> Element Msg
-viewBtn adj d =
-    let
-        txt =
-            case d of
-                Redd ->
-                    "Reddit front page"
-
-                Proj ->
-                    "Recent release"
-
-                Talk ->
-                    "Conference talk"
-
-        emoj =
-            case d of
-                Redd ->
-                    "👽"
-
-                Proj ->
-                    "🛠️"
-
-                Talk ->
-                    "📽️"
-    in
-    Input.button
-        [ Element.mouseOver [ Font.color orange ]
-        ]
-        { onPress = Just <| SetDetail d
-        , label =
-            [ text emoj, text txt ]
-                |> row [ spacing 20, Font.size (20 - adj) ]
-        }
-
-
-links : Bool -> Bool -> Element Msg
-links flip small =
-    let
-        sp =
-            if small then
-                10
-
-            else
-                20
+                |> List.map String.fromList
+                |> String.join "@"
 
         icon =
             String.fromChar
@@ -615,112 +390,50 @@ links flip small =
                         )
                     ]
     in
-    [ ( "bio", "https://stackoverflow.com/users/story/4224679", '📜' )
-    , ( "code", "https://www.github.com/ronanyeah", '💻' )
-    , ( "twitter", "https://www.twitter.com/ronanyeah", '🐦' )
-
-    --, ( "more projects", "https://tarbh.engineering/", '📦' )
-    ]
-        |> List.map
-            (\( title_, url, icon_ ) ->
-                newTabLink
-                    [ width fill
-                    , cappedHeight 60
-                    , shadow
-                    , Background.color white
-                    , Element.paddingXY 10 0
-                    , Element.mouseOver
-                        [ Background.color black
-                        , Font.color white
-                        , Border.shadow
-                            { offset = ( 3, 3 )
-                            , blur = 0
-                            , size = 0
-                            , color = Element.rgb255 200 0 0
-                            }
-                        ]
-                    ]
-                    { url = url
-                    , label =
-                        [ icon icon_
-                        , text <| title_ ++ " ↗️"
-                        ]
-                            |> row
-                                [ Element.spaceEvenly
-                                , width fill
-                                , Font.size
-                                    (20
-                                        - (if small then
-                                            5
-
-                                           else
-                                            0
-                                          )
-                                    )
-                                ]
-                    }
-            )
-        |> (\xs ->
-                let
-                    em =
-                        [ [ 'r', 'o', 'n', 'a', 'n', '_', 'm', 'c', 'c', 'a', 'b', 'e' ]
-                        , [ 'p', 'm', '.', 'm', 'e' ]
-                        ]
-                            |> List.map String.fromList
-                            |> String.join "@"
-                in
-                xs
-                    ++ [ (if flip then
-                            Element.link
-                                [ centerX
-                                , height fill
-                                , Element.mouseOver
-                                    [ Font.color orange ]
-                                ]
-                                { url = "mailto:" ++ em
-                                , label =
-                                    text em
-                                        |> el [ centerY ]
-                                }
-
-                          else
-                            Input.button
-                                [ width fill
-                                , height fill
-                                ]
-                                { onPress = Just Flip
-                                , label =
-                                    [ icon '📬', text "Get in touch" ]
-                                        |> row
-                                            [ centerX
-                                            , spacing 20
-                                            , Font.size 19
-                                            ]
-                                }
-                         )
-                            |> el
-                                [ width fill
-                                , cappedHeight 60
-                                , shadow
-                                , Background.color white
-                                , Element.mouseOver
-                                    [ Background.color black
-                                    , Font.color white
-                                    , Border.shadow
-                                        { offset = ( 3, 3 )
-                                        , blur = 0
-                                        , size = 0
-                                        , color = Element.rgb255 200 0 0
-                                        }
-                                    ]
-                                    |> whenAttr (not flip)
-                                ]
-                       ]
-           )
-        |> column
-            [ spacing sp
-            , width fill
+    (if flip then
+        Element.link
+            [ centerX
             , height fill
+            , Element.mouseOver
+                [ Font.color orange ]
+            ]
+            { url = "mailto:" ++ em
+            , label =
+                text em
+                    |> el [ centerY ]
+            }
+
+     else
+        Input.button
+            [ width fill
+            , height fill
+            ]
+            { onPress = Just Flip
+            , label =
+                [ icon '📬', text "Get in touch" ]
+                    |> row
+                        [ centerX
+                        , spacing 20
+                        , Font.size 19
+                        ]
+            }
+    )
+        |> el
+            [ width fill
+            , cappedHeight 60
+            , shadow
+            , Background.color white
+            , Element.mouseOver
+                [ Background.color black
+                , Font.color white
+                , Border.shadow
+                    { offset = ( 3, 3 )
+                    , blur = 0
+                    , size = 0
+                    , color = Element.rgb255 200 0 0
+                    }
+                ]
+                |> whenAttr (not flip)
             ]
 
 
@@ -739,10 +452,6 @@ paraLink txt url =
         , hover
         ]
         { url = url, label = text txt }
-
-
-header2 =
-    text >> el [ Font.size 45, Font.bold ]
 
 
 header =
@@ -802,14 +511,14 @@ section title elems =
 
 
 parcel title url txt category =
-    parcelCore title url [ text txt ] category Nothing
+    parcelCore title url [ text txt ] category Nothing Nothing
 
 
-parcelTag title url txt category tag =
-    parcelCore title url [ text txt ] category tag
+parcelTag title url txt category =
+    parcelCore title url [ text txt ] category
 
 
-parcelCore title url elems category tag =
+parcelCore title url elems category tag sourceLink =
     [ [ [ [ bounce title url ]
             |> paragraph []
         , whenJust identity tag
@@ -823,16 +532,36 @@ parcelCore title url elems category tag =
                 ]
       ]
         |> column [ spacing 20, width fill ]
-    , "--"
-        ++ category
-        |> text
-        |> el [ Font.italic, alignRight, Font.family [ Font.monospace ] ]
+    , [ sourceLink
+            |> whenJust
+                (\code ->
+                    newTabLink
+                        [ hover
+                        , Font.underline
+                        , monospaceFont
+                        , Font.italic
+                        , Font.size 17
+                        ]
+                        { url = code
+                        , label = text "source code"
+                        }
+                )
+      , "--"
+            ++ category
+            |> text
+            |> el [ Font.italic, alignRight, monospaceFont ]
+      ]
+        |> row [ width fill ]
     ]
-        |> column [ spacing 10, width fill ]
+        |> column [ spacing 15, width fill ]
 
 
 solIcon =
     bubbleTag "https://solana.com/" "Solana" Img.solana 17
+
+
+suiIcon =
+    bubbleTag "https://sui.io/" "Sui" Img.sui 17
 
 
 bubbleTag url txt img size =
@@ -866,22 +595,6 @@ ethIcon =
     bubbleTag "https://ethereum.org/" "Ethereum" Img.ethereum 17
 
 
-viewTag : String -> String -> Element msg
-viewTag txt lbl =
-    [ text txt
-        |> el
-            [ padding 10
-            , Font.bold
-            , Background.color white
-            , Font.color black
-            ]
-    , text lbl
-        |> el [ paddingXY 15 0, Font.color white, centerY ]
-        |> el [ height fill, Background.color black ]
-    ]
-        |> row [ Border.width 2, Border.color white ]
-
-
 forkFn bool a b =
     if bool then
         a
@@ -897,10 +610,6 @@ fade =
 
 shamrock =
     "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewport='0 0 100 100' style='font-size:24px;'><text y='50%'>" ++ shm ++ "</text></svg>\"), auto"
-
-
-emj =
-    String.fromChar '🚀'
 
 
 shm =
