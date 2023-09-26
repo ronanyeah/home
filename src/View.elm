@@ -201,7 +201,7 @@ view model =
             (Just solIcon)
             Nothing
         , parcelTag "Solana Connect"
-            "https://github.com/ronanyeah/solana-connect/"
+            "https://www.npmjs.com/package/solana-connect"
             "A wallet select menu for Solana dApps."
             devToolCat
             (Just solIcon)
