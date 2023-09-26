@@ -16,7 +16,7 @@ module.exports = (env) => {
   };
 
   const elmLoader = devMode
-    ? [{ loader: "elm-hot-webpack-loader" }, loaderConfig]
+    ? [{ loader: "elm-reloader" }, loaderConfig]
     : [loaderConfig];
 
   return {

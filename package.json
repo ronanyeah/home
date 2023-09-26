@@ -12,7 +12,7 @@
     "webpack-cli": "^5.1.4"
   },
   "devDependencies": {
-    "elm-hot-webpack-loader": "git+https://github.com/ronanyeah/elm-hot-webpack-loader.git",
+    "elm-reloader": "^1.0.0",
     "webpack-dev-server": "^4.1.0"
   }
 }
