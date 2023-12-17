@@ -176,7 +176,7 @@ view model =
       ]
         |> column [ spacing sp, width fill ]
     , let
-        category =
+        productCategory =
             "product"
 
         demoCat =
@@ -188,7 +188,13 @@ view model =
         devToolCat =
             "dev-tool"
       in
-      [ [ parcelTag "Sui ZK Wallet"
+      [ [ parcelTag "solanagames.gg"
+            "https://solanagames.gg/"
+            "All the games that are currently live on the Solana mainnet."
+            productCategory
+            (Just solIcon)
+            (Just "https://github.com/ronanyeah/solana-games-gg")
+        , parcelTag "Sui ZK Wallet"
             "https://sui-zk-wallet.netlify.app/"
             "Use social media login to create and interact with a Sui wallet."
             demoCat
@@ -197,7 +203,7 @@ view model =
         , parcelTag "Bonkopoly"
             "https://bonkopoly.com"
             "A secret game."
-            category
+            productCategory
             (Just solIcon)
             Nothing
         , parcelTag "Solana Connect"
@@ -218,7 +224,7 @@ view model =
             , paraLink "demoed live" "https://x.com/hackerhouses/status/1494998129779027973"
             , text " at Hacker House Dubai 2022."
             ]
-            category
+            productCategory
             (Just solIcon)
             Nothing
         , parcelCore "NestQuest"
@@ -227,7 +233,7 @@ view model =
             , paraLink "GooseFX DeFi platform" "https://app.goosefx.io/"
             , text "."
             ]
-            category
+            productCategory
             (Just solIcon)
             (Just "https://github.com/GooseFX1/NestQuestWeb")
         , parcelCore "Terraloot"
@@ -239,7 +245,7 @@ view model =
             , paraLink "Loot" "https://www.lootproject.com/"
             , text "."
             ]
-            category
+            productCategory
             (Just ethIcon)
             Nothing
         ]
@@ -284,15 +290,15 @@ view model =
       , [ parcel "Free Movies"
             "https://free-youtube-movies.netlify.app/"
             "An aggregator of the official free to watch movies on YouTube."
-            category
+            productCategory
         , parcel "Restaurant Week"
             "https://tarbh.net/restaurant-week"
             "An excuse to play around with interactive maps."
-            category
+            productCategory
         , parcel "Come to Gary"
             "https://tarbh.net/gary"
             "Gary is waiting."
-            category
+            productCategory
         ]
             |> section "Nonsense"
       ]
