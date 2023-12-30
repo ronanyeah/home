@@ -43,10 +43,6 @@ module.exports = (env) => {
           use: elmLoader,
         },
         {
-          test: /\.woff2$/,
-          type: "asset/inline",
-        },
-        {
           test: /\.css$/,
           use: ["style-loader", "css-loader"],
         },

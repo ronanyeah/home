@@ -33,15 +33,15 @@ monospaceFont =
 
 
 textFont =
-    Font.family [ Font.typeface "Montserrat" ]
+    Font.family [ Font.typeface "Montserrat Variable" ]
 
 
 mainFont =
-    Font.family [ Font.typeface "Archivo" ]
+    Font.family [ Font.typeface "Archivo Variable" ]
 
 
 titleFont =
-    Font.family [ Font.typeface "IBM" ]
+    Font.family [ Font.typeface "IBM Plex Mono" ]
 
 
 view : Model -> Html Msg

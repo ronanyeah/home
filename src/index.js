@@ -1,3 +1,7 @@
+import "@fontsource-variable/archivo";
+import "@fontsource-variable/montserrat";
+import "@fontsource/ibm-plex-mono";
+
 require("./index.css");
 
 const { Elm } = require("./Main.elm");
