@@ -188,7 +188,13 @@ view model =
         devToolCat =
             "dev-tool"
       in
-      [ [ parcelTag "solanagames.gg"
+      [ [ parcelTag "POW 💥"
+            "https://pow.cafe/"
+            "The world's first proof-of-work NFT."
+            productCategory
+            (Just solIcon)
+            (Just "https://github.com/ronanyeah/pow-dapp")
+        , parcelTag "solanagames.gg"
             "https://solanagames.gg/"
             "All the games that are currently live on the Solana mainnet."
             productCategory
