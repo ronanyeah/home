@@ -269,7 +269,7 @@ view model =
         , parcelTag "Beachwall"
             "https://beachwall.netlify.app/"
             "An onchain canvas, similar to /r/place."
-            DevTool
+            Product
             (Just solIcon)
             Nothing
         ]
@@ -329,7 +329,7 @@ view model =
             "Using service workers as an asynchronous escape hatch from the Elm runtime."
             DevContent
         ]
-            |> section "Public Content"
+            |> section "Content"
       , [ parcel "Free Movies"
             "https://free-youtube-movies.netlify.app/"
             "An aggregator of the official free to watch movies on YouTube."
@@ -491,8 +491,7 @@ parcelCore title url elems category tag sourceLink =
                         , label = text "source code"
                         }
                 )
-      , "--"
-            ++ catToString category
+      , catToString category
             |> text
             |> el [ Font.italic, alignRight, monospaceFont ]
       ]
@@ -570,13 +569,13 @@ hover =
 catToString cat =
     case cat of
         Product ->
-            "product"
+            ""
 
         Demo ->
-            "demo"
+            "--demo"
 
         DevContent ->
-            "dev-content"
+            "--dev-content"
 
         DevTool ->
-            "dev-tool"
+            "--dev-tool"
