@@ -1,4 +1,4 @@
-module Types exposing (Detail(..), Flags, Model, Msg(..), Screen)
+module Types exposing (..)
 
 
 type alias Model =
@@ -29,3 +29,10 @@ type alias Flags =
 type Msg
     = SetDetail Detail
     | Flip
+
+
+type Category
+    = Product
+    | Demo
+    | DevContent
+    | DevTool
