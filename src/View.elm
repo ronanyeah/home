@@ -199,24 +199,28 @@ view model =
             , paddingXY 20 40
             , Border.rounded 4
             ]
-    , [ [ parcelTag "Mineral"
+    , [ [ parcelCore "Mineral"
             "https://mineral.supply/"
-            "A proof-of-work currency that can be mined on any device."
+            [ text "A proof-of-work currency that can be mined on any device." ]
             Product
             (Just suiIcon)
             (Just "https://github.com/ronanyeah/mineral")
-        , parcelTag "Warp"
+            --https://x.com/MineralSupply/status/1789412797236863254
+            (Just "/screenshots/mineral.png")
+        , parcelCore "Warp"
             "https://github.com/ronanyeah/warp"
-            "An experimental wallet for the Solana Saga phone that interacts with the Sui blockchain."
+            [ text "An experimental wallet for the Solana Saga phone that interacts with the Sui blockchain." ]
             Product
             (Just suiIcon)
             (Just "https://github.com/ronanyeah/warp")
-        , parcelTag "POW 💥"
+            (Just "/screenshots/warp.png")
+        , parcelCore "POW 💥"
             "https://pow.cafe/"
-            "The world's first proof-of-work NFT."
+            [ text "The world's first proof-of-work NFT." ]
             Product
             (Just solIcon)
             (Just "https://github.com/ronanyeah/pow-dapp")
+            (Just "/screenshots/pow-home.png")
 
         --, parcelTag "solanagames.gg"
         --"https://solanagames.gg/"
@@ -260,6 +264,7 @@ view model =
             Product
             (Just ethIcon)
             (Just "https://github.com/tarbh-engineering/terraloot-site")
+            (Just "/screenshots/terraloot.png")
         , parcelTag "Solana Connect"
             "https://www.npmjs.com/package/solana-connect"
             "A wallet select menu for Solana dApps."
@@ -289,6 +294,7 @@ view model =
             DevContent
             Nothing
             Nothing
+            Nothing
         , parcelCore "Rust + Async + GraphQL Example"
             "https://github.com/ronanyeah/rust-hasura"
             [ text "An example of a Rust server that functions as a "
@@ -298,6 +304,7 @@ view model =
             , text "."
             ]
             DevContent
+            Nothing
             Nothing
             Nothing
         , parcelTag "Rust Client Examples"
@@ -323,6 +330,7 @@ view model =
             DevContent
             Nothing
             Nothing
+            Nothing
         , parcel
             "Service Worker FFI in Elm"
             "https://discourse.elm-lang.org/t/service-worker-ffi/6408/10"
@@ -332,7 +340,7 @@ view model =
             |> section "Content"
       , [ parcel "Free Movies"
             "https://free-youtube-movies.netlify.app/"
-            "An aggregator of the official free to watch movies on YouTube."
+            "An aggregator of the official free-to-watch movies on YouTube."
             Product
         , parcel "Restaurant Week"
             "https://tarbh.net/restaurant-week"
@@ -384,13 +392,10 @@ view model =
             ]
 
 
-bounce txt url =
+linkOut url attrs elem =
     newTabLink
-        [ Font.underline
-        , hover
-        , Font.bold
-        ]
-        { url = url, label = item txt }
+        (hover :: attrs)
+        { url = url, label = elem }
 
 
 paraLink txt url =
@@ -410,10 +415,6 @@ header =
             , Background.color white
             , paddingEach { left = 20, right = 20, top = 10, bottom = 10 }
             ]
-
-
-item =
-    text >> el [ Font.size 30 ]
 
 
 section title elems =
@@ -456,15 +457,21 @@ section title elems =
 
 parcel : String -> String -> String -> Category -> Element msg
 parcel title url txt category =
-    parcelCore title url [ text txt ] category Nothing Nothing
+    parcelCore title url [ text txt ] category Nothing Nothing Nothing
 
 
-parcelTag title url txt category =
-    parcelCore title url [ text txt ] category
+parcelTag title url txt category a b =
+    parcelCore title url [ text txt ] category a b Nothing
 
 
-parcelCore title url elems category tag sourceLink =
-    [ [ [ [ bounce title url ]
+parcelCore title url elems category tag sourceLink imgSrc =
+    [ [ [ [ text title
+                |> linkOut url
+                    [ Font.underline
+                    , Font.bold
+                    , Font.size 45
+                    ]
+          ]
             |> paragraph []
         , whenJust identity tag
             |> el [ alignTop ]
@@ -476,7 +483,7 @@ parcelCore title url elems category tag sourceLink =
                 , Font.size 20
                 ]
       ]
-        |> column [ spacing 20, width fill ]
+        |> column [ spacing 30, width fill ]
     , [ sourceLink
             |> whenJust
                 (\code ->
@@ -496,8 +503,18 @@ parcelCore title url elems category tag sourceLink =
             |> el [ Font.italic, alignRight, monospaceFont ]
       ]
         |> row [ width fill ]
+    , imgSrc
+        |> whenJust
+            (\src ->
+                image
+                    [ width fill
+                    , Border.width 1
+                    , Border.color white
+                    ]
+                    { src = src, description = "" }
+            )
     ]
-        |> column [ spacing 15, width fill ]
+        |> column [ spacing 30, width fill, paddingXY 0 80 ]
 
 
 solIcon =
