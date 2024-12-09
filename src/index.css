@@ -2,6 +2,10 @@
   display: none;
 }
 
+#container {
+  height: 100dvh;
+}
+
 @keyframes moveLeft {
   0% {
     transform: translate(0px, 0px);
