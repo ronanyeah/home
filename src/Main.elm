@@ -1,6 +1,7 @@
 module Main exposing (main)
 
 import Browser
+import Set
 import Types exposing (Flags, Model, Msg(..))
 import Update exposing (update)
 import View exposing (view)
@@ -29,4 +30,5 @@ emptyModel =
     , detail = Nothing
     , flip = False
     , isMobile = False
+    , selectedSections = Set.empty
     }

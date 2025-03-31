@@ -4,47 +4,14 @@ import Element exposing (..)
 import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
+import Element.Input as Input
 import Element.Region as Region
-import Helpers.View exposing (cappedWidth, style, whenAttr, whenJust)
+import Helpers.View exposing (cappedWidth, style, when, whenAttr, whenJust)
 import Html exposing (Html)
 import Img
+import Projects as P
+import Set exposing (Set)
 import Types exposing (..)
-
-
-orange : Color
-orange =
-    Element.rgb255 255 140 0
-
-
-grey : Color
-grey =
-    rgb255 235 235 235
-
-
-white : Color
-white =
-    rgb255 255 255 255
-
-
-black : Color
-black =
-    rgb255 0 0 0
-
-
-monospaceFont =
-    Font.family [ Font.monospace ]
-
-
-textFont =
-    Font.family [ Font.typeface "Montserrat Variable" ]
-
-
-mainFont =
-    Font.family [ Font.typeface "Archivo Variable" ]
-
-
-titleFont =
-    Font.family [ Font.typeface "IBM Plex Mono" ]
 
 
 view : Model -> Html Msg
@@ -199,159 +166,30 @@ view model =
             , paddingXY 20 40
             , Border.rounded 4
             ]
-    , [ [ parcelCore "Mineral"
-            "https://mineral.supply/"
-            [ text "A proof-of-work currency that can be mined on any device." ]
-            Product
-            (Just suiIcon)
-            (Just "https://github.com/ronanyeah/mineral")
-            --https://x.com/MineralSupply/status/1789412797236863254
-            (Just "/screenshots/mineral.png")
-        , parcelCore "Warp"
-            "https://github.com/ronanyeah/warp"
-            [ text "An experimental wallet for the Solana Saga phone that interacts with the Sui blockchain." ]
-            Product
-            (Just suiIcon)
-            (Just "https://github.com/ronanyeah/warp")
-            (Just "/screenshots/warp.png")
-        , parcelCore "POW 💥"
-            "https://pow.cafe/"
-            [ text "The world's first proof-of-work NFT." ]
-            Product
-            (Just solIcon)
-            (Just "https://github.com/ronanyeah/pow-dapp")
-            (Just "/screenshots/pow-home.png")
-
-        --, parcelTag "solanagames.gg"
-        --"https://solanagames.gg/"
-        --"All the games that are currently live on the Solana mainnet."
-        --productCategory
-        --(Just solIcon)
-        --(Just "https://github.com/ronanyeah/solana-games-gg")
-        --, parcelTag "Bonkopoly"
-        --"https://bonkopoly.com"
-        --"A secret game."
-        --productCategory
-        --(Just solIcon)
-        --Nothing
-        --, parcelCore "Arena"
-        --"https://arena-staging.netlify.app/"
-        --[ text "An onchain Rock/Paper/Scissors game. It was "
-        --, paraLink "demoed live" "https://x.com/hackerhouses/status/1494998129779027973"
-        --, text " at Hacker House Dubai 2022."
-        --]
-        --productCategory
-        --(Just solIcon)
-        --Nothing
-        --, parcelCore "NestQuest"
-        --"https://nestquest.io/"
-        --[ text "An interactive tutorial and rewards program for the "
-        --, paraLink "GooseFX DeFi platform" "https://app.goosefx.io/"
-        --, text "."
-        --]
-        --productCategory
-        --(Just solIcon)
-        --(Just "https://github.com/GooseFX1/NestQuestWeb")
-        , parcelCore "Terraloot"
-            "https://terraloot.dev/"
-            [ text "A Mars terraforming themed "
-            , paraLink "ERC-721"
-                "https://ethereum.org/en/developers/docs/standards/tokens/erc-721/"
-            , text " NFT, inspired by "
-            , paraLink "Loot" "https://www.lootproject.com/"
-            , text "."
-            ]
-            Product
-            (Just ethIcon)
-            (Just "https://github.com/tarbh-engineering/terraloot-site")
-            (Just "/screenshots/terraloot.png")
-        , parcelTag "Solana Connect"
-            "https://www.npmjs.com/package/solana-connect"
-            "A wallet select menu for Solana dApps."
-            DevTool
-            (Just solIcon)
-            (Just "https://github.com/ronanyeah/solana-connect")
-        , parcelTag "Beachwall"
-            "https://beachwall.netlify.app/"
-            "An onchain canvas, similar to /r/place."
-            Product
-            (Just solIcon)
-            Nothing
+    , [ [ parcelCore P.mineral
+        , parcelCore P.warp
+        , parcelCore P.pow
+        , parcelCore P.terraloot
+        , parcelCore P.solanaConnect
+        , parcelCore P.beachwall
         ]
-            |> section "Web3"
-      , [ parcelTag "Sui ZK Wallet"
-            "https://sui-zk-wallet.netlify.app/"
-            "Use social media login to create and interact with a Sui wallet."
-            Demo
-            (Just suiIcon)
-            (Just "https://github.com/ronanyeah/sui-zk-wallet")
-        , parcelCore "Elm + Webpack Example"
-            "https://github.com/ronanyeah/elm-webpack"
-            [ text "A template for starting an "
-            , paraLink "Elm" "https://elm-lang.org/"
-            , text " project. It supports live reload development, and production builds."
-            ]
-            DevContent
-            Nothing
-            Nothing
-            Nothing
-        , parcelCore "Rust + Async + GraphQL Example"
-            "https://github.com/ronanyeah/rust-hasura"
-            [ text "An example of a Rust server that functions as a "
-            , paraLink "remote schema" "https://hasura.io/docs/latest/graphql/core/remote-schemas/index/"
-            , text " for "
-            , paraLink "Hasura" "https://hasura.io/"
-            , text "."
-            ]
-            DevContent
-            Nothing
-            Nothing
-            Nothing
-        , parcelTag "Rust Client Examples"
-            "https://github.com/ronanyeah/solana-rust-examples"
-            "A selection of scripts demonstrating how to use Rust to interact with the Solana blockchain."
-            DevContent
-            (Just solIcon)
-            Nothing
+            |> section "Web3" model.selectedSections
+      , [ parcelCore P.suiZK
+        , parcelCore P.elmWebpack
+        , parcelCore P.rustGql
+        , parcelCore P.rustSol
         ]
-            |> section "Open Source"
-      , [ parcel "Follow the Types (2020)"
-            "https://hasura.io/events/hasura-con-2020/talks/bugs-cant-hide-a-full-stack-exploration-in-type-safety/"
-            "A talk I presented at HasuraCon 2020 about how strongly typed languages can be used alongside GraphQL to enforce full stack type safety."
-            DevContent
-        , parcelCore
-            "Functional Programming in JavaScript (2017)"
-            -- https://www.meetup.com/MancJS/events/242088443/
-            "https://slides.com/ronanmccabe/fp-in-js"
-            [ text "A talk on functional programming techniques in JS I presented at "
-            , paraLink "MancJS" "https://www.meetup.com/mancjs/"
-            , text "."
-            ]
-            DevContent
-            Nothing
-            Nothing
-            Nothing
-        , parcel
-            "Service Worker FFI in Elm"
-            "https://discourse.elm-lang.org/t/service-worker-ffi/6408/10"
-            "Using service workers as an asynchronous escape hatch from the Elm runtime."
-            DevContent
+            |> section "Open Source" model.selectedSections
+      , [ parcelCore P.typeTalk
+        , parcelCore P.fpTalk
+        , parcelCore P.elmFFI
         ]
-            |> section "Content"
-      , [ parcel "Free Movies"
-            "https://free-youtube-movies.netlify.app/"
-            "An aggregator of the official free-to-watch movies on YouTube."
-            Product
-        , parcel "Restaurant Week"
-            "https://tarbh.net/restaurant-week"
-            "An excuse to play around with interactive maps."
-            Product
-        , parcel "Come to Gary"
-            "https://tarbh.net/gary"
-            "Gary is waiting."
-            Product
+            |> section "Content" model.selectedSections
+      , [ parcelCore P.movies
+        , parcelCore P.restaurants
+        , parcelCore P.gary
         ]
-            |> section "Nonsense"
+            |> section "Nonsense" model.selectedSections
       ]
         |> column [ spacing 80, width fill ]
     ]
@@ -392,20 +230,14 @@ view model =
             ]
 
 
+linkOut : String -> List (Attribute msg) -> Element msg -> Element msg
 linkOut url attrs elem =
     newTabLink
         (hover :: attrs)
         { url = url, label = elem }
 
 
-paraLink txt url =
-    newTabLink
-        [ Font.underline
-        , hover
-        ]
-        { url = url, label = text txt }
-
-
+header : String -> Element msg
 header =
     text
         >> el
@@ -417,10 +249,12 @@ header =
             ]
 
 
-section title elems =
+section : String -> Set String -> List (Element Msg) -> Element Msg
+section title selected elems =
     [ el [ Background.color white, height fill, width <| px 3 ] none
     , [ header title
-      , [ elems
+            |> btn (Just <| SelectSection title)
+      , elems
             |> List.map
                 (\g ->
                     [ el [ height fill, width <| px 20 ] none
@@ -447,24 +281,19 @@ section title elems =
                            ]
                )
             |> column [ spacing 30, width fill ]
-        ]
-            |> row [ width fill ]
+            |> when (Set.member title selected)
       ]
         |> column [ spacing 20, width fill ]
     ]
         |> row [ width fill ]
 
 
-parcel : String -> String -> String -> Category -> Element msg
-parcel title url txt category =
-    parcelCore title url [ text txt ] category Nothing Nothing Nothing
-
-
-parcelTag title url txt category a b =
-    parcelCore title url [ text txt ] category a b Nothing
-
-
-parcelCore title url elems category tag sourceLink imgSrc =
+parcelCore : Project -> Element Msg
+parcelCore project =
+    let
+        { title, url, elems, category, tag, sourceLink, imgSrc } =
+            project
+    in
     [ [ [ [ text title
                 |> linkOut url
                     [ Font.underline
@@ -473,7 +302,19 @@ parcelCore title url elems category tag sourceLink imgSrc =
                     ]
           ]
             |> paragraph []
-        , whenJust identity tag
+        , tag
+            |> whenJust
+                (\ecoTag ->
+                    case ecoTag of
+                        Sui ->
+                            suiIcon
+
+                        Solana ->
+                            solIcon
+
+                        Ethereum ->
+                            ethIcon
+                )
             |> el [ alignTop ]
         ]
             |> row [ spaceEvenly, width fill ]
@@ -517,14 +358,17 @@ parcelCore title url elems category tag sourceLink imgSrc =
         |> column [ spacing 30, width fill, paddingXY 0 80 ]
 
 
+solIcon : Element msg
 solIcon =
     bubbleTag "https://solana.com/" "Solana" Img.solana 17
 
 
+suiIcon : Element msg
 suiIcon =
     bubbleTag "https://sui.io/" "Sui" Img.sui 17
 
 
+bubbleTag : String -> String -> (Int -> Element msg) -> Int -> Element msg
 bubbleTag url txt img size =
     newTabLink
         [ hover
@@ -545,6 +389,7 @@ bubbleTag url txt img size =
         }
 
 
+tagTxt : String -> Element msg
 tagTxt =
     text
         >> el
@@ -553,10 +398,12 @@ tagTxt =
             ]
 
 
+ethIcon : Element msg
 ethIcon =
     bubbleTag "https://ethereum.org/" "Ethereum" Img.ethereum 17
 
 
+forkFn : Bool -> a -> a -> a
 forkFn bool a b =
     if bool then
         a
@@ -570,12 +417,13 @@ fade =
     Element.alpha 0.7
 
 
+shamrock : String
 shamrock =
+    let
+        shm =
+            "☘️"
+    in
     "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewport='0 0 100 100' style='font-size:24px;'><text y='50%'>" ++ shm ++ "</text></svg>\"), auto"
-
-
-shm =
-    "☘️"
 
 
 hover : Attribute msg
@@ -583,6 +431,7 @@ hover =
     Element.mouseOver [ fade ]
 
 
+catToString : Category -> String
 catToString cat =
     case cat of
         Product ->
@@ -596,3 +445,49 @@ catToString cat =
 
         DevTool ->
             "--dev-tool"
+
+
+btn : Maybe msg -> Element msg -> Element msg
+btn msg elem =
+    Input.button
+        [ hover
+            |> whenAttr (msg /= Nothing)
+        ]
+        { onPress = msg
+        , label = elem
+        }
+
+
+grey : Color
+grey =
+    rgb255 235 235 235
+
+
+white : Color
+white =
+    rgb255 255 255 255
+
+
+black : Color
+black =
+    rgb255 0 0 0
+
+
+monospaceFont : Attribute msg
+monospaceFont =
+    Font.family [ Font.monospace ]
+
+
+textFont : Attribute msg
+textFont =
+    Font.family [ Font.typeface "Montserrat Variable" ]
+
+
+mainFont : Attribute msg
+mainFont =
+    Font.family [ Font.typeface "Archivo Variable" ]
+
+
+titleFont : Attribute msg
+titleFont =
+    Font.family [ Font.typeface "IBM Plex Mono" ]
