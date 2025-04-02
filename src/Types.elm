@@ -42,6 +42,7 @@ type Tag
     | TypeTheory
     | ZK
     | Demo
+    | NFT
     | Encryption
 
 

@@ -71,7 +71,7 @@ pow =
     , elems = [ text "An NFT that requires grinding specific Solana wallet addresses in order to mint." ]
     , sourceLink = Just "https://github.com/ronanyeah/pow-dapp"
     , imgSrc = Just "/screenshots/pow-home.png"
-    , tags = [ SolTag ]
+    , tags = [ SolTag, NFT ]
     }
 
 
@@ -99,7 +99,7 @@ terraloot =
         ]
     , sourceLink = Just "https://github.com/tarbh-engineering/terraloot-site"
     , imgSrc = Just "/screenshots/terraloot.png"
-    , tags = [ EthTag ]
+    , tags = [ EthTag, NFT ]
     }
 
 

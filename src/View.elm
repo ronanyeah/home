@@ -442,6 +442,7 @@ tags =
     , Elm
     , EthTag
     , Web3
+    , NFT
     , DevTooling
     , Demo
     , Encryption
@@ -622,6 +623,9 @@ tagToString tag =
         Demo ->
             "Demo"
 
+        NFT ->
+            "NFT"
+
 
 tagToLogo : Tag -> Maybe (Element msg)
 tagToLogo tag =
@@ -653,6 +657,9 @@ tagToLogo tag =
                     , description = ""
                     }
                 )
+
+        NFT ->
+            Nothing
 
         DevTooling ->
             Nothing
