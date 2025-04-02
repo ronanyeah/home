@@ -34,6 +34,12 @@ view model =
 
         fork =
             forkFn model.isMobile
+
+        projectsElem =
+            model.selectedProject
+                |> unwrap
+                    (viewProjects model)
+                    (viewProject model.isMobile)
     in
     [ [ [ [ image
                 [ width fill
@@ -160,25 +166,27 @@ view model =
                 , Border.rounded 4
                 ]
       , viewTags model
+      , projectsElem
+            |> when model.isMobile
       ]
         |> column
             [ height fill
             , width fill
             , spacing sp
             ]
-    , model.selectedProject
-        |> unwrap
-            (viewProjects model)
-            viewProject
+    , projectsElem
+        |> when (not model.isMobile)
     ]
         |> row
             [ fork (width fill) (cappedWidth 1150)
-            , height fill
+            , height (minimum 0 fill)
             , spacing 40
             , centerX
                 |> whenAttr (not model.isMobile)
             , fork 20 40
                 |> padding
+            , scrollbarY
+                |> whenAttr model.isMobile
             ]
         |> layoutWith
             { options =
@@ -210,8 +218,8 @@ linkOut url attrs elem =
         { url = url, label = elem }
 
 
-viewProject : Project -> Element Msg
-viewProject project =
+viewProject : Bool -> Project -> Element Msg
+viewProject isMobile project =
     [ text "<< Back"
         |> btn (Just (SetProject Nothing))
             [ Font.underline, alignRight, Font.size 22, monospaceFont ]
@@ -287,14 +295,20 @@ viewProject project =
         |> column
             [ spacing 30
             , height (minimum 0 fill)
+                |> whenAttr (not isMobile)
             , Border.width 1
             , padding 10
             , scrollbarY
+                |> whenAttr (not isMobile)
             ]
     ]
         |> column
             [ height fill
-            , cappedWidth rightWidth
+            , if isMobile then
+                width fill
+
+              else
+                cappedWidth rightWidth
             , spacing 20
             ]
 
@@ -554,10 +568,19 @@ viewProjects model =
             [ width fill
             , spacing 10
             , scrollbarY
+                |> whenAttr (not model.isMobile)
             , height (minimum 0 fill)
             ]
     ]
-        |> column [ height fill, cappedWidth rightWidth, spacing 10 ]
+        |> column
+            [ height fill
+            , if model.isMobile then
+                width fill
+
+              else
+                cappedWidth rightWidth
+            , spacing 10
+            ]
 
 
 tagToString : Tag -> String
