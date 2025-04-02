@@ -1,5 +1,10 @@
 ::-webkit-scrollbar {
-  display: none;
+  background: grey;
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: white;
 }
 
 #container {

@@ -1,7 +1,6 @@
 module Main exposing (main)
 
 import Browser
-import Set
 import Types exposing (Flags, Model, Msg(..))
 import Update exposing (update)
 import View exposing (view)
@@ -27,8 +26,8 @@ main =
 emptyModel : Model
 emptyModel =
     { size = { height = 0, width = 0 }
-    , detail = Nothing
     , flip = False
     , isMobile = False
-    , selectedSections = Set.empty
+    , selectedTags = []
+    , selectedProject = Nothing
     }

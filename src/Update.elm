@@ -1,6 +1,5 @@
 module Update exposing (update)
 
-import Set
 import Types exposing (Model, Msg(..))
 
 
@@ -10,27 +9,31 @@ update msg model =
         Flip ->
             ( { model | flip = True }, Cmd.none )
 
-        SelectSection t ->
+        SetProject p ->
+            ( { model | selectedProject = p }, Cmd.none )
+
+        ClearTags ->
+            ( { model
+                | selectedTags = []
+                , selectedProject = Nothing
+              }
+            , Cmd.none
+            )
+
+        SelectTag t ->
             let
                 tags =
-                    model.selectedSections
-                        |> (if Set.member t model.selectedSections then
-                                Set.remove t
+                    model.selectedTags
+                        |> (if List.member t model.selectedTags then
+                                List.filter ((/=) t)
 
                             else
-                                Set.insert t
+                                (::) t
                            )
             in
-            ( { model | selectedSections = tags }, Cmd.none )
-
-        SetDetail d ->
             ( { model
-                | detail =
-                    if model.detail == Just d then
-                        Nothing
-
-                    else
-                        Just d
+                | selectedTags = tags
+                , selectedProject = Nothing
               }
             , Cmd.none
             )

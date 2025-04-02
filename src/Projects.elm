@@ -1,45 +1,88 @@
-module Projects exposing (..)
+module Projects exposing (projects)
 
 import Element exposing (..)
 import Element.Font as Font
 import Types exposing (..)
 
 
+projects : List Project
+projects =
+    [ suiZKAirdrop
+    , warp
+    , cable
+    , pow
+    , mineral
+    , rustSol
+    , solanaConnect
+    , terraloot
+    , elmWebpack
+    , storyWarz
+    , elmPortGen
+    , beachwall
+    , suiZKWallet
+    , rustGql
+    , typeTalk
+    , fpTalk
+    , elmFFI
+    , movies
+    , restaurants
+    , gary
+    ]
+        |> List.map
+            (\p ->
+                { p
+                    | tags =
+                        if
+                            p.tags
+                                |> List.any
+                                    (\pt ->
+                                        List.member pt
+                                            [ SuiTag
+                                            , EthTag
+                                            , SolTag
+                                            ]
+                                    )
+                        then
+                            p.tags ++ [ Web3 ]
+
+                        else
+                            p.tags
+                }
+            )
+
+
 mineral : Project
 mineral =
     { title = "Mineral"
     , url = "https://mineral.supply/"
-    , elems = [ text "A proof-of-work currency that can be mined on any device." ]
-    , category = Product
-    , tag = Just Sui
-    , sourceLink = Just "https://github.com/ronanyeah/mineral"
 
     ----https://x.com/MineralSupply/status/1789412797236863254
+    , elems = [ text "A proof-of-work currency with a constant rate of output." ]
+    , sourceLink = Just "https://github.com/ronanyeah/mineral"
     , imgSrc = Just "/screenshots/mineral.png"
+    , tags = [ SuiTag ]
     }
 
 
 pow : Project
 pow =
-    { title = "POW "
+    { title = "💥 POW"
     , url = "https://pow.cafe/"
-    , elems = [ text "The world's first proof-of-work NFT." ]
-    , category = Product
-    , tag = Just Solana
+    , elems = [ text "An NFT that requires grinding specific Solana wallet addresses in order to mint." ]
     , sourceLink = Just "https://github.com/ronanyeah/pow-dapp"
     , imgSrc = Just "/screenshots/pow-home.png"
+    , tags = [ SolTag ]
     }
 
 
 warp : Project
 warp =
     { title = "Warp"
-    , url = "https://github.com/ronanyeah/warp"
+    , url = "https://x.com/ronanyeah/status/1824918964989739250"
     , elems = [ text "An experimental wallet for the Solana Saga phone that interacts with the Sui blockchain." ]
-    , category = Product
-    , tag = Just Sui
     , sourceLink = Just "https://github.com/ronanyeah/warp"
     , imgSrc = Just "/screenshots/warp.png"
+    , tags = [ SuiTag, SolTag ]
     }
 
 
@@ -54,10 +97,9 @@ terraloot =
         , paraLink "Loot" "https://www.lootproject.com/"
         , text "."
         ]
-    , category = Product
-    , tag = Just Ethereum
     , sourceLink = Just "https://github.com/tarbh-engineering/terraloot-site"
     , imgSrc = Just "/screenshots/terraloot.png"
+    , tags = [ EthTag ]
     }
 
 
@@ -65,11 +107,10 @@ beachwall : Project
 beachwall =
     { title = "Beachwall"
     , url = "https://beachwall.netlify.app/"
-    , elems = [ text "An onchain canvas, similar to /r/place." ]
-    , category = Product
-    , tag = Just Solana
+    , elems = [ text "An onchain canvas, similar to Reddit's /r/place." ]
     , sourceLink = Nothing
-    , imgSrc = Nothing
+    , imgSrc = Just "/screenshots/beachwall.png"
+    , tags = [ SolTag ]
     }
 
 
@@ -78,10 +119,9 @@ solanaConnect =
     { title = "Solana Connect"
     , url = "https://www.npmjs.com/package/solana-connect"
     , elems = [ text "A wallet select menu for Solana dApps." ]
-    , category = DevTool
-    , tag = Just Solana
     , sourceLink = Just "https://github.com/ronanyeah/solana-connect"
-    , imgSrc = Nothing
+    , imgSrc = Just "/screenshots/sol-connect.png"
+    , tags = [ SolTag, DevTooling ]
     }
 
 
@@ -90,10 +130,9 @@ movies =
     { title = "Free Movies"
     , url = "https://free-youtube-movies.netlify.app/"
     , elems = [ text "An aggregator of the official free-to-watch movies on YouTube." ]
-    , category = Product
-    , tag = Nothing
     , sourceLink = Nothing
     , imgSrc = Nothing
+    , tags = [ Nonsense ]
     }
 
 
@@ -102,10 +141,9 @@ restaurants =
     { title = "Restaurant Week"
     , url = "https://tarbh.net/restaurant-week"
     , elems = [ text "An excuse to play around with interactive maps." ]
-    , category = Product
-    , tag = Nothing
     , sourceLink = Nothing
-    , imgSrc = Nothing
+    , imgSrc = Just "/screenshots/restaurant-week.png"
+    , tags = [ Nonsense ]
     }
 
 
@@ -114,73 +152,69 @@ gary =
     { title = "Come to Gary"
     , url = "https://tarbh.net/gary"
     , elems = [ text "Gary is waiting." ]
-    , category = Product
-    , tag = Nothing
     , sourceLink = Nothing
-    , imgSrc = Nothing
+    , imgSrc = Just "/screenshots/gary.png"
+    , tags = [ Nonsense ]
     }
 
 
 elmFFI : Project
 elmFFI =
     { title = "Service Worker FFI in Elm"
-    , url = "https://discourse.elm-lang.org/t/service-worker-ffi/6408/10"
+    , url = "https://discourse.elm-lang.org/t/service-worker-ffi/6408"
     , elems =
         [ text
             "Using service workers as an asynchronous escape hatch from the Elm runtime."
         ]
-    , category = DevContent
-    , tag = Nothing
     , sourceLink = Nothing
     , imgSrc = Nothing
+    , tags = [ Elm, Demo ]
     }
 
 
 fpTalk : Project
 fpTalk =
-    { title = "Functional Programming in JavaScript (2017)"
+    -- (2017)
+    { title = "Functional Programming in JavaScript"
 
-    --"https://slides.com/ronanmccabe/fp-in-js"
-    , url = "https://www.meetup.com/MancJS/events/242088443/"
+    --"https://www.meetup.com/MancJS/events/242088443/"
+    , url = "https://slides.com/ronanmccabe/fp-in-js"
     , elems =
         [ text "A talk on functional programming techniques in JS I presented at "
         , paraLink "MancJS" "https://www.meetup.com/mancjs/"
         , text "."
         ]
-    , category = DevContent
-    , tag = Nothing
     , sourceLink = Nothing
     , imgSrc = Nothing
+    , tags = [ Demo, TypeTheory ]
     }
 
 
 typeTalk : Project
 typeTalk =
-    { title = "Follow the Types (2020)"
+    { title = "Follow the Types"
     , url = "https://hasura.io/events/hasura-con-2020/talks/bugs-cant-hide-a-full-stack-exploration-in-type-safety/"
     , elems =
         [ text
             "A talk I presented at HasuraCon 2020 about how strongly typed languages can be used alongside GraphQL to enforce full stack type safety."
         ]
-    , category = DevContent
-    , tag = Nothing
     , sourceLink = Nothing
     , imgSrc = Nothing
+    , tags = [ Demo, TypeTheory ]
     }
 
 
 rustSol : Project
 rustSol =
-    { title = "Rust Client Examples"
+    { title = "Solana Rust Examples"
     , url = "https://github.com/ronanyeah/solana-rust-examples"
     , elems =
         [ text
             "A selection of scripts demonstrating how to use Rust to interact with the Solana blockchain."
         ]
-    , category = DevContent
-    , tag = Just Solana
     , sourceLink = Nothing
-    , imgSrc = Nothing
+    , imgSrc = Just "/screenshots/repo.png"
+    , tags = [ Rust, SolTag, Demo ]
     }
 
 
@@ -195,10 +229,9 @@ rustGql =
         , paraLink "Hasura" "https://hasura.io/"
         , text "."
         ]
-    , category = DevContent
-    , tag = Nothing
     , sourceLink = Nothing
     , imgSrc = Nothing
+    , tags = [ Rust, Demo ]
     }
 
 
@@ -211,24 +244,74 @@ elmWebpack =
         , paraLink "Elm" "https://elm-lang.org/"
         , text " project. It supports live reload development, and production builds."
         ]
-    , category = DevContent
-    , tag = Nothing
     , sourceLink = Nothing
     , imgSrc = Nothing
+    , tags = [ Elm, Demo ]
     }
 
 
-suiZK : Project
-suiZK =
+suiZKWallet : Project
+suiZKWallet =
     { title = "Sui ZK Wallet"
     , url = "https://sui-zk-wallet.netlify.app/"
     , elems =
         [ text "Use social media login to create and interact with a Sui wallet."
         ]
-    , category = Demo
-    , tag = Just Sui
     , sourceLink = Just "https://github.com/ronanyeah/sui-zk-wallet"
     , imgSrc = Nothing
+    , tags = [ SuiTag, ZK, Demo ]
+    }
+
+
+cable : Project
+cable =
+    { title = "Cable"
+    , url = "https://cable.walrus.site/"
+    , elems =
+        [ text "End-to-end encrypted wallet-to-wallet messaging, backed by Walrus storage."
+        ]
+    , sourceLink = Just "https://github.com/ronanyeah/cable"
+    , imgSrc = Just "/screenshots/cable.png"
+    , tags = [ SuiTag, Encryption ]
+    }
+
+
+storyWarz : Project
+storyWarz =
+    { title = "Story Warz"
+    , url = "https://story-warz.netlify.app/"
+    , elems =
+        [ text "An at-home version of the YouTube game show 'Story Warz'. Built largely using the Windsurf AI IDE."
+        ]
+    , sourceLink = Nothing
+    , imgSrc = Nothing
+    , tags = [ Nonsense ]
+    }
+
+
+elmPortGen : Project
+elmPortGen =
+    { title = "elm-port-gen"
+    , url = "https://github.com/ronanyeah/elm-port-gen"
+    , elems =
+        [ text "A CLI for generating TypeScript bindings from Elm type definitions."
+        ]
+    , sourceLink = Nothing
+    , imgSrc = Just "/screenshots/repo.png"
+    , tags = [ Elm, DevTooling ]
+    }
+
+
+suiZKAirdrop : Project
+suiZKAirdrop =
+    { title = "Sui ZK Airdrop"
+    , url = "https://github.com/ronanyeah/sui-zk-airdrop"
+    , elems =
+        [ text "A proof-of-concept of using ZK proofs to verify whitelist inclusion onchain."
+        ]
+    , sourceLink = Nothing
+    , imgSrc = Just "/screenshots/repo.png"
+    , tags = [ SuiTag, ZK, Demo ]
     }
 
 
@@ -239,40 +322,3 @@ paraLink txt url =
         , Element.mouseOver [ Element.alpha 0.7 ]
         ]
         { url = url, label = text txt }
-
-
-
---, parcelTag "solanagames.gg"
---"https://solanagames.gg/"
---"All the games that are currently live on the Solana mainnet."
---productCategory
---(Just solIcon)
---(Just "https://github.com/ronanyeah/solana-games-gg")
---, parcelTag "Bonkopoly"
---"https://bonkopoly.com"
---"A secret game."
---productCategory
---(Just solIcon)
---Nothing
---
---
---, parcelCore "Arena"
---"https://arena-staging.netlify.app/"
---[ text "An onchain Rock/Paper/Scissors game. It was "
---, paraLink "demoed live" "https://x.com/hackerhouses/status/1494998129779027973"
---, text " at Hacker House Dubai 2022."
---]
---productCategory
---(Just solIcon)
---Nothing
---
---
---, parcelCore "NestQuest"
---"https://nestquest.io/"
---[ text "An interactive tutorial and rewards program for the "
---, paraLink "GooseFX DeFi platform" "https://app.goosefx.io/"
---, text "."
---]
---productCategory
---(Just solIcon)
---(Just "https://github.com/GooseFX1/NestQuestWeb")

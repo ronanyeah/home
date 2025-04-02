@@ -25,8 +25,7 @@ sui : Int -> Element msg
 sui n =
     svg
         [ Svg.Attributes.width <| String.fromInt n
-
-        --, Svg.Attributes.height "1000"
+        , height <| String.fromInt n
         , Svg.Attributes.viewBox "0 0 783 1000"
         , Svg.Attributes.fill "none"
         ]
