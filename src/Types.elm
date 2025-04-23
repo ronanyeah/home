@@ -31,7 +31,7 @@ type Msg
 
 
 type Tag
-    = Web3
+    = Web3 -- Automatically added
     | SuiTag
     | SolTag
     | EthTag

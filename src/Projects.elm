@@ -7,7 +7,8 @@ import Types exposing (..)
 
 projects : List Project
 projects =
-    [ suiZKAirdrop
+    [ large
+    , suiZKAirdrop
     , warp
     , cable
     , pow
@@ -49,6 +50,17 @@ projects =
                             p.tags
                 }
             )
+
+
+large : Project
+large =
+    { title = "Large Protocol"
+    , url = "https://github.com/ronanyeah/large"
+    , elems = [ text "A protocol for distributing airdrops to millions of wallets at low cost, utilising Merkle trees and Walrus storage." ]
+    , sourceLink = Nothing
+    , imgSrc = Just "/screenshots/repo.png"
+    , tags = [ SuiTag, Rust ]
+    }
 
 
 mineral : Project
