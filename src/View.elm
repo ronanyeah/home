@@ -57,9 +57,10 @@ view model =
                     , centerX
                         |> whenAttr model.isMobile
                     ]
-          , [ [ text "Rónán McCabe"
+          , [ [ text "Rónán"
                     |> el
                         [ Region.heading 1
+                        , alignRight
                         , titleFont
                         , Font.size
                             (if small then
